@@ -1,0 +1,6 @@
+#spring:
+#  activiti:
+#    database-schema-update: true
+#    check-process-definitions: true
+#    process-definition-location-prefix: classpath*:/processes/
+

@@ -1,0 +1,21 @@
+server:
+  port: 8888
+
+spring:
+  boot:
+    admin:
+      monitor:
+        status-lifetime: 100000
+      ui:
+        external-views:
+          - label: "🚀"
+            url: https://ares
+            order: 1000
+
+
+ares:
+  admin:
+    username: admin
+    password: admin
+
+
