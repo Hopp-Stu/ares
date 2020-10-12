@@ -1,4 +1,4 @@
-package com.system.springbootv1.restful;
+package com.ares.system.controller;
 
 import com.ares.core.controller.BaseController;
 import com.ares.core.model.base.BaseResult;
@@ -6,6 +6,7 @@ import ${entityPackage}.${entityName};
 import com.ares.core.model.page.TableDataInfo;
 import ${servicePackage}.${entityName}Service;
 import com.ares.core.utils.StringUtils;
+import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -45,10 +46,12 @@ public class ${entityName}ApiController extends BaseController {
     @RequiresPermissions("${entityName1}:edit")
     @PostMapping("edit")
     @ApiOperation(value = "", response = Object.class)
-    public Object edit(@Validated @RequestBody ${entityName} ${entityName1}) {
+    public Object edit(@Validated @RequestBody ${entityName} ${entityName1}) throws Exception{
         if (StringUtils.isEmpty(${entityName1}.getId())) {
+            ${entityName1}.setCreator(ShiroUtils.getUserId());
             ${entityName1}Service.insert(${entityName1});
         } else {
+            ${entityName1}.setModifier(ShiroUtils.getUserId());
             ${entityName1}Service.update(${entityName1});
         }
         return BaseResult.success();

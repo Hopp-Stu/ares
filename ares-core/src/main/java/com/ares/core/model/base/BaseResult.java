@@ -77,8 +77,8 @@ public class BaseResult extends HashMap<String, Object> {
 
     public static BaseResult unAuth() {
         BaseResult baseResult = new BaseResult();
-        baseResult.put("code", ResultCode.HASNOAUTH.getCode());
-        baseResult.put("msg", ResultCode.HASNOAUTH.getMsg());
+        baseResult.put("code", ResultCode.NOAUTH.getCode());
+        baseResult.put("msg", ResultCode.NOAUTH.getMsg());
         return baseResult;
     }
 

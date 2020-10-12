@@ -58,7 +58,12 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="noticeList"
+      @selection-change="handleSelectionChange"
+      @sort-change="sortChange"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column
         label="公告标题"
@@ -97,7 +102,7 @@
           <span>{{ parseTime(scope.row.deadline) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="200">
+      <el-table-column label="创建时间" align="center" prop="createTime" sortable="custom" width="200">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
@@ -230,6 +235,8 @@ export default {
         noticeTitle: undefined,
         createBy: undefined,
         status: undefined,
+        sortColumn: undefined,
+        sortAsc: undefined,
       },
       // 表单参数
       form: {},
@@ -257,6 +264,12 @@ export default {
     });
   },
   methods: {
+    sortChange(data) {
+      const { prop, order } = data;
+      this.queryParams.sortColumn = prop;
+      this.queryParams.sortAsc = order === null ? "descending" : order;
+      this.getList();
+    },
     /** 查询公告列表 */
     getList() {
       this.loading = true;

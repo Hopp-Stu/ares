@@ -29,7 +29,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(res => {
   const code = res.data.code
   if (code != 200) {
-    if (code === 401 || code === 1000 || code === 1001) {
+    if (code === 1000) {
       MessageBox.confirm(
         '登录状态已过期，您可以继续留在该页面，或者重新登录',
         '系统提示',
@@ -40,9 +40,18 @@ service.interceptors.response.use(res => {
         }
       ).then(() => {
         store.dispatch('LogOut').then(() => {
+          location.hash = '/'
           location.reload() // 为了重新实例化vue-router对象 避免bug
         })
       })
+    } else if (code === 401) {
+      let hash = location.hash
+      if (hash.includes("#")) {
+        location.hash = '#/401'
+      } else {
+        location.hash = '/401'
+      }
+      location.reload()
     } else {
       Notification.error({
         title: res.data.msg

@@ -98,6 +98,7 @@
       border
       stripe
       @selection-change="handleSelectionChange"
+      @sort-change="sortChange"
     >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="任务名称" align="center" prop="jobName" :show-overflow-tooltip="true" />
@@ -116,7 +117,7 @@
       />
       <el-table-column label="日志信息" align="center" prop="jobMessage" :show-overflow-tooltip="true" />
       <el-table-column label="执行状态" align="center" prop="status" :formatter="statusFormat" />
-      <el-table-column label="执行时间" align="center" prop="startTime" width="180">
+      <el-table-column label="执行时间" align="center" prop="startTime" sortable="custom" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.startTime) }}</span>
         </template>
@@ -218,6 +219,8 @@ export default {
         jobName: undefined,
         jobGroup: undefined,
         status: undefined,
+        sortColumn: undefined,
+        sortAsc: undefined,
       },
       // 表单参数
       form: {},
@@ -233,6 +236,12 @@ export default {
     // });
   },
   methods: {
+    sortChange(data) {
+      const { prop, order } = data;
+      this.queryParams.sortColumn = prop;
+      this.queryParams.sortAsc = order === null ? "descending" : order;
+      this.getList();
+    },
     /** 查询调度日志列表 */
     getList() {
       this.loading = true;

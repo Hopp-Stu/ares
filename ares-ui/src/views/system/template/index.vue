@@ -75,6 +75,7 @@
       border
       :data="templateList"
       @selection-change="handleSelectionChange"
+      @sort-change="sortChange"
     >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="模版名称" align="center" prop="name" />
@@ -82,7 +83,7 @@
       <el-table-column label="模版内容" align="center" prop="text" :show-overflow-tooltip="true" />
       <el-table-column label="模版html" align="center" prop="html" />
       <el-table-column label="模版参数" align="center" prop="param" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column label="创建时间" align="center" prop="createTime" sortable="custom" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
@@ -181,6 +182,8 @@ export default {
         pageNum: 1,
         pageSize: 10,
         name: undefined,
+        sortColumn: undefined,
+        sortAsc: undefined,
       },
       // 表单参数
       form: {},
@@ -200,11 +203,14 @@ export default {
   },
   created() {
     this.getList();
-    // this.getDicts("sys_yes_no").then(response => {
-    //   this.typeOptions = response.data;
-    // });
   },
   methods: {
+    sortChange(data) {
+      const { prop, order } = data;
+      this.queryParams.sortColumn = prop;
+      this.queryParams.sortAsc = order === null ? "descending" : order;
+      this.getList();
+    },
     /** 查询参数列表 */
     getList() {
       this.loading = true;
@@ -215,10 +221,6 @@ export default {
           this.loading = false;
         }
       );
-    },
-    // 参数系统内置字典翻译
-    typeFormat(row, column) {
-      return this.selectDictLabel(this.typeOptions, row.configType);
     },
     // 取消按钮
     cancel() {

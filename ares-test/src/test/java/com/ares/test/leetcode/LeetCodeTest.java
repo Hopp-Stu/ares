@@ -31,7 +31,23 @@ public class LeetCodeTest {
     }
 
     @Test
-    public void tree(){
+    public void tree() {
         TreeNode treeNode = null;
+    }
+
+    @Test
+    public void findLuckyNum() {
+        int[] nums = new int[]{2, 2, 3, 1, 2, 3, 4, 3};
+        int result = -1;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int n : nums) {
+            map.put(n, map.get(n) == null ? 1 : map.get(n) + 1);
+        }
+        for (Integer key : map.keySet()) {
+            if (key == map.get(key)) {
+                result = Math.max(result, key);
+            }
+        }
+        System.out.println("the lucky number is:" + result);
     }
 }

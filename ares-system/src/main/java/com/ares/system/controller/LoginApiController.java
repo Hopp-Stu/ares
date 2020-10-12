@@ -120,7 +120,7 @@ public class LoginApiController {
     @ResponseBody
     @ApiOperation(value = "无权限",response = Object.class)
     public Object unauthorized(HttpServletRequest request, HttpServletResponse response) {
-        return BaseResult.error(HttpStatus.FORBIDDEN.value(), "用户无权限！");
+        return BaseResult.error(HttpStatus.UNAUTHORIZED.value(), "用户无权限！");
     }
 
     @RequestMapping("getInfo")

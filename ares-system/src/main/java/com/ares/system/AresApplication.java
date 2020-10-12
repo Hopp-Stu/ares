@@ -1,13 +1,15 @@
 package com.ares.system;
 
+import org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
 @MapperScan("com.ares.**.dao")
 @ComponentScan({"com.ares"})
-@SpringBootApplication//(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication(exclude = {RocketMQAutoConfiguration.class, SecurityAutoConfiguration.class})
 public class AresApplication {
 
     public static void main(String[] args) {

@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.filter.config.ConfigTools;
 import com.ares.core.common.config.CodeGeneratorConfig;
 import com.ares.core.utils.FreeMarkerGeneratorUtil;
+import com.ares.message.service.RocketMQService;
 import com.ares.neo4j.service.Neo4jCommonService;
 import com.ares.redis.utils.RedisUtil;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,10 @@ class AresApplicationTests {
 
     @Resource
     Neo4jCommonService neo4jService;
+
+
+    @Resource
+    RocketMQService rocketMQService;
 
     @Test
     void contextLoads() {
@@ -106,5 +111,11 @@ class AresApplicationTests {
     @Test
     public void testNeo4j(){
         neo4jService.test();
+    }
+
+
+    @Test
+    public void testMQ(){
+        rocketMQService.send("this is a message test.");
     }
 }

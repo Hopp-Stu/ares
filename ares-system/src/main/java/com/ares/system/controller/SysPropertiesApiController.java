@@ -7,6 +7,7 @@ import com.ares.core.model.base.BaseResult;
 import com.ares.core.model.page.TableDataInfo;
 import com.ares.core.service.SysPropertiesService;
 import com.ares.core.utils.StringUtils;
+import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -45,10 +46,12 @@ public class SysPropertiesApiController extends BaseController {
     @RequiresPermissions("sysProperties:edit")
     @PostMapping("edit")
     @ApiOperation(value = "新增/修改系统参数",response = Object.class)
-    public Object edit(@Validated @RequestBody SysProperties sysProperties) {
+    public Object edit(@Validated @RequestBody SysProperties sysProperties) throws Exception {
         if (StringUtils.isEmpty(sysProperties.getId())) {
+            sysProperties.setCreator(ShiroUtils.getUserId());
             sysPropertiesService.insert(sysProperties);
         } else {
+            sysProperties.setModifier(ShiroUtils.getUserId());
             sysPropertiesService.update(sysProperties);
         }
         return BaseResult.success();

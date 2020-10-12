@@ -1,6 +1,8 @@
 # 更新日志  
 ## 🚀 ✈ 🚕 🚲 ⚡ 🐞  🚢 🐅 🐘 🦁 🦒
 
+### ⚡ v1.0.0.201012
+    - 增加rocketmq
 ### 🚴 v1.0.0.200923
     - 增加sys_dict_type、sys_dict_data、sys_notice表
     - 新增字典功能

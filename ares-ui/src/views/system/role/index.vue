@@ -96,11 +96,23 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="roleList" border @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="roleList"
+      border
+      @selection-change="handleSelectionChange"
+      @sort-change="sortChange"
+    >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" width="300" />
+      <el-table-column
+        label="角色名称"
+        prop="roleName"
+        :show-overflow-tooltip="true"
+        sortable="custom"
+        width="300"
+      />
       <el-table-column label="描述" prop="description" :show-overflow-tooltip="true" width="300" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="300">
+      <el-table-column label="创建时间" align="center" prop="createTime" sortable="custom" width="300">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
@@ -277,6 +289,8 @@ export default {
         roleName: undefined,
         roleKey: undefined,
         status: undefined,
+        sortColumn: undefined,
+        sortAsc: undefined,
       },
       // 表单参数
       form: {},
@@ -299,6 +313,12 @@ export default {
     // });
   },
   methods: {
+    sortChange(data) {
+      const { prop, order } = data;
+      this.queryParams.sortColumn = prop;
+      this.queryParams.sortAsc = order === null ? "descending" : order;
+      this.getList();
+    },
     /** 查询角色列表 */
     getList() {
       this.loading = true;

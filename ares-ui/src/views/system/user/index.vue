@@ -111,6 +111,7 @@
           :data="userList"
           border
           @selection-change="handleSelectionChange"
+          @sort-change="sortChange"
         >
           <el-table-column type="selection" width="40" align="center" />
           <el-table-column
@@ -118,8 +119,15 @@
             align="center"
             prop="userName"
             :show-overflow-tooltip="true"
+            sortable="custom"
           />
-          <el-table-column label="帐号" align="center" prop="account" :show-overflow-tooltip="true" />
+          <el-table-column
+            label="帐号"
+            align="center"
+            prop="account"
+            :show-overflow-tooltip="true"
+            sortable="custom"
+          />
           <el-table-column
             label="电话"
             align="center"
@@ -127,7 +135,13 @@
             :show-overflow-tooltip="true"
           />
           <el-table-column label="邮箱" align="center" prop="email" :show-overflow-tooltip="true" />
-          <el-table-column label="创建时间" align="center" prop="createTime" width="160">
+          <el-table-column
+            label="创建时间"
+            align="center"
+            prop="createTime"
+            sortable="custom"
+            width="160"
+          >
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
@@ -386,6 +400,8 @@ export default {
         phonenumber: undefined,
         status: undefined,
         deptId: undefined,
+        sortColumn: undefined,
+        sortAsc: undefined,
       },
       // 表单校验
       rules: {
@@ -440,6 +456,12 @@ export default {
     // });
   },
   methods: {
+    sortChange(data) {
+      const { prop, order } = data;
+      this.queryParams.sortColumn = prop;
+      this.queryParams.sortAsc = order === null ? "descending" : order;
+      this.getList();
+    },
     /** 查询用户列表 */
     getList() {
       this.loading = true;

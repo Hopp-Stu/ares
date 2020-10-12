@@ -6,6 +6,7 @@ import com.ares.core.model.base.BaseResult;
 import com.ares.core.model.page.TableDataInfo;
 import com.ares.core.service.SysDictTypeService;
 import com.ares.core.utils.StringUtils;
+import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -44,10 +45,12 @@ public class SysDictTypeApiController extends BaseController {
     @RequiresPermissions("sysDictType:edit")
     @PostMapping("edit")
     @ApiOperation(value = "编辑字典类别", response = Object.class)
-    public Object edit(@Validated @RequestBody SysDictType sysDictType) {
+    public Object edit(@Validated @RequestBody SysDictType sysDictType) throws Exception {
         if (StringUtils.isEmpty(sysDictType.getId())) {
+            sysDictType.setCreator(ShiroUtils.getUserId());
             sysDictTypeService.insert(sysDictType);
         } else {
+            sysDictType.setModifier(ShiroUtils.getUserId());
             sysDictTypeService.update(sysDictType);
         }
         return BaseResult.success();

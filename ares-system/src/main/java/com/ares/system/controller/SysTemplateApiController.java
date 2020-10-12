@@ -7,6 +7,7 @@ import com.ares.core.model.base.BaseResult;
 import com.ares.core.model.page.TableDataInfo;
 import com.ares.core.service.SysTemplateService;
 import com.ares.core.utils.StringUtils;
+import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -44,10 +45,12 @@ public class SysTemplateApiController extends BaseController {
     @RequiresPermissions("sysTemplate:edit")
     @PostMapping("edit")
     @ApiOperation(value = "新增/修改模版",response = Object.class)
-    public Object edit(@Validated @RequestBody SysTemplate sysTemplate) {
+    public Object edit(@Validated @RequestBody SysTemplate sysTemplate) throws Exception {
         if (StringUtils.isEmpty(sysTemplate.getId())) {
+            sysTemplate.setCreator(ShiroUtils.getUserId());
             sysTemplateService.insert(sysTemplate);
         } else {
+            sysTemplate.setModifier(ShiroUtils.getUserId());
             sysTemplateService.update(sysTemplate);
         }
         return BaseResult.success();

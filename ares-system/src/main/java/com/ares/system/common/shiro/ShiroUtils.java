@@ -83,7 +83,7 @@ public class ShiroUtils {
     public static String getUserId() throws Exception {
         SysUser user = getUser();
         if (user == null || user.getId() == null) {
-            throw new RuntimeException("用户不存在！");
+            throw new UserException("用户不存在！");
         }
         return user.getId().trim();
     }
@@ -94,7 +94,7 @@ public class ShiroUtils {
     public static String getLoginName() throws Exception {
         SysUser user = getUser();
         if (user == null) {
-            throw new RuntimeException("用户不存在！");
+            throw new UserException("用户不存在！");
         }
         return user.getUserName();
     }

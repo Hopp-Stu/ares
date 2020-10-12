@@ -30,13 +30,15 @@ router.beforeEach((to, from, next) => {
             router.addRoutes(accessRoutes) // 动态添加可访问路由表
             next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
           })
+        }).catch(err => {
+          debugger
+          console.log(err)
+          // 在request中已经判断用户是否登录，拉取用户信息失败一般是没有登录，所以在此可以不用一下操作
+          // store.dispatch('FedLogOut').then(() => {
+          //   Message.error(err)
+          //   next({ path: '/' })
+          // })
         })
-          .catch(err => {
-            store.dispatch('FedLogOut').then(() => {
-              Message.error(err)
-              next({ path: '/' })
-            })
-          })
       } else {
         next()
         // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓

@@ -21,21 +21,34 @@ public class BaseModel implements Serializable {
     @ApiModelProperty("创建人")
     private String creator;
     @ApiModelProperty("创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
     @ApiModelProperty("修改人")
     private String modifier;
     @ApiModelProperty("修改时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date modifyTime;
 
     /** =============================查询参数================================= */
-    /** 开始时间 */
+    /**
+     * 开始时间
+     */
     @JsonIgnore
     private String beginTime;
-    /** 结束时间 */
+    /**
+     * 结束时间
+     */
     @JsonIgnore
     private String endTime;
-    /** 请求参数 */
+    @JsonIgnore
+    private String sortColumn;
+    @JsonIgnore
+    private String sortAsc;
+    @JsonIgnore
+    private String sort;
+    /**
+     * 请求参数
+     */
     private Map<String, Object> params;
+
 }

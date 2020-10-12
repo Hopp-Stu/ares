@@ -1,8 +1,8 @@
 <template>
   <div class="errPage-container">
-    <el-button icon="arrow-left" class="pan-back-btn" @click="back">
+    <!-- <el-button icon="arrow-left" class="pan-back-btn" @click="back">
       返回
-    </el-button>
+    </el-button> -->
     <el-row>
       <el-col :span="12">
         <h1 class="text-jumbo text-ginormous">

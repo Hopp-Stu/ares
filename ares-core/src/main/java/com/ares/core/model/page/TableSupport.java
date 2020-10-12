@@ -20,12 +20,12 @@ public class TableSupport {
     /**
      * 排序列
      */
-    public static final String ORDER_BY_COLUMN = "orderByColumn";
+    public static final String ORDER_BY_COLUMN = "sortColumn";
 
     /**
      * 排序的方向 "desc" 或者 "asc".
      */
-    public static final String IS_ASC = "isAsc";
+    public static final String IS_ASC = "sortAsc";
 
     /**
      * 封装分页对象
