@@ -30,6 +30,8 @@ build/
 .mvn/
 autocode/
 logs/
+upload/
+target/
 
 ### VS Code ###
 .vscode/

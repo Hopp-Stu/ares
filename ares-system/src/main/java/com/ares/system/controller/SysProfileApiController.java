@@ -7,6 +7,7 @@ import com.ares.core.model.base.BaseResult;
 import com.ares.core.service.SysPropertiesService;
 import com.ares.core.service.SysUserService;
 import com.ares.core.service.UploadService;
+import com.ares.core.utils.EncryptUtils;
 import com.ares.core.utils.MD5Util;
 import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
@@ -14,6 +15,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 
 /**
  * 个人信息 业务处理
@@ -85,10 +92,27 @@ public class SysProfileApiController extends BaseController {
             SysUser user = ShiroUtils.getUser();
             String path = propertiesService.getValueByAlias("avatar.path");
             String avatar = uploadService.upload(path, file);
-            user.setAvatar(avatar);
+            user.setAvatar(EncryptUtils.encode(avatar));
             userService.update(user);
-            return BaseResult.success().put("imgUrl", avatar);
+            return BaseResult.success().put("imgUrl", EncryptUtils.encode(avatar));
         }
         return BaseResult.error("上传图片异常，请联系管理员!");
+    }
+
+    @GetMapping("{path}")
+    @ApiOperation(value = "获取头像")
+    public void getAvatar(HttpServletRequest request, HttpServletResponse response, @PathVariable String path) throws Exception {
+        File file = new File(EncryptUtils.decode(path));
+        if (file.exists()) {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            int i = fileInputStream.available(); // 得到文件大小
+            byte data[] = new byte[i];
+            fileInputStream.read(data); // 读数据
+            fileInputStream.close();
+            response.setContentType("image/*"); // 设置返回的文件类型
+            OutputStream toClient = response.getOutputStream(); // 得到向客户端输出二进制数据的对象
+            toClient.write(data); // 输出数据
+            toClient.close();
+        }
     }
 }
