@@ -18,7 +18,7 @@ import java.util.Map;
 public class ${entityName}Service implements BaseService<${entityName}>{
 
     @Resource
-    I${entityName}Dao ${entityName1}Dao;
+    private I${entityName}Dao ${entityName1}Dao;
 
     public PageInfo<${entityName}> list(int pageNo, int pageSize, ${"Map<String, Object>"} map) {
         PageHelper.startPage(pageNo, pageSize);

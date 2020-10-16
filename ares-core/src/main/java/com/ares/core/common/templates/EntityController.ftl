@@ -28,7 +28,7 @@ import java.util.Arrays;
 public class ${entityName}Controller extends BaseController {
 
     @Resource
-    ${entityName}Service ${entityName1}Service;
+    private ${entityName}Service ${entityName1}Service;
 
     private String prefix = "${entityName1}";
 

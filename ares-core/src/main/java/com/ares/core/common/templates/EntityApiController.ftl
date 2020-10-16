@@ -25,7 +25,7 @@ import java.util.List;
 public class ${entityName}ApiController extends BaseController {
 
     @Resource
-    ${entityName}Service ${entityName1}Service;
+    private ${entityName}Service ${entityName1}Service;
 
 
     @RequiresPermissions("${entityName1}:list")
