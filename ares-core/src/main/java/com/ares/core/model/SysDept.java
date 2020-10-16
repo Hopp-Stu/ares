@@ -6,13 +6,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "SysDept对象",description = "")
+@ApiModel(value = "SysDept对象",description = "部门对象")
 public class SysDept extends BaseModel{
-    @ApiModelProperty("")
+    @ApiModelProperty("部门编号")
     private String code;
-    @ApiModelProperty("")
+    @ApiModelProperty("部门名称")
     private String deptName;
-    @ApiModelProperty("")
+    @ApiModelProperty("父部门Id")
     private String parentDeptId;
 
     private String parentDeptName;

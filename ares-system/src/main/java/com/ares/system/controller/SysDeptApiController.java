@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/sysDept/*")
-@Api(value = "API", tags = {""})
+@Api(value = "部门管理API", tags = {"部门管理"})
 public class SysDeptApiController extends BaseController {
 
     @Resource
@@ -30,7 +30,7 @@ public class SysDeptApiController extends BaseController {
 
     @RequiresPermissions("sysDept:list")
     @RequestMapping("list")
-    @ApiOperation(value = "", response = TableDataInfo.class)
+    @ApiOperation(value = "部门列表", response = TableDataInfo.class)
     public TableDataInfo list(SysDept sysDept) {
         startPage();
         List<SysDept> sysDeptList = sysDeptService.list(sysDept);
@@ -38,14 +38,14 @@ public class SysDeptApiController extends BaseController {
     }
 
     @GetMapping("{sysDeptId}")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "根据Id获取部门信息", response = Object.class)
     public Object getInfo(@PathVariable String sysDeptId) {
         return BaseResult.successData(sysDeptService.getByDeptId(sysDeptId));
     }
 
     //@RequiresPermissions("sysDept:edit")
     @PostMapping("edit")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "编辑部门信息", response = Object.class)
     public Object edit(@Validated @RequestBody SysDept sysDept) throws Exception{
         if (StringUtils.isEmpty(sysDept.getId())) {
             sysDept.setCreator(ShiroUtils.getUserId());
@@ -59,14 +59,14 @@ public class SysDeptApiController extends BaseController {
 
     //@RequiresPermissions("sysDept:delete")
     @DeleteMapping("{sysDeptIds}")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "删除部门", response = Object.class)
     public Object remove(@PathVariable String[] sysDeptIds) {
         sysDeptService.deleteByIds(Arrays.asList(sysDeptIds));
         return BaseResult.success();
     }
 
     @RequestMapping("treeselect")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "部门树列表", response = Object.class)
     public Object tree(HttpServletRequest request, HttpServletResponse response) {
         return BaseResult.successData(sysDeptService.buildDeptTree());
     }

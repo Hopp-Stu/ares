@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/${entityName1}/*")
-@Api(value = "API", tags = {""})
+@Api(value = "API", tags = {"管理"})
 public class ${entityName}ApiController extends BaseController {
 
     @Resource
@@ -30,7 +30,7 @@ public class ${entityName}ApiController extends BaseController {
 
     @RequiresPermissions("${entityName1}:list")
     @RequestMapping("list")
-    @ApiOperation(value = "", response = TableDataInfo.class)
+    @ApiOperation(value = "列表", response = TableDataInfo.class)
     public TableDataInfo list(${entityName} ${entityName1}) {
         startPage();
         List<${entityName}> ${entityName1}List = ${entityName1}Service.list(${entityName1});
@@ -38,14 +38,14 @@ public class ${entityName}ApiController extends BaseController {
     }
 
     @GetMapping("{${entityName1}Id}")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "根据Id获取信息", response = Object.class)
     public Object getInfo(@PathVariable String ${entityName1}Id) {
         return BaseResult.successData(${entityName1}Service.getById(${entityName1}Id));
     }
 
     @RequiresPermissions("${entityName1}:edit")
     @PostMapping("edit")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "编辑信息", response = Object.class)
     public Object edit(@Validated @RequestBody ${entityName} ${entityName1}) throws Exception{
         if (StringUtils.isEmpty(${entityName1}.getId())) {
             ${entityName1}.setCreator(ShiroUtils.getUserId());
@@ -59,7 +59,7 @@ public class ${entityName}ApiController extends BaseController {
 
     @RequiresPermissions("${entityName1}:delete")
     @DeleteMapping("{${entityName1}Ids}")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "删除信息", response = Object.class)
     public Object remove(@PathVariable String[] ${entityName1}Ids) {
         ${entityName1}Service.deleteByIds(Arrays.asList(${entityName1}Ids));
         return BaseResult.success();

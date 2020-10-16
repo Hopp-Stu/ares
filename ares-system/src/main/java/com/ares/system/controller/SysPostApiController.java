@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/sysPost/*")
-@Api(value = "API", tags = {""})
+@Api(value = "岗位管理API", tags = {"岗位管理"})
 public class SysPostApiController extends BaseController {
 
     @Resource
@@ -29,7 +29,7 @@ public class SysPostApiController extends BaseController {
 
     @RequiresPermissions("sysPost:list")
     @RequestMapping("list")
-    @ApiOperation(value = "", response = TableDataInfo.class)
+    @ApiOperation(value = "岗位列表", response = TableDataInfo.class)
     public TableDataInfo list(SysPost sysPost) {
         startPage();
         List<SysPost> sysPostList = sysPostService.list(sysPost);
@@ -37,14 +37,14 @@ public class SysPostApiController extends BaseController {
     }
 
     @GetMapping("{sysPostId}")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "根据Id获取岗位信息", response = Object.class)
     public Object getInfo(@PathVariable String sysPostId) {
         return BaseResult.successData(sysPostService.getById(sysPostId));
     }
 
     @RequiresPermissions("sysPost:edit")
     @PostMapping("edit")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "编辑岗位信息", response = Object.class)
     public Object edit(@Validated @RequestBody SysPost sysPost) throws Exception {
         if (StringUtils.isEmpty(sysPost.getId())) {
             sysPost.setCreator(ShiroUtils.getUserId());
@@ -58,14 +58,14 @@ public class SysPostApiController extends BaseController {
 
     @RequiresPermissions("sysPost:delete")
     @DeleteMapping("{sysPostIds}")
-    @ApiOperation(value = "", response = Object.class)
+    @ApiOperation(value = "删除岗位信息", response = Object.class)
     public Object remove(@PathVariable String[] sysPostIds) {
         sysPostService.deleteByIds(Arrays.asList(sysPostIds));
         return BaseResult.success();
     }
 
     @GetMapping("optionselect")
-    @ApiOperation(value = "角色下拉选项", response = Object.class)
+    @ApiOperation(value = "岗位下拉数据", response = Object.class)
     public Object optionselect() {
         return BaseResult.successData(sysPostService.getAll());
     }
