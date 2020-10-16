@@ -2,17 +2,13 @@ package com.ares.quartz.common.quartz;
 
 
 import com.ares.quartz.model.SysQuartzJob;
-import com.ares.quartz.service.SysQuartzJobService;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @description:
@@ -24,30 +20,6 @@ public class ScheduleManager {
     private static Logger log = LoggerFactory.getLogger(ScheduleManager.class);
     @Autowired
     private Scheduler scheduler;
-    @Autowired
-    @Lazy
-    private SysQuartzJobService sysQuartzJobService;
-
-
-    @PostConstruct
-    public void init() {
-        List<SysQuartzJob> jobList = sysQuartzJobService.list();
-        if (null != jobList && jobList.size() > 0) {
-            for (SysQuartzJob job : jobList) {
-                try {
-                    if (ScheduleConstants.Status.NORMAL.getValue().equals(job.getStatus())) {
-                        if (checkJobExist(job)) {
-                            delete(createTaskName(job.getJobName()), job.getJobGroup());
-                        }
-                        addJob(job);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
 
     /**
      * 获取定时任务的具体执行类

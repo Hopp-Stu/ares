@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +31,26 @@ public class SysQuartzJobService implements BaseService<SysQuartzJob> {
     ISysQuartzJobDao sysQuartzJobDao;
     @Autowired
     ScheduleManager scheduler;
+
+    @PostConstruct
+    public void init() {
+        List<SysQuartzJob> jobList = list();
+        if (null != jobList && jobList.size() > 0) {
+            for (SysQuartzJob job : jobList) {
+                try {
+                    if (ScheduleConstants.Status.NORMAL.getValue().equals(job.getStatus())) {
+                        if (scheduler.checkJobExist(job)) {
+                            scheduler.delete(scheduler.createTaskName(job.getJobName()), job.getJobGroup());
+                        }
+                        scheduler.addJob(job);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
 
     public PageInfo<SysQuartzJob> list(int pageNo, int pageSize, Map<String, Object> map) {
         PageHelper.startPage(pageNo, pageSize);
