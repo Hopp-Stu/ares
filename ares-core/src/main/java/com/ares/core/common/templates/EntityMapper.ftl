@@ -73,7 +73,7 @@
             AND date_format(`CreateTime`,'%y%m%d') &gt;= date_format(${r"#{beginTime}"},'%y%m%d')
         </if>
         <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
-            AND date_format(`Create_time`,'%y%m%d') &lt;= date_format(${r"#{endTime}"},'%y%m%d')
+            AND date_format(`CreateTime`,'%y%m%d') &lt;= date_format(${r"#{endTime}"},'%y%m%d')
         </if>
     </select>
 </mapper>

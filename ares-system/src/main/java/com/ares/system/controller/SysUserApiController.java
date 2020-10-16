@@ -5,6 +5,7 @@ import com.ares.core.controller.BaseController;
 import com.ares.core.model.SysUser;
 import com.ares.core.model.base.BaseResult;
 import com.ares.core.model.page.TableDataInfo;
+import com.ares.core.service.SysPostService;
 import com.ares.core.service.SysRoleService;
 import com.ares.core.service.SysUserService;
 import com.ares.core.utils.StringUtils;
@@ -33,6 +34,8 @@ public class SysUserApiController extends BaseController {
     SysUserService userService;
     @Resource
     SysRoleService roleService;
+    @Resource
+    SysPostService postService;
 
     @RequiresPermissions("user:list")
     @RequestMapping("list")
@@ -50,6 +53,7 @@ public class SysUserApiController extends BaseController {
         result.put("code", HttpStatus.OK.value());
         result.put("data", userService.getById(userId));
         result.put("roles", roleService.getAll());
+        result.put("posts", postService.getAll());
         if (StringUtils.isNotEmpty(userId)) {
             result.put("roleIds", roleService.getRoleIdsByUser(userId));
         }

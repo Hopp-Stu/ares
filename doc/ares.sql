@@ -17,6 +17,34 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
+-- Table structure for sys_dept
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dept`;
+CREATE TABLE `sys_dept`  (
+  `Id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `Code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `DeptName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ParentDeptId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `CreateTime` datetime(0) NULL DEFAULT NULL,
+  `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ModifyTime` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dept
+-- ----------------------------
+INSERT INTO `sys_dept` VALUES ('1', '00000000', '总部', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dept` VALUES ('476951546261803008', '00000011', '财务部', '1', '1', '2020-10-16 05:22:00', NULL, NULL);
+INSERT INTO `sys_dept` VALUES ('476955797205684224', '00000001', '行政部', '1', '1', '2020-10-16 05:38:54', NULL, NULL);
+INSERT INTO `sys_dept` VALUES ('476955894287044608', '00000002', '管理层', '1', '1', '2020-10-16 05:39:17', NULL, NULL);
+INSERT INTO `sys_dept` VALUES ('476960080894496768', '11111', '部门1', '1', '1', '2020-10-16 05:55:55', NULL, NULL);
+INSERT INTO `sys_dept` VALUES ('476960119641477120', '11112', '部门2', '476960080894496768', '1', '2020-10-16 05:56:04', NULL, NULL);
+INSERT INTO `sys_dept` VALUES ('476960168698056704', '11113', '部门3', '476960119641477120', '1', '2020-10-16 05:56:16', NULL, NULL);
+INSERT INTO `sys_dept` VALUES ('476960216085303296', '11114', '部门4', '476960080894496768', '1', '2020-10-16 05:56:27', NULL, NULL);
+
+-- ----------------------------
 -- Table structure for sys_dict_data
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_data`;
@@ -91,7 +119,6 @@ CREATE TABLE `sys_log`  (
 -- Records of sys_log
 -- ----------------------------
 
-
 -- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
@@ -121,7 +148,7 @@ CREATE TABLE `sys_menu`  (
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES ('1', '系统管理', '系统管理', 'system', '#', 0, '0', 'system', 10, 0, 'sys', 0, NULL, '2020-01-23 18:17:06', '1', '2020-07-17 06:37:34');
 INSERT INTO `sys_menu` VALUES ('2', '菜单管理', '菜单管理', 'menu', '/system/menu/index', 0, '1', 'list', 1, 0, 'menu:list', 1, NULL, '2020-01-23 18:17:39', NULL, '2020-05-07 07:25:33');
-INSERT INTO `sys_menu` VALUES ('3', '用户管理', '用户管理', 'user', '/system/user/index', 0, '1', 'user', 2, 0, 'user:list', 1, NULL, '2020-01-24 15:27:25', NULL, '2020-05-07 07:25:42');
+INSERT INTO `sys_menu` VALUES ('3', '组织用户', '用户管理', 'user', '/system/user/index', 0, '1', 'user', 2, 0, 'user:list', 1, NULL, '2020-01-24 15:27:25', '1', '2020-10-16 05:55:32');
 INSERT INTO `sys_menu` VALUES ('381295505541566464', '菜单新增/修改', '新增/修改', NULL, '#', NULL, '2', '', 1, 1, 'menu:edit', 2, NULL, '2020-01-26 06:19:03', NULL, '2020-01-29 05:41:40');
 INSERT INTO `sys_menu` VALUES ('381296514569474048', '定时任务', '定时任务', 'job', '/monitor/job/index', NULL, '1', 'job', 4, 0, 'quartz:list', 1, NULL, '2020-01-26 06:23:03', NULL, '2020-05-07 07:26:10');
 INSERT INTO `sys_menu` VALUES ('382382361008017408', '任务新增/修改', '新增/修改', NULL, '', NULL, '381296514569474048', '', 1, 1, 'quartz:edit', 2, NULL, '2020-01-29 06:17:49', NULL, NULL);
@@ -153,9 +180,12 @@ INSERT INTO `sys_menu` VALUES ('466827163627294720', '删除', NULL, NULL, '#', 
 INSERT INTO `sys_menu` VALUES ('468619571516018688', '字典管理', NULL, 'dict', '/system/dict/index', NULL, '1', 'dict', 12, 0, 'sysDictType:list', 1, '1', '2020-09-23 05:33:43', NULL, NULL);
 INSERT INTO `sys_menu` VALUES ('468619688822312960', '编辑', NULL, NULL, '#', NULL, '468619571516018688', NULL, 1, 0, 'sysDictType:edit', 2, '1', '2020-09-23 05:34:11', NULL, NULL);
 INSERT INTO `sys_menu` VALUES ('468619757386600448', '删除', NULL, NULL, '#', NULL, '468619571516018688', NULL, 2, 0, 'sysDictType:delete', 2, '1', '2020-09-23 05:34:27', NULL, NULL);
-INSERT INTO `sys_menu` VALUES ('468624109136384000', '字典数据列表', NULL, NULL, '#', NULL, '468619571516018688', NULL, 3, 0, 'sysDictData:list', 2, '1', '2020-09-23 05:51:44', NULL, NULL);
 INSERT INTO `sys_menu` VALUES ('468626126055542784', '字典数据编辑', NULL, NULL, '#', NULL, '468619571516018688', NULL, 4, 0, 'sysDictData:edit', 2, '1', '2020-09-23 05:59:45', NULL, NULL);
 INSERT INTO `sys_menu` VALUES ('468626200407969792', '字典数据删除', NULL, NULL, '#', NULL, '468619571516018688', NULL, 5, 0, 'sysDictData:delete', 2, '1', '2020-09-23 06:00:03', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('469358670350782464', '字典数据', NULL, NULL, '#', NULL, '468619571516018688', NULL, 3, 0, 'sysDictData:list', 2, '1', '2020-09-25 06:30:38', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('476964764061405184', '岗位管理', NULL, 'post', '/system/post/index', NULL, '1', 'post', 8, 0, 'sysPost:list', 1, '1', '2020-10-16 06:14:32', '1', '2020-10-16 06:14:42');
+INSERT INTO `sys_menu` VALUES ('476965210788335616', '新增/修改', NULL, NULL, '#', NULL, '476964764061405184', NULL, 1, 0, 'sysPost:edit', 2, '1', '2020-10-16 06:16:18', NULL, NULL);
+INSERT INTO `sys_menu` VALUES ('476965267143004160', '删除', NULL, NULL, '#', NULL, '476964764061405184', NULL, 2, 0, 'sysPost:delete', 2, '1', '2020-10-16 06:16:31', NULL, NULL);
 INSERT INTO `sys_menu` VALUES ('5', '代码生成', '代码生成', 'gen', '/tool/gen/index', 0, '383838051287306240', 'build', 4, 0, '#', 1, NULL, '2020-04-28 14:28:03', NULL, '2020-05-13 07:33:05');
 
 -- ----------------------------
@@ -179,7 +209,7 @@ CREATE TABLE `sys_notice`  (
 -- ----------------------------
 -- Records of sys_notice
 -- ----------------------------
-INSERT INTO `sys_notice` VALUES ('466828250807668736', '通知', '1', '<p>通知123123123</p>', '0', '2020-09-19 15:00:00', '1', '2020-09-18 06:55:38', '1', '2020-09-18 07:41:23', NULL);
+INSERT INTO `sys_notice` VALUES ('466828250807668736', '通知', '1', '<p>通知123123123</p>', '0', '2020-09-30 15:00:00', '1', '2020-09-18 06:55:38', '1', '2020-09-25 06:17:29', NULL);
 INSERT INTO `sys_notice` VALUES ('466842367455006720', 'ddddd', '1', '<p>dqwdqwqdq</p><p>dqwqwd</p><p>dqwdqd</p><p>dqwdq</p>', '0', '2020-09-23 09:51:33', '1', '2020-09-18 07:51:44', '1', '2020-09-18 07:53:35', NULL);
 INSERT INTO `sys_notice` VALUES ('466842457729011712', 'dqwdqqwd', '2', '<p>dqwdqwdqwdqwqwdqwdqwffewfwefwefwefwefwefwefewfwedwedwdwedwewdwedwedwedwedwedwefwef</p>', '0', '2020-09-23 12:01:00', '1', '2020-09-18 07:52:06', '1', '2020-09-18 08:26:18', NULL);
 
@@ -204,6 +234,27 @@ INSERT INTO `sys_permission` VALUES ('417905015345254400', '381303138021412864',
 INSERT INTO `sys_permission` VALUES ('417905015349448704', '381303138021412864', '382743905826902016');
 INSERT INTO `sys_permission` VALUES ('417905015357837312', '381303138021412864', '382744141844582400');
 INSERT INTO `sys_permission` VALUES ('417905015370420224', '381303138021412864', '1');
+
+-- ----------------------------
+-- Table structure for sys_post
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_post`;
+CREATE TABLE `sys_post`  (
+  `Id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `PostCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `PostName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `CreateTime` datetime(0) NULL DEFAULT NULL,
+  `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ModifyTime` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_post
+-- ----------------------------
+INSERT INTO `sys_post` VALUES ('476965363788156928', '0000', '员工', '1', '2020-10-16 06:16:55', NULL, NULL);
+INSERT INTO `sys_post` VALUES ('476965408843370496', '0001', '经理', '1', '2020-10-16 06:17:05', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_properties
@@ -231,8 +282,11 @@ INSERT INTO `sys_properties` VALUES ('3', '邮箱用户名', 'mail.username', '2
 INSERT INTO `sys_properties` VALUES ('4', '邮箱密码', 'mail.password', 'ffycbapqhjgjdfdj', 'mail', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `sys_properties` VALUES ('5', '邮件验证', 'mail.auth', 'true', 'mail', '', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_properties` VALUES ('6', '邮箱端口', 'mail.port', '587', 'mail', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_properties` VALUES ('7', '上传路径', 'upload.path', '/opt/upload', 'file', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_properties` VALUES ('8', '文件类型', 'file.allow', 'jpg,png,docx,xlsx,pdf,pptx', 'file', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_properties` VALUES ('7', '上传路径', 'upload.path', 'E:\\GitHub\\ares\\upload', 'file', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_properties` VALUES ('8', '文件类型', 'file.allow', 'bmp,gif,jpg,jpeg,png,doc,docx,xls,xlsx,ppt,pptx,html,htm,txt,rar,zip,gz,bz2,pdf', 'file', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_properties` VALUES ('9', '文件大小', 'file.maxsize', '5242880000', 'file', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_properties` VALUES ('10', '文件名长度', 'file.namelength', '100', 'file', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_properties` VALUES ('11', '头像路径', 'avatar.path', 'E:\\GitHub\\ares\\upload\\avatar', 'avatar', NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_quartz_job
@@ -316,8 +370,9 @@ CREATE TABLE `sys_role_user`  (
 -- ----------------------------
 -- Records of sys_role_user
 -- ----------------------------
-INSERT INTO `sys_role_user` VALUES ('417904667662618624', '380942348554735616', '381303138021412864');
 INSERT INTO `sys_role_user` VALUES ('418574260357959680', '1', '1');
+INSERT INTO `sys_role_user` VALUES ('476968734930636800', '380942348554735616', '381303138021412864');
+INSERT INTO `sys_role_user` VALUES ('476968822222491648', '383826362324094976', '381303138021412864');
 
 -- ----------------------------
 -- Table structure for sys_template
@@ -353,6 +408,8 @@ CREATE TABLE `sys_user`  (
   `PhoneNumber` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `Email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `Avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `DeptId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `PostId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `CreateTime` datetime(0) NULL DEFAULT NULL,
   `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -363,8 +420,8 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', '管理员', '21232f297a57a5a743894a0e4a801fc3', '11111111', '11111111', NULL, NULL, '2020-01-23 08:51:42', NULL, '2020-05-08 03:11:31');
-INSERT INTO `sys_user` VALUES ('380942348554735616', 'user', '用户1', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, NULL, '2020-01-25 06:55:44', NULL, '2020-01-25 07:01:23');
-INSERT INTO `sys_user` VALUES ('383826362324094976', 'tttt', '测试', 'e10adc3949ba59abbe56e057f20f883e', NULL, 'eee', NULL, NULL, '2020-02-02 05:55:46', '1', '2020-08-28 02:33:35');
+INSERT INTO `sys_user` VALUES ('1', 'admin', '管理员', '21232f297a57a5a743894a0e4a801fc3', '11111111', '11111111', 'RTpcR2l0SHViXGFyZXNcdXBsb2FkXGF2YXRhclwyMDIwLzEwLzEzXGJsb2IuanBlZw==', NULL, NULL, NULL, '2020-01-23 08:51:42', NULL, '2020-10-13 02:02:21');
+INSERT INTO `sys_user` VALUES ('380942348554735616', 'user', '用户1', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, '476951546261803008', '476965408843370496', NULL, '2020-01-25 06:55:44', '1', '2020-10-16 06:30:18');
+INSERT INTO `sys_user` VALUES ('383826362324094976', 'tttt', '测试', 'e10adc3949ba59abbe56e057f20f883e', NULL, 'eee', NULL, '476955797205684224', '476965363788156928', NULL, '2020-02-02 05:55:46', '1', '2020-10-16 06:30:39');
 
 SET FOREIGN_KEY_CHECKS = 1;

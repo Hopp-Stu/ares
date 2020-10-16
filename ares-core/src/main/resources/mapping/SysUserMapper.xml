@@ -8,6 +8,8 @@
         <result column="Password" jdbcType="VARCHAR" property="password"/>
         <result column="PhoneNumber" jdbcType="VARCHAR" property="phoneNumber"/>
         <result column="Email" jdbcType="VARCHAR" property="email"/>
+        <result column="DeptId" jdbcType="VARCHAR" property="deptId"/>
+        <result column="PostId" jdbcType="VARCHAR" property="postId"/>
         <result column="Avatar" jdbcType="VARCHAR" property="avatar"/>
         <result column="Creator" jdbcType="VARCHAR" property="creator"/>
         <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime"/>
@@ -15,13 +17,14 @@
         <result column="ModifyTime" jdbcType="TIMESTAMP" property="modifyTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        `Id`, `Account`, `UserName`, `Password`,`PhoneNumber`,`Email`,`Avatar`,`Creator` ,`CreateTime`,`Modifier`, `ModifyTime`
+        `Id`, `Account`, `UserName`, `Password`,`PhoneNumber`,`Email`,`DeptId`,`PostId`,`Avatar`,`Creator` ,`CreateTime`,`Modifier`, `ModifyTime`
     </sql>
     <insert id="insert" parameterType="com.ares.core.model.SysUser">
-      insert into `sys_user` (`Id`, `Account`, `UserName`,`Password`,`PhoneNumber`,`Email`,`Avatar`,`Creator` ,`CreateTime`,`Modifier`, `ModifyTime`)
+      insert into `sys_user` (`Id`, `Account`, `UserName`,`Password`,`PhoneNumber`,`Email`,`Avatar`,`DeptId`,`PostId`,`Creator` ,`CreateTime`,`Modifier`, `ModifyTime`)
       values (#{id,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
         #{password,jdbcType=VARCHAR},#{phoneNumber,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},
-        #{avatar,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},
+        #{avatar,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR},#{postId,jdbcType=VARCHAR},
+        #{creator,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},
         #{modifier,jdbcType=VARCHAR},#{modifyTime,jdbcType=TIMESTAMP})
     </insert>
     <update id="update" parameterType="com.ares.core.model.SysUser">
@@ -44,6 +47,12 @@
             </if>
             <if test="avatar != null">
                 `Avatar` = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                `DeptId` = #{deptId,jdbcType=VARCHAR},
+            </if>
+            <if test="postId != null">
+                `PostId` = #{postId,jdbcType=VARCHAR},
             </if>
             <if test="creator != null">
                 `Creator` = #{creator,jdbcType=VARCHAR},
@@ -134,6 +143,9 @@
         where 1=1
         <if test="userName != null and userName != ''">
             and `UserName` like concat('%', #{userName}, '%')
+        </if>
+        <if test="deptId != null and deptId != ''">
+            and `DeptId` in (select Id from sys_dept where Id = #{deptId} or ParentDeptId = #{deptId})
         </if>
         <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
             AND date_format(`CreateTime`,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')

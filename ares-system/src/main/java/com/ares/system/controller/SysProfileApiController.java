@@ -2,11 +2,11 @@ package com.ares.system.controller;
 
 
 import com.ares.core.controller.BaseController;
+import com.ares.core.model.SysDept;
+import com.ares.core.model.SysPost;
 import com.ares.core.model.SysUser;
 import com.ares.core.model.base.BaseResult;
-import com.ares.core.service.SysPropertiesService;
-import com.ares.core.service.SysUserService;
-import com.ares.core.service.UploadService;
+import com.ares.core.service.*;
 import com.ares.core.utils.EncryptUtils;
 import com.ares.core.utils.MD5Util;
 import com.ares.system.common.shiro.ShiroUtils;
@@ -35,6 +35,10 @@ public class SysProfileApiController extends BaseController {
     private UploadService uploadService;
     @Autowired
     private SysPropertiesService propertiesService;
+    @Autowired
+    private SysPostService postService;
+    @Autowired
+    private SysDeptService deptService;
 
     /**
      * 个人信息
@@ -43,9 +47,12 @@ public class SysProfileApiController extends BaseController {
     @ApiOperation(value = "获取个人信息", response = Object.class)
     public Object profile() throws Exception {
         SysUser user = ShiroUtils.getUser();
+        SysDept sysDept = deptService.getById(user.getDeptId());
+        SysPost sysPost = postService.getById(user.getPostId());
         BaseResult result = BaseResult.successData(user);
         result.put("roleGroup", userService.selectUserRoleGroup(user.getId()));
-        result.put("postGroup", "");
+        result.put("deptGroup", null != sysDept ? sysDept.getDeptName() : "");
+        result.put("postGroup", null != sysPost ? sysPost.getPostName() : "");
         return result;
     }
 

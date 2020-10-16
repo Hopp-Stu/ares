@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @description:
  * @author: yy 2020/01/22
  **/
-@ApiModel(value = "SysUser对象",description = "系统用户")
+@ApiModel(value = "SysUser对象", description = "系统用户")
 public class SysUser extends BaseModel implements Serializable {
 
     private static final long serialVersionUID = 1335150848291052716L;
@@ -29,6 +29,8 @@ public class SysUser extends BaseModel implements Serializable {
     private String avatar;
     private String[] roleIds;
     private boolean isAdmin;
+    private String deptId;
+    private String postId;
 
     public SysUser() {
     }
@@ -99,5 +101,21 @@ public class SysUser extends BaseModel implements Serializable {
 
     public static boolean isAdmin(String userId) {
         return userId != null && "1".equals(userId);
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 }

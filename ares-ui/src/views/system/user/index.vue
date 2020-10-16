@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <el-row>
-      <!-- 部门数据
+    <el-row :gutter="20">
+      <!-- 部门数据-->
       <el-col :span="4" :xs="24">
         <div class="head-container">
           <el-input
@@ -22,12 +22,18 @@
             ref="tree"
             default-expand-all
             @node-click="handleNodeClick"
+            @node-contextmenu="openMenu"
           />
         </div>
-      </el-col>-->
+      </el-col>
       <!--用户数据-->
-      <el-col>
-        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+      <el-col :span="20" :xs="24">
+        <el-form
+          :model="queryParams"
+          ref="queryForm"
+          :inline="true"
+          label-width="68px"
+        >
           <el-form-item label="用户名称" prop="userName">
             <el-input
               v-model="queryParams.userName"
@@ -51,8 +57,16 @@
             ></el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-search"
+              size="mini"
+              @click="handleQuery"
+              >搜索</el-button
+            >
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
+              >重置</el-button
+            >
           </el-form-item>
         </el-form>
 
@@ -64,7 +78,8 @@
               size="mini"
               @click="handleAdd"
               v-hasPermi="['user:edit']"
-            >新增</el-button>
+              >新增</el-button
+            >
           </el-col>
           <el-col :span="1.5">
             <el-button
@@ -74,7 +89,8 @@
               :disabled="single"
               @click="handleUpdate"
               v-hasPermi="['user:edit']"
-            >修改</el-button>
+              >修改</el-button
+            >
           </el-col>
           <el-col :span="1.5">
             <el-button
@@ -84,7 +100,8 @@
               :disabled="multiple"
               @click="handleDelete"
               v-hasPermi="['user:delete']"
-            >删除</el-button>
+              >删除</el-button
+            >
           </el-col>
           <el-col :span="1.5">
             <el-button
@@ -93,7 +110,8 @@
               size="mini"
               @click="handleImport"
               v-hasPermi="['user:export']"
-            >导入</el-button>
+              >导入</el-button
+            >
           </el-col>
           <el-col :span="1.5">
             <el-button
@@ -102,7 +120,8 @@
               size="mini"
               @click="handleExport"
               v-hasPermi="['user:export']"
-            >导出</el-button>
+              >导出</el-button
+            >
           </el-col>
         </el-row>
 
@@ -134,7 +153,12 @@
             prop="phoneNumber"
             :show-overflow-tooltip="true"
           />
-          <el-table-column label="邮箱" align="center" prop="email" :show-overflow-tooltip="true" />
+          <el-table-column
+            label="邮箱"
+            align="center"
+            prop="email"
+            :show-overflow-tooltip="true"
+          />
           <el-table-column
             label="创建时间"
             align="center"
@@ -159,7 +183,8 @@
                 icon="el-icon-edit"
                 @click="handleUpdate(scope.row)"
                 v-hasPermi="['user:edit']"
-              >修改</el-button>
+                >修改</el-button
+              >
               <el-button
                 v-if="scope.row.id != 1"
                 size="mini"
@@ -167,19 +192,21 @@
                 icon="el-icon-delete"
                 @click="handleDelete(scope.row)"
                 v-hasPermi="['user:delete']"
-              >删除</el-button>
+                >删除</el-button
+              >
               <el-button
                 size="mini"
                 type="text"
                 icon="el-icon-key"
                 @click="handleResetPwd(scope.row)"
-              >重置</el-button>
+                >重置</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
 
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           :total="total"
           :page.sync="queryParams.pageNum"
           :limit.sync="queryParams.pageSize"
@@ -197,19 +224,31 @@
               <el-input v-model="form.account" placeholder="请输入用户帐号" />
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="12">
+          <el-col :span="12">
             <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" placeholder="请选择归属部门" />
+              <treeselect
+                v-model="form.deptId"
+                :options="deptOptions"
+                placeholder="请选择归属部门"
+              />
             </el-form-item>
-          </el-col>-->
+          </el-col>
           <el-col :span="12">
             <el-form-item label="手机号码" prop="phoneNumber">
-              <el-input v-model="form.phoneNumber" placeholder="请输入手机号码" maxlength="11" />
+              <el-input
+                v-model="form.phoneNumber"
+                placeholder="请输入手机号码"
+                maxlength="11"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
+              <el-input
+                v-model="form.email"
+                placeholder="请输入邮箱"
+                maxlength="50"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -219,46 +258,25 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="用户密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" />
+              <el-input
+                v-model="form.password"
+                placeholder="请输入用户密码"
+                type="password"
+              />
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="12">
-            <el-form-item label="用户性别">
-              <el-select v-model="form.sex" placeholder="请选择">
-                <el-option
-                  v-for="dict in sexOptions"
-                  :key="dict.dictValue"
-                  :label="dict.dictLabel"
-                  :value="dict.dictValue"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="状态">
-              <el-radio-group v-model="form.status">
-                <el-radio
-                  v-for="dict in statusOptions"
-                  :key="dict.dictValue"
-                  :label="dict.dictValue"
-                >{{dict.dictLabel}}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-
           <el-col :span="12">
             <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择">
+              <el-select v-model="form.postId" placeholder="请选择">
                 <el-option
                   v-for="item in postOptions"
-                  :key="item.postId"
+                  :key="item.id"
                   :label="item.postName"
-                  :value="item.postId"
-                  :disabled="item.status == 1"
+                  :value="item.id"
                 ></el-option>
               </el-select>
             </el-form-item>
-          </el-col>-->
+          </el-col>
           <el-col :span="12">
             <el-form-item label="角色">
               <el-select v-model="form.roleIds" multiple placeholder="请选择">
@@ -271,11 +289,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="24">
-            <el-form-item label="备注">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
-            </el-form-item>
-          </el-col>-->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -285,7 +298,12 @@
     </el-dialog>
 
     <!-- 用户导入对话框 -->
-    <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
+    <el-dialog
+      :title="upload.title"
+      :visible.sync="upload.open"
+      width="400px"
+      append-to-body
+    >
       <el-upload
         ref="upload"
         :limit="1"
@@ -304,14 +322,70 @@
           <em>点击上传</em>
         </div>
         <div class="el-upload__tip" slot="tip">
-          <el-checkbox v-model="upload.updateSupport" />是否更新已经存在的用户数据
-          <el-link type="info" style="font-size:12px" @click="importTemplate">下载模板</el-link>
+          <el-checkbox
+            v-model="upload.updateSupport"
+          />是否更新已经存在的用户数据
+          <el-link type="info" style="font-size: 12px" @click="importTemplate"
+            >下载模板</el-link
+          >
         </div>
-        <div class="el-upload__tip" style="color:red" slot="tip">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
+        <div class="el-upload__tip" style="color: red" slot="tip">
+          提示：仅允许导入“xls”或“xlsx”格式文件！
+        </div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitFileForm">确 定</el-button>
         <el-button @click="upload.open = false">取 消</el-button>
+      </div>
+    </el-dialog>
+
+    <ul
+      v-show="rightVisible"
+      :style="{ left: left + 'px', top: top + 'px' }"
+      class="contextmenu"
+    >
+      <li @click="addDept">新增部门</li>
+      <li @click="updateDept">修改部门</li>
+      <li @click="deleteDept">删除部门</li>
+      <li @click="refreshTree">刷新部门</li>
+    </ul>
+
+    <!-- 添加或修改部门对话框 -->
+    <el-dialog
+      :title="deptTitle"
+      :visible.sync="deptOpen"
+      width="600px"
+      append-to-body
+    >
+      <el-form ref="form" :model="deptForm" label-width="80px">
+        <el-row>
+          <el-input v-model="deptForm.id" type="hidden" />
+
+          <el-input v-model="deptForm.parentDeptId" type="hidden" />
+
+          <el-col :span="24">
+            <el-form-item label="上级部门" prop="parentDeptName">
+              <el-input v-model="deptForm.parentDeptName" disabled />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="部门编号" prop="code">
+              <el-input v-model="deptForm.code" placeholder="请输入部门编号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="部门名称" prop="deptName">
+              <el-input
+                v-model="deptForm.deptName"
+                placeholder="请输入部门名称"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitDeptForm">确 定</el-button>
+        <el-button @click="deptCancel">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -330,7 +404,13 @@ import {
   importTemplate,
 } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
-import { treeselect } from "@/api/system/dept";
+import {
+  treeselect,
+  delDept,
+  addDept,
+  updateDept,
+  getDept,
+} from "@/api/system/dept";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -339,6 +419,14 @@ export default {
   components: { Treeselect },
   data() {
     return {
+      selectedTreeNode: undefined,
+      selectedParentNode: undefined,
+      deptOpen: false,
+      deptTitle: "",
+      deptForm: {},
+      rightVisible: false,
+      left: 0,
+      top: 0,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -399,7 +487,7 @@ export default {
         userName: undefined,
         phonenumber: undefined,
         status: undefined,
-        deptId: undefined,
+        deptId: "1",
         sortColumn: undefined,
         sortAsc: undefined,
       },
@@ -441,19 +529,17 @@ export default {
     deptName(val) {
       this.$refs.tree.filter(val);
     },
+    rightVisible(value) {
+      if (value) {
+        document.body.addEventListener("click", this.closeMenu);
+      } else {
+        document.body.removeEventListener("click", this.closeMenu);
+      }
+    },
   },
   created() {
     this.getList();
-    // this.getTreeselect();
-    // this.getDicts("sys_normal_disable").then(response => {
-    //   this.statusOptions = response.data;
-    // });
-    // this.getDicts("sys_user_sex").then(response => {
-    //   this.sexOptions = response.data;
-    // });
-    // this.getConfigKey("sys.user.initPassword").then(response => {
-    //   this.initPassword = response.msg;
-    // });
+    this.getTreeselect();
   },
   methods: {
     sortChange(data) {
@@ -474,11 +560,11 @@ export default {
       );
     },
     /** 查询部门下拉树结构 */
-    // getTreeselect() {
-    //   treeselect().then(response => {
-    //     this.deptOptions = response.data;
-    //   });
-    // },
+    getTreeselect() {
+      treeselect().then((response) => {
+        this.deptOptions = response.data;
+      });
+    },
     // 筛选节点
     filterNode(value, data) {
       if (!value) return true;
@@ -489,21 +575,6 @@ export default {
       this.queryParams.deptId = data.id;
       this.getList();
     },
-    // 用户状态修改
-    // handleStatusChange(row) {
-    //   let text = row.status === "0" ? "启用" : "停用";
-    //   this.$confirm('确认要"' + text + '""' + row.userName + '"用户吗?', "警告", {
-    //       confirmButtonText: "确定",
-    //       cancelButtonText: "取消",
-    //       type: "warning"
-    //     }).then(function() {
-    //       return changeUserStatus(row.userId, row.status);
-    //     }).then(() => {
-    //       this.msgSuccess(text + "成功");
-    //     }).catch(function() {
-    //       row.status = row.status === "0" ? "1" : "0";
-    //     });
-    // },
     // 取消按钮
     cancel() {
       this.open = false;
@@ -513,16 +584,13 @@ export default {
     reset() {
       this.form = {
         id: undefined,
-        //deptId: undefined,
+        deptId: undefined,
         userName: undefined,
         account: undefined,
         password: undefined,
-        // phonenumber: undefined,
-        // email: undefined,
-        // sex: undefined,
-        // status: "0",
-        // remark: undefined,
-        // postIds: [],
+        phonenumber: undefined,
+        email: undefined,
+        postId: undefined,
         roleIds: [],
       };
       this.resetForm("form");
@@ -547,7 +615,7 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      //this.getTreeselect();
+      this.getTreeselect();
       getUser().then((response) => {
         this.postOptions = response.posts;
         this.roleOptions = response.roles;
@@ -559,13 +627,12 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      //this.getTreeselect();
+      this.getTreeselect();
       const userId = row.id || this.ids;
       getUser(userId).then((response) => {
         this.form = response.data;
         this.postOptions = response.posts;
         this.roleOptions = response.roles;
-        this.form.postIds = response.postIds;
         this.form.roleIds = response.roleIds;
         this.open = true;
         this.title = "修改用户";
@@ -680,6 +747,136 @@ export default {
     submitFileForm() {
       this.$refs.upload.submit();
     },
+
+    openMenu(event, data, node, element) {
+      const menuMinWidth = 105;
+      const offsetLeft = this.$el.getBoundingClientRect().left; // container margin left
+      const offsetWidth = this.$el.offsetWidth; // container width
+      const maxLeft = offsetWidth - menuMinWidth; // left boundary
+      const left = event.clientX - offsetLeft; // 15: margin right
+
+      if (left > maxLeft) {
+        this.left = maxLeft;
+      } else {
+        this.left = left;
+      }
+      this.top = event.clientY - 80; // fix 位置bug
+      this.selectedTreeNode = data;
+      this.selectedParentNode = node.parent.data;
+      this.rightVisible = true;
+    },
+    closeMenu() {
+      this.rightVisible = false;
+    },
+    // 取消按钮
+    deptCancel() {
+      this.deptOpen = false;
+      this.deptReset();
+    },
+    // 表单重置
+    deptReset() {
+      this.deptForm = {
+        id: undefined,
+        parentDeptId: undefined,
+        parentDeptName: undefined,
+        code: undefined,
+        deptName: undefined,
+      };
+      this.resetForm("form");
+    },
+    addDept() {
+      this.deptReset();
+      this.deptForm.parentDeptId = this.selectedTreeNode.id;
+      this.deptForm.parentDeptName = this.selectedTreeNode.label;
+      this.deptOpen = true;
+      this.deptTitle = "添加部门";
+    },
+    updateDept() {
+      this.deptReset();
+      const id = this.selectedTreeNode.id;
+      getDept(id).then((response) => {
+        this.deptForm = response.data;
+        this.deptOpen = true;
+        this.deptTitle = "修改部门";
+      });
+    },
+    submitDeptForm: function () {
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          if (this.deptForm.id != undefined) {
+            updateDept(this.deptForm).then((response) => {
+              if (response.code === 200) {
+                this.msgSuccess("修改成功");
+                this.deptOpen = false;
+                this.getTreeselect();
+                this.getList();
+              } else {
+                this.msgError(response.msg);
+              }
+            });
+          } else {
+            addDept(this.deptForm).then((response) => {
+              if (response.code === 200) {
+                this.msgSuccess("新增成功");
+                this.deptOpen = false;
+                this.getTreeselect();
+                this.getList();
+              } else {
+                this.msgError(response.msg);
+              }
+            });
+          }
+        }
+      });
+    },
+    deleteDept() {
+      const id = this.selectedTreeNode.id;
+      if (id === "1") {
+        this.msgError("根节点不能删除！");
+        return;
+      }
+      this.$confirm("是否确认删除?", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(function () {
+          return delDept(id);
+        })
+        .then(() => {
+          this.getList();
+          this.getTreeselect();
+          this.msgSuccess("删除成功");
+        })
+        .catch(function () {});
+    },
+    refreshTree() {
+      this.getTreeselect();
+    },
   },
 };
 </script>
+
+<style>
+.contextmenu {
+  margin: 0;
+  background: #fff;
+  z-index: 3000;
+  position: absolute;
+  list-style-type: none;
+  padding: 5px 0;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+}
+.contextmenu li {
+  margin: 0;
+  padding: 7px 16px;
+  cursor: pointer;
+}
+.contextmenu li:hover {
+  background: #eee;
+}
+</style>
