@@ -1,4 +1,4 @@
-package com.ares.system.common.interceptor;
+package com.ares.system.common.config;
 
 
 import com.ares.core.common.config.BaseConfig;
@@ -10,7 +10,10 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.filter.HttpPutFormContentFilter;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
@@ -24,6 +27,11 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
 
     @Resource
     BaseConfig config;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new MyInterceptor());
+    }
 
     /**
      * 静态资源处理

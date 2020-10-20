@@ -19,7 +19,9 @@ ares
 │
 ├─ares-redis 缓存模块
 │
-├─ares-system 系统
+├─ares-system 系统(使用shiro)
+│
+├─ares-system-new 系统(使用spring-security)
 │
 ├─ares-ui vue前端 参考若依vue前端http://www.ruoyi.vip
 │
