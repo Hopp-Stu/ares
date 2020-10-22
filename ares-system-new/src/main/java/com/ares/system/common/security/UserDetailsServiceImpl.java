@@ -5,7 +5,6 @@ import com.ares.core.model.SysRole;
 import com.ares.core.model.SysUser;
 import com.ares.core.service.SysUserService;
 import com.ares.system.common.jwt.JwtUserDetails;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,8 +31,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
     private ISysRoleDao sysRoleDao;
 
-
-    @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         SysUser user = userService.getUserByName(userName);

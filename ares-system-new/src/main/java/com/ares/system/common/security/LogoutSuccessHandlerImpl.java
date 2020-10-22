@@ -28,8 +28,9 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
         if (null != token) {
             String userName = JwtTokenUtils.getUsernameFromToken(token);
             if (RedisUtil.hasKey(Constants.LOGIN_INFO + userName)) {
-                RedisUtil.del(Constants.LOGIN_INFO + userName, token);
+                RedisUtil.del(Constants.LOGIN_INFO + userName);
             }
+            RedisUtil.del(token);
         }
         httpServletResponse.setStatus(200);
         httpServletResponse.setContentType("application/json");
