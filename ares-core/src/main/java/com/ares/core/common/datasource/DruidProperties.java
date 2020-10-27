@@ -71,7 +71,7 @@ public class DruidProperties {
             dataSource.setTestWhileIdle(testWhileIdle);
             dataSource.setTestOnBorrow(testOnBorrow);
             dataSource.setTestOnReturn(testOnReturn);
-            //dataSource.setFilters(filters);
+            dataSource.setFilters(filters);
         }catch (Exception e){
             e.printStackTrace();
         }

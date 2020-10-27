@@ -9,7 +9,7 @@ spring:
         url: jdbc:mysql://localhost:3306/springbootv1?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
         username: root
         password: MZnC0SMIlW3+Pat1CqL1U8Mv7Fw8n2D/RMMWHPzT3mzvcbhtNlAsnaDSSmVLIJs3zGjjYcGxoKEhCO6uiTFDMw==
-        connection-properties: config.decrypt=true;config.decrypt.key=${public-key};druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+        connection-properties: config.decrypt=true;config.decrypt.key=${public-key};druid.stat.mergeSql=true;druid.stat.logSlowSql=true;druid.stat.slowSqlMillis=3000
       neo4j:
         enabled: false
         db-type: neo4j
