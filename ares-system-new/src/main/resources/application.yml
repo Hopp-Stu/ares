@@ -9,7 +9,7 @@ server:
       min-spare: 30
 spring:
   profiles:
-    include: @profileActive@,ares,quartz,message,activiti
+    include: @profileActive@,ares,quartz,message,activiti,neo4j
   application:
     name: Ares
   devtools:

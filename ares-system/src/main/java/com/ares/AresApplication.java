@@ -1,27 +1,17 @@
-package com.ares.system;
+package com.ares;
 
-import com.ares.core.common.datasource.MyBatisConfig;
 import org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-/**
- * @description:
- * @author: yy
- * @date: 2020/10/19
- * @see: com.ares.system AresSystemApplication.java
- **/
-@Import({MyBatisConfig.class})
 @MapperScan("com.ares.**.dao")
-@ComponentScan({"com.ares"})
-@SpringBootApplication(exclude = {RocketMQAutoConfiguration.class, DataSourceAutoConfiguration.class})
-public class AresSystemApplication {
+@SpringBootApplication(exclude = {RocketMQAutoConfiguration.class, SecurityAutoConfiguration.class})
+public class AresApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(AresSystemApplication.class, args);
+        SpringApplication.run(AresApplication.class, args);
         System.out.println("         ______                                     __    __ ");
         System.out.println("		/      \\                                   /  |  /  |");
         System.out.println("       /$$$$$$  |  ______   _____  ____    ______  $$ | _$$ |_     _____");
@@ -35,4 +25,5 @@ public class AresSystemApplication {
         System.out.println("		                                 $$ |");
         System.out.println("		                                 $$/");
     }
+
 }

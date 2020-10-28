@@ -4,11 +4,12 @@ server:
   port: 8080
   tomcat:
     uri-encoding: UTF-8
-    max-threads: 800
-    min-spare-threads: 30
+    threads:
+      max: 800
+      min-spare: 30
 spring:
   profiles:
-    include: @profileActive@,ares,quartz,message,activiti
+    include: @profileActive@,ares,quartz,message,activiti,neo4j
   application:
     name: Ares
   devtools:

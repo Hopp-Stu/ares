@@ -1,6 +1,7 @@
-package com.ares.core.common.exception;
+package com.ares.system.common.exception;
 
 
+import com.ares.core.common.exception.UserException;
 import com.ares.core.model.base.BaseResult;
 import com.ares.core.model.base.ResultCode;
 import org.apache.shiro.authz.AuthorizationException;
