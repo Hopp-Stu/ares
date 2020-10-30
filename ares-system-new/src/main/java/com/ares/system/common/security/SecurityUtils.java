@@ -11,6 +11,7 @@ import com.ares.system.common.jwt.JwtTokenUtils;
 import com.ares.system.common.jwt.JwtUserDetails;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -37,7 +38,7 @@ public class SecurityUtils {
      * @param authenticationManager
      * @return
      */
-    public static JwtAuthenticationToken login(HttpServletRequest request, String username, String password, AuthenticationManager authenticationManager) {
+    public static JwtAuthenticationToken login(HttpServletRequest request, String username, String password, AuthenticationManager authenticationManager) throws AuthenticationException {
         JwtAuthenticationToken token = new JwtAuthenticationToken(username, password);
         token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         // 执行登录认证过程

@@ -15,6 +15,8 @@ import com.ares.core.utils.ServletUtils;
 import com.ares.redis.utils.RedisUtil;
 import com.ares.system.common.jwt.JwtAuthenticationToken;
 import com.ares.system.common.security.SecurityUtils;
+import com.ares.system.utils.AresCommonUtils;
+import com.google.code.kaptcha.Producer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -28,8 +30,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 /**
@@ -53,6 +58,8 @@ public class LoginApiController {
     BaseConfig config;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private Producer producer;
 
 
     @ApiOperation(value = "登录", response = Object.class)
@@ -62,12 +69,18 @@ public class LoginApiController {
         Map<String, Object> map = ServletUtils.getParameter();
         String userName = String.valueOf(map.get("username"));
         String password = String.valueOf(map.get("password"));
-        password = MD5Util.encode(password);
+        String code = String.valueOf(map.get("code"));
+        String uuid = String.valueOf(map.get("uuid"));
+
+        if (!AresCommonUtils.checkVerifyCode(code, uuid)) {
+            return BaseResult.error(500, "验证码错误");
+        }
+
         // 系统登录认证
         JwtAuthenticationToken token = SecurityUtils.login(request, userName, password, authenticationManager);
 
         SysUser user = userService.getUserByName(userName);
-        if (password.equals(user.getPassword())) {
+        if (MD5Util.encode(password).equals(user.getPassword())) {
             RedisUtil.set(token.getToken(), SecurityUtils.getUsername(), config.getTimeout());
             RedisUtil.set(Constants.LOGIN_INFO + userName, token, config.getTimeout());
             return BaseResult.success().put("token", token.getToken());
@@ -121,5 +134,20 @@ public class LoginApiController {
         SysUser user = SecurityUtils.getUser();
         List<SysMenu> menus = menuService.getAll(user.getId());
         return BaseResult.successData(HttpStatus.OK.value(), menuService.buildMenus(menus, "0"));
+    }
+
+    @RequestMapping("/kaptcha")
+    @ResponseBody
+    public Object getKaptchaImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //生成验证码
+        String capText = producer.createText();
+        String uuid = UUID.randomUUID().toString();
+        RedisUtil.set(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY + uuid, capText, 120);
+        //向客户端写出
+        BufferedImage bi = producer.createImage(capText);
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            ImageIO.write(bi, "jpg", byteArrayOutputStream);
+            return BaseResult.success().put("img", Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray())).put("uuid", uuid);
+        }
     }
 }

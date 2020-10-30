@@ -49,7 +49,7 @@ public class ShiroConfig {
         filters.put("jwt", new JwtFilter());
         filterMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
         filterMap.put("/login", "anon");
-
+        filterMap.put("/kaptcha", "anon");
         filterMap.put("/static/**", "anon");
         filterMap.put("/login/login", "anon");
         filterMap.put("/logout", "logout");

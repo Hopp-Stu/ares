@@ -7,7 +7,6 @@ import com.ares.AresApplication;
 import com.ares.core.common.config.CodeGeneratorConfig;
 import com.ares.core.utils.FreeMarkerGeneratorUtil;
 import com.ares.message.service.RocketMQService;
-import com.ares.neo4j.service.Neo4jCommonService;
 import com.ares.redis.utils.RedisUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +27,8 @@ class AresApplicationTests {
 //    @Resource
 //    SendEmailService sendEmailService;
 
-    @Resource
-    Neo4jCommonService neo4jService;
+//    @Resource
+//    Neo4jCommonService neo4jService;
 
 
     @Resource
@@ -109,11 +108,11 @@ class AresApplicationTests {
 //        sendEmailService.sendEmail();
 //    }
 
-    @Test
-    public void testNeo4j(){
-        //neo4jService.test();
-        neo4jService.user();
-    }
+//    @Test
+//    public void testNeo4j(){
+//        //neo4jService.test();
+//        neo4jService.user();
+//    }
 
 
     @Test

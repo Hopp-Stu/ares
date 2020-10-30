@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "*/**").permitAll()
                 .antMatchers(HttpMethod.GET, "*/**").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/kaptcha").permitAll()
                 .antMatchers("/system/user/profile/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
