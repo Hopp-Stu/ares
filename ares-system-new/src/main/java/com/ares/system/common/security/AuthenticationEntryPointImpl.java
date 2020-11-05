@@ -1,7 +1,7 @@
 package com.ares.system.common.security;
 
-import com.alibaba.fastjson.JSON;
 import com.ares.core.model.base.BaseResult;
+import com.ares.system.utils.AresCommonUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -22,9 +22,6 @@ import java.io.Serializable;
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, Serializable {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        httpServletResponse.setStatus(200);
-        httpServletResponse.setContentType("application/json");
-        httpServletResponse.setCharacterEncoding("utf-8");
-        httpServletResponse.getWriter().print(JSON.toJSONString(BaseResult.error(500, e.getMessage())));
+        AresCommonUtils.writeResponse(httpServletResponse, BaseResult.error(500, e.getMessage()));
     }
 }

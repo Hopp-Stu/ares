@@ -1,10 +1,10 @@
 package com.ares.system.common.security;
 
-import com.alibaba.fastjson.JSON;
 import com.ares.core.model.base.BaseResult;
 import com.ares.core.model.base.Constants;
 import com.ares.redis.utils.RedisUtil;
 import com.ares.system.common.jwt.JwtTokenUtils;
+import com.ares.system.utils.AresCommonUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -30,12 +30,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             if (RedisUtil.hasKey(Constants.LOGIN_INFO + userName)) {
                 RedisUtil.del(Constants.LOGIN_INFO + userName);
             }
-            RedisUtil.del(token);
         }
-        httpServletResponse.setStatus(200);
-        httpServletResponse.setContentType("application/json");
-        httpServletResponse.setCharacterEncoding("utf-8");
-        httpServletResponse.getWriter().print(JSON.toJSONString(BaseResult.success()));
-
+        AresCommonUtils.writeResponse(httpServletResponse, BaseResult.success());
     }
 }

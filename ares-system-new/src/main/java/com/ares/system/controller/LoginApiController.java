@@ -10,7 +10,6 @@ import com.ares.core.model.base.Constants;
 import com.ares.core.service.SysMenuService;
 import com.ares.core.service.SysRoleService;
 import com.ares.core.service.SysUserService;
-import com.ares.core.utils.MD5Util;
 import com.ares.core.utils.ServletUtils;
 import com.ares.redis.utils.RedisUtil;
 import com.ares.system.common.jwt.JwtAuthenticationToken;
@@ -78,15 +77,8 @@ public class LoginApiController {
 
         // 系统登录认证
         JwtAuthenticationToken token = SecurityUtils.login(request, userName, password, authenticationManager);
-
-        SysUser user = userService.getUserByName(userName);
-        if (MD5Util.encode(password).equals(user.getPassword())) {
-            RedisUtil.set(token.getToken(), SecurityUtils.getUsername(), config.getTimeout());
-            RedisUtil.set(Constants.LOGIN_INFO + userName, token, config.getTimeout());
-            return BaseResult.success().put("token", token.getToken());
-        } else {
-            return BaseResult.error(500, "用户名或密码不正确");
-        }
+        RedisUtil.set(Constants.LOGIN_INFO + userName, token, config.getTimeout());
+        return BaseResult.success().put("token", token.getToken());
     }
 
 

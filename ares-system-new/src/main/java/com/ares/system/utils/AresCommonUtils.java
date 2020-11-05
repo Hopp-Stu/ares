@@ -1,9 +1,12 @@
 package com.ares.system.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.ares.redis.utils.RedisUtil;
 import com.google.code.kaptcha.Constants;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -52,6 +55,13 @@ public class AresCommonUtils {
             return false;
         }
         return true;
+    }
+
+    public static void writeResponse(HttpServletResponse response, Object result) throws IOException {
+        response.setStatus(200);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        response.getWriter().print(JSON.toJSONString(result));
     }
 
 }

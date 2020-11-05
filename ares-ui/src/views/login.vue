@@ -54,7 +54,11 @@
           <img :src="codeUrl" @click="getCode" />
         </div>
       </el-form-item>
-      <!--<el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>-->
+      <el-checkbox
+        v-model="loginForm.rememberMe"
+        style="margin: 0px 0px 25px 0px"
+        >记住密码</el-checkbox
+      >
       <el-form-item style="width: 100%">
         <el-button
           :loading="loading"
@@ -87,8 +91,8 @@ export default {
       codeUrl: "",
       cookiePassword: "",
       loginForm: {
-        username: "admin",
-        password: "admin",
+        username: "",
+        password: "",
         rememberMe: false,
         code: "",
         uuid: "",
@@ -137,12 +141,12 @@ export default {
     getCookie() {
       const username = Cookies.get("username");
       const password = Cookies.get("password");
-      // const rememberMe = Cookies.get("rememberMe");
+      const rememberMe = Cookies.get("rememberMe");
       this.loginForm = {
         username: username === undefined ? this.loginForm.username : username,
         password:
           password === undefined ? this.loginForm.password : decrypt(password),
-        // rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
+        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe),
       };
     },
     handleLogin() {
@@ -154,13 +158,13 @@ export default {
             Cookies.set("password", encrypt(this.loginForm.password), {
               expires: 30,
             });
-            // Cookies.set("rememberMe", this.loginForm.rememberMe, {
-            //   expires: 30
-            // });
+            Cookies.set("rememberMe", this.loginForm.rememberMe, {
+              expires: 30,
+            });
           } else {
             Cookies.remove("username");
             Cookies.remove("password");
-            // Cookies.remove("rememberMe");
+            Cookies.remove("rememberMe");
           }
           this.$store
             .dispatch("Login", this.loginForm)
