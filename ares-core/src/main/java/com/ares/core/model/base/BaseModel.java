@@ -17,7 +17,7 @@ import java.util.Map;
 public class BaseModel implements Serializable {
     private static final long serialVersionUID = 2513447910190608371L;
     @ApiModelProperty("主键")
-    private String Id;
+    private String id;
     @ApiModelProperty("创建人")
     private String creator;
     @ApiModelProperty("创建时间")

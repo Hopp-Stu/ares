@@ -425,3 +425,20 @@ INSERT INTO `sys_user` VALUES ('380942348554735616', 'user', '用户1', 'e10adc3
 INSERT INTO `sys_user` VALUES ('383826362324094976', 'tttt', '测试', 'e10adc3949ba59abbe56e057f20f883e', NULL, 'eee', NULL, '476955797205684224', '476965363788156928', NULL, '2020-02-02 05:55:46', '1', '2020-10-16 06:30:39');
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- Table structure for sys_notice_read
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_notice_read`;
+CREATE TABLE `sys_notice_read`  (
+  `Id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `NoticeId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `UserId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `CreateTime` datetime(0) NULL DEFAULT NULL,
+  `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ModifyTime` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS = 1;

@@ -129,6 +129,11 @@
         select count(1)
         from `sys_notice`
         where `NoticeStatus` = 0
+        and `Id` not in (
+            select `NoticeId`
+            from `sys_notice_read`
+            WHERE `UserId` = #{userId}
+        )
         AND `Deadline` > CURRENT_TIMESTAMP
     </select>
 

@@ -66,13 +66,13 @@ public class SysNoticeApiController extends BaseController {
 
     @GetMapping("noticeNum")
     @ApiOperation(value = "获取通知公告数量", response = Object.class)
-    public Object noticeNum(){
-        return BaseResult.successData(sysNoticeService.noticeNum());
+    public Object noticeNum() throws Exception {
+        return BaseResult.successData(sysNoticeService.noticeNum(ShiroUtils.getUserId()));
     }
 
     @GetMapping("getNotices")
     @ApiOperation(value = "通知公告时间线", response = Object.class)
-    public Object getNotices(){
-        return BaseResult.successData(sysNoticeService.getNotices());
+    public Object getNotices() throws Exception {
+        return BaseResult.successData(sysNoticeService.getNotices(ShiroUtils.getUserId()));
     }
 }

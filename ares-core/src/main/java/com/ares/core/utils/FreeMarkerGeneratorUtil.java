@@ -299,7 +299,7 @@ public class FreeMarkerGeneratorUtil {
         log.info("当前项目路径为：{}", path);
         String parentProjectPath = StrUtil.sub(path, 0, path.lastIndexOf("/"));
         //获取模板路径
-        String templatePath = path.replace("ares-system", "ares-core") + "/src/main/java/com/ares/core/common/templates";
+        String templatePath = path.replace("ares-system-new", "ares-core").replace("ares-system", "ares-core") + "/src/main/java/com/ares/core/common/templates";
         log.info("当前模板路径为：{}", templatePath);
         boolean onlySingleTable = StrUtil.isNotBlank(tableName);
 
@@ -352,11 +352,11 @@ public class FreeMarkerGeneratorUtil {
         return outputStream.toByteArray();
     }
 
-    private static void deleteFiles(String url){
+    private static void deleteFiles(String url) {
         File file = new File(url);
-        if(file.isDirectory()){
+        if (file.isDirectory()) {
             File[] files = file.listFiles();
-            for(File f: files){
+            for (File f : files) {
                 FileUtil.del(f);
             }
         }
@@ -406,7 +406,11 @@ public class FreeMarkerGeneratorUtil {
     public static String autoCodePath() {
         //获取当前项目路径
         String path = FreeMarkerGeneratorUtil.class.getResource("/").getPath();
-        path = StrUtil.sub(path, 1, path.indexOf("/ares-system"));
+        if (path.indexOf("/ares-system-new") > 0) {
+            path = StrUtil.sub(path, 1, path.indexOf("/ares-system-new"));
+        } else {
+            path = StrUtil.sub(path, 1, path.indexOf("/ares-system"));
+        }
         return path + File.separator + "autocode";
     }
 }

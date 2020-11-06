@@ -1,5 +1,6 @@
 package com.ares.system.controller;
 
+import com.ares.core.common.exception.UserException;
 import com.ares.core.controller.BaseController;
 import com.ares.core.model.SysNotice;
 import com.ares.core.model.base.BaseResult;
@@ -66,13 +67,13 @@ public class SysNoticeApiController extends BaseController {
 
     @GetMapping("noticeNum")
     @ApiOperation(value = "获取通知公告数量", response = Object.class)
-    public Object noticeNum(){
-        return BaseResult.successData(sysNoticeService.noticeNum());
+    public Object noticeNum() throws UserException {
+        return BaseResult.successData(sysNoticeService.noticeNum(SecurityUtils.getUser().getId()));
     }
 
     @GetMapping("getNotices")
     @ApiOperation(value = "通知公告时间线", response = Object.class)
-    public Object getNotices(){
-        return BaseResult.successData(sysNoticeService.getNotices());
+    public Object getNotices() throws UserException {
+        return BaseResult.successData(sysNoticeService.getNotices(SecurityUtils.getUser().getId()));
     }
 }
