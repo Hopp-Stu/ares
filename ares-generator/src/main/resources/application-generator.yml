@@ -1,0 +1,16 @@
+ares:
+  generator:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springbootv1?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: root
+    password: root
+    databaseName: springbootv1
+    tableName: test_v
+    tablePrefix:
+    generatorLevel: 3
+    basePackage: com.ares.system
+    entityPackage: com.ares.system.model
+    daoPackage: com.ares.system.dao
+    xmlDir: .src.main.resources.mapping
+    servicePackage: com.ares.system.service
+    controllerPackage: com.ares.system.controller

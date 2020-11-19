@@ -4,9 +4,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @description:
+ * @description: 已迁移至generator模块下
  * @author: yy 2020/03/31
  **/
+@Deprecated
 @Configuration
 @ConfigurationProperties(prefix = "ares.codegenerator")
 public class CodeGeneratorConfig {

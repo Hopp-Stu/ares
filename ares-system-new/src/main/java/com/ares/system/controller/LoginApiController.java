@@ -23,10 +23,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -40,7 +39,7 @@ import java.util.*;
  * @description:
  * @author: yy 2020/05/04
  **/
-@Controller
+@RestController
 @Api(value = "系统登录API", tags = {"系统登录"})
 public class LoginApiController {
     private Logger logger = LoggerFactory.getLogger(LoginApiController.class);
@@ -48,22 +47,20 @@ public class LoginApiController {
     private String prefix = "";
 
     @Resource
-    SysUserService userService;
+    private SysUserService userService;
     @Resource
-    SysRoleService roleService;
+    private SysRoleService roleService;
     @Resource
-    SysMenuService menuService;
+    private SysMenuService menuService;
     @Resource
-    BaseConfig config;
+    private BaseConfig config;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private Producer producer;
 
-
     @ApiOperation(value = "登录", response = Object.class)
     @PostMapping("login")
-    @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> map = ServletUtils.getParameter();
         String userName = String.valueOf(map.get("username"));
@@ -83,21 +80,18 @@ public class LoginApiController {
 
 
     @RequestMapping("unAuth")
-    @ResponseBody
     @ApiOperation(value = "未登录", response = Object.class)
     public Object unAuth(HttpServletRequest request, HttpServletResponse response) {
         return BaseResult.unLogin();
     }
 
     @RequestMapping("unauthorized")
-    @ResponseBody
     @ApiOperation(value = "无权限", response = Object.class)
     public Object unauthorized(HttpServletRequest request, HttpServletResponse response) {
         return BaseResult.error(HttpStatus.UNAUTHORIZED.value(), "用户无权限！");
     }
 
     @RequestMapping("getInfo")
-    @ResponseBody
     @ApiOperation(value = "获取登录信息", response = Object.class)
     public Object getInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         SysUser user = SecurityUtils.getUser();
@@ -120,7 +114,6 @@ public class LoginApiController {
     }
 
     @RequestMapping("getRouters")
-    @ResponseBody
     @ApiOperation(value = "获取路由", response = Object.class)
     public Object getRouters() throws Exception {
         SysUser user = SecurityUtils.getUser();
@@ -129,7 +122,6 @@ public class LoginApiController {
     }
 
     @RequestMapping("/kaptcha")
-    @ResponseBody
     public Object getKaptchaImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         //生成验证码
         String capText = producer.createText();

@@ -25,6 +25,7 @@
         <module>ares-test</module>
         <module>ares-system</module>
         <module>ares-system-new</module>
+        <module>ares-generator</module>
     </modules>
 
     <properties>

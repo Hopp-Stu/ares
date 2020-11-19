@@ -5,7 +5,6 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.filter.config.ConfigTools;
 import com.ares.AresApplication;
 import com.ares.core.common.config.CodeGeneratorConfig;
-import com.ares.core.utils.FreeMarkerGeneratorUtil;
 import com.ares.message.service.RocketMQService;
 import com.ares.redis.utils.RedisUtil;
 import org.junit.jupiter.api.Test;

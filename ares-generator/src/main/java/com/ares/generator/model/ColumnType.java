@@ -1,4 +1,4 @@
-package com.ares.core.model.base;
+package com.ares.generator.model;
 
 /**
  * @description:

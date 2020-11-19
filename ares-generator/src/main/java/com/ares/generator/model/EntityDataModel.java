@@ -1,4 +1,4 @@
-package com.ares.core.model.autocode;
+package com.ares.generator.model;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.ares.core.dao;
+package com.ares.generator.dao;
 
 import java.util.List;
 import java.util.Map;

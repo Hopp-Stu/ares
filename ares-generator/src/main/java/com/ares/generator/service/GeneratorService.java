@@ -1,6 +1,7 @@
-package com.ares.core.service;
+package com.ares.generator.service;
 
-import com.ares.core.dao.IGeneratorDao;
+
+import com.ares.generator.dao.IGeneratorDao;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class GeneratorService {
 
     @Resource
-    IGeneratorDao generatorDao;
+    private IGeneratorDao generatorDao;
 
     public List<Map<String, Object>> tables(Map<String, Object> map) {
         List<Map<String, Object>> tables = generatorDao.getTables(map);

@@ -1,12 +1,12 @@
-package com.ares.system.controller;
+package com.ares.generator.controller;
 
 
 import com.ares.core.controller.BaseController;
 import com.ares.core.model.page.TableDataInfo;
-import com.ares.core.service.GeneratorService;
 import com.ares.core.utils.DateUtils;
-import com.ares.core.utils.FreeMarkerGeneratorUtil;
 import com.ares.core.utils.ServletUtils;
+import com.ares.generator.service.AutoGeneratorService;
+import com.ares.generator.service.GeneratorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
@@ -29,14 +29,16 @@ import java.util.Map;
  **/
 @RestController
 @RequestMapping("/tool/gen/*")
-@Api(value = "代码生成API",tags = {"代码生成"})
+@Api(value = "代码生成API", tags = {"代码生成"})
 public class GeneratorApiController extends BaseController {
 
     @Resource
-    GeneratorService generatorService;
+    private GeneratorService generatorService;
+    @Resource
+    private AutoGeneratorService autoGeneratorService;
 
     @GetMapping("db/list")
-    @ApiOperation(value = "表信息",response = TableDataInfo.class)
+    @ApiOperation(value = "表信息", response = TableDataInfo.class)
     public TableDataInfo dataList(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", ServletUtils.getParameter("tableName"));
@@ -49,7 +51,7 @@ public class GeneratorApiController extends BaseController {
     }
 
     @GetMapping(value = "column/{tableName}")
-    @ApiOperation(value = "根据表获取字段",response = TableDataInfo.class)
+    @ApiOperation(value = "根据表获取字段", response = TableDataInfo.class)
     public TableDataInfo columnList(@PathVariable("tableName") String tableName) {
         TableDataInfo dataInfo = new TableDataInfo();
         List<Map<String, Object>> list = generatorService.selectTableColumnListByTableName(tableName);
@@ -59,9 +61,9 @@ public class GeneratorApiController extends BaseController {
     }
 
     @GetMapping("genCode/{tableName}")
-    @ApiOperation(value = "生成代码",response = TableDataInfo.class)
+    @ApiOperation(value = "生成代码", response = TableDataInfo.class)
     public void genCode(HttpServletResponse response, @PathVariable("tableName") String tableName) throws IOException {
-        byte[] data = FreeMarkerGeneratorUtil.generator(tableName);
+        byte[] data = autoGeneratorService.generator(tableName);
         genCode(response, data);
     }
 

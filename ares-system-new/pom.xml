@@ -63,6 +63,11 @@
             <artifactId>ares-message</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.ares.generator</groupId>
+            <artifactId>ares-generator</artifactId>
+            <version>1.0</version>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.ares.neo4j</groupId>-->
 <!--            <artifactId>ares-neo4j</artifactId>-->
