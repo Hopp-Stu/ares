@@ -4,6 +4,8 @@ package com.ares.system.common.exception;
 import com.ares.core.common.exception.UserException;
 import com.ares.core.model.base.BaseResult;
 import com.ares.core.model.base.ResultCode;
+import com.ares.core.model.exception.ErrorCode;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.validation.BindException;
@@ -29,7 +31,24 @@ public class SysGlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = UserException.class)
-    public Object handleUserException(HttpServletRequest request, HttpServletResponse response){
+    public Object handleUserException(HttpServletRequest request, HttpServletResponse response, UserException e) {
+        String code = e.getCode();
+        if (code.equals(ErrorCode.NOUSER.getCode())) {
+            return BaseResult.error(ResultCode.FAILED.getCode(), "用户不存在");
+        } else if (code.equals(ErrorCode.NOAUTH.getCode())) {
+            return BaseResult.unAuth();
+        }
         return BaseResult.unLogin();
     }
+
+    @ExceptionHandler(value = NumberFormatException.class)
+    public Object handleNumberFormatException(HttpServletRequest request, HttpServletResponse response, NumberFormatException e) {
+        return BaseResult.error(ResultCode.FAILED.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(value = PersistenceException.class)
+    public Object handlePersistenceException(HttpServletRequest request, HttpServletResponse response, PersistenceException e) {
+        return BaseResult.error(ResultCode.FAILED.getCode(), e.getMessage());
+    }
+
 }

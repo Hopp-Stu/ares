@@ -1,11 +1,14 @@
 package com.ares.core.model.exception;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
  * @description:
  * @author: yy 2020/06/19
  **/
+@Data
 public class Exception<T> {
     private String code;
     private String msg;

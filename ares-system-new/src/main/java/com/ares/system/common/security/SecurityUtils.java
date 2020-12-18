@@ -3,6 +3,7 @@ package com.ares.system.common.security;
 import com.ares.core.common.exception.UserException;
 import com.ares.core.model.SysUser;
 import com.ares.core.model.base.Constants;
+import com.ares.core.model.exception.ErrorCode;
 import com.ares.core.service.SysUserService;
 import com.ares.core.utils.SpringUtils;
 import com.ares.redis.utils.RedisUtil;
@@ -55,20 +56,20 @@ public class SecurityUtils {
      *
      * @param request
      */
-    public static void checkAuthentication(HttpServletRequest request) throws UserException{
+    public static void checkAuthentication(HttpServletRequest request) throws UserException {
         // 获取令牌并根据令牌获取登录认证信息
         Authentication authentication = JwtTokenUtils.getAuthenticationFromToken(request);
         if (authentication instanceof JwtAuthenticationToken) {
             String token = ((JwtAuthenticationToken) authentication).getToken();
             String userName = JwtTokenUtils.getUsernameFromToken(token);
             if (JwtTokenUtils.isTokenExpired(token)) {
-                throw new UserException("登录过期！");
+                throw new UserException(ErrorCode.LOGINTIMEOUT.getCode(), "登录过期！");
             }
             if (RedisUtil.hasKey(Constants.LOGIN_INFO + userName)) {
                 // 设置登录认证信息到上下文
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
-                throw new UserException("用户未登录！");
+                throw new UserException(ErrorCode.NOLOGIN.getCode(), "用户未登录！");
             }
         }
     }
@@ -124,10 +125,10 @@ public class SecurityUtils {
     }
 
 
-    public static SysUser getUser() throws UserException{
+    public static SysUser getUser() throws UserException {
         String userName = getUsername();
         if (null == userName) {
-            throw new UserException("用户不存在！");
+            throw new UserException(ErrorCode.NOUSER.getCode(), "用户不存在！");
         }
         SysUserService userService = SpringUtils.getBean(SysUserService.class);
         SysUser user = userService.getUserByName(userName);
