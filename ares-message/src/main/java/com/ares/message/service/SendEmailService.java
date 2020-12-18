@@ -32,7 +32,7 @@ public class SendEmailService {
         try {
             SysTemplate template = sysTemplateDao.getByName("test");
             List<String> receivers = Arrays.asList(new String[]{"2862322640@qq.com"});
-            Map<String, Object> var = new HashMap<>();
+            Map<String, Object> var = new HashMap<>(10);
             var.put("name", "这是测试");
 
             DefaultMessage message = DefaultMessage.newInstance()

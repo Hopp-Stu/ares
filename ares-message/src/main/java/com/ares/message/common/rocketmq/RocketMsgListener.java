@@ -22,6 +22,7 @@ import java.util.List;
 public class RocketMsgListener implements MessageListenerConcurrently {
     @Autowired
     private RocketMQProperties properties;
+    private static int RECONSUME = 3;
 
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
@@ -32,7 +33,7 @@ public class RocketMsgListener implements MessageListenerConcurrently {
         log.info("接受到的消息为：" + new String(messageExt.getBody()));
         int reConsume = messageExt.getReconsumeTimes();
         // 消息已经重试了3次，如果不需要再次消费，则返回成功
-        if (reConsume == 3) {
+        if (reConsume == RECONSUME) {
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         }
         if (messageExt.getTopic().equals(properties.getPlatTopic())) {

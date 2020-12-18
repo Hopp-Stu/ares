@@ -44,4 +44,10 @@ public class ToolApiController {
     public String swagger() {
         return "redirect:/swagger-ui.html";
     }
+
+    @RequestMapping("tool/knife4j/index")
+    @ApiOperation(value = "knife4j接口",response = String.class)
+    public String knife4j() {
+        return "redirect:/doc.html";
+    }
 }

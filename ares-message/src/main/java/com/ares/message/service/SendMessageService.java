@@ -34,10 +34,10 @@ public class SendMessageService {
                 CompletableFuture.supplyAsync(new Supplier<Map<String, Object>>() {
                                                   @Override
                                                   public Map<String, Object> get() {
-                                                      Map<String, Object> map = new HashMap<>();
+                                                      Map<String, Object> map = new HashMap<>(10);
                                                       map.put("template", "");
                                                       map.put("receivers", new ArrayList<>());
-                                                      map.put("vars", new HashMap<>());
+                                                      map.put("vars", new HashMap<>(10));
                                                       return map;
                                                   }
                                               }

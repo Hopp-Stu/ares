@@ -24,7 +24,7 @@
         <include refid="Base_Column_List"/>
         )
         values (
-        #{Id,jdbcType=VARCHAR},
+        #{id,jdbcType=VARCHAR},
         #{dictSort,jdbcType=VARCHAR},
         #{dictLabel,jdbcType=VARCHAR},
         #{dictValue,jdbcType=VARCHAR},

@@ -22,7 +22,7 @@
         <include refid="Base_Column_List"/>
         )
         values (
-        #{Id,jdbcType=VARCHAR},
+        #{id,jdbcType=VARCHAR},
         #{dictName,jdbcType=VARCHAR},
         #{dictType,jdbcType=VARCHAR},
         #{status,jdbcType=VARCHAR},

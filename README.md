@@ -11,6 +11,8 @@ ares
 │
 ├─ares-core 核心模块
 │
+├─ares-generator 代码生成模块（待完善）
+│
 ├─ares-message  消息模块（待完善）
 │
 ├─ares-neo4j 图数据库模块（待开发）
@@ -23,7 +25,7 @@ ares
 │
 ├─ares-system-new 系统(使用spring-security)
 │
-├─ares-ui vue前端 参考若依vue前端http://www.ruoyi.vip
+├─ares-ui vue前端 
 │
 ├─doc sql及一些文件说明
 │

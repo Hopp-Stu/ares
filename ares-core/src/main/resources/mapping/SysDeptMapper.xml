@@ -23,7 +23,7 @@
         <include refid="Base_Column_List"/>
         )
         values (
-        #{Id,jdbcType=VARCHAR},
+        #{id,jdbcType=VARCHAR},
         #{code,jdbcType=VARCHAR},
         #{deptName,jdbcType=VARCHAR},
         #{parentDeptId,jdbcType=VARCHAR},

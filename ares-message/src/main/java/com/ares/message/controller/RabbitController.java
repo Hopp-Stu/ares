@@ -76,7 +76,7 @@ public class RabbitController {
 
     @PostMapping("addExchangeBindingQueueOfHeaderAll")
     public Object addExchangeBindingQueueOfHeaderAll(@RequestBody QueueConfig config) {
-        Map<String, Object> header = new HashMap<>();
+        Map<String, Object> header = new HashMap<>(10);
         header.put("queue", "queue");
         header.put("bindType", "whereAll");
         rabbitUtil.andExchangeBindingQueue(RabbitUtil.ExchangeType.HEADERS, config.getExchangeName(), config.getQueueName(), null, true, header);
@@ -85,7 +85,7 @@ public class RabbitController {
 
     @PostMapping("addExchangeBindingQueueOfHeaderAny")
     public Object addExchangeBindingQueueOfHeaderAny(@RequestBody QueueConfig config) {
-        Map<String, Object> header = new HashMap<>();
+        Map<String, Object> header = new HashMap<>(10);
         header.put("queue", "queue");
         header.put("bindType", "whereAny");
         rabbitUtil.andExchangeBindingQueue(RabbitUtil.ExchangeType.HEADERS, config.getExchangeName(), config.getQueueName(), null, false, header);

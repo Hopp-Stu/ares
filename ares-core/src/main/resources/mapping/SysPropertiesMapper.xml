@@ -21,7 +21,7 @@
     <insert id="insert" parameterType="com.ares.core.model.SysProperties">
         insert into `sys_properties` (<include refid="Base_Column_List"/>)
         values (
-        #{Id,jdbcType=VARCHAR},
+        #{id,jdbcType=VARCHAR},
         #{alias,jdbcType=VARCHAR},
         #{creator,jdbcType=VARCHAR},
         #{description,jdbcType=VARCHAR},

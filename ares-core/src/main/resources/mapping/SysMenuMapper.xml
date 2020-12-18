@@ -26,7 +26,7 @@
     <insert id="insert" parameterType="com.ares.core.model.SysMenu">
         insert into sys_menu (<include refid="Base_Column_List"/>)
         values (
-        #{Id,jdbcType=VARCHAR},
+        #{id,jdbcType=VARCHAR},
         #{name,jdbcType=VARCHAR},
         #{description,jdbcType=VARCHAR},
         #{url,jdbcType=VARCHAR},

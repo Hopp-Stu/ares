@@ -54,20 +54,20 @@ class AresApplicationTests {
 
     @Test
     public void freeMarkerTest() {
-        FreeMarkerGeneratorUtil.generatorMvcCode(
-                generator.getDriverClassName(),
-                generator.getUrl(),
-                generator.getUsername(),
-                generator.getPassword(),
-                generator.getTableName(),
-                generator.getDatabaseName(),
-                generator.getTablePrefix(),
-                generator.getGenenaterLevel(),
-                generator.getBasePackage(),
-                generator.getDaoPackage(),
-                generator.getXmlDir(),
-                generator.getServicePackage(),
-                generator.getControllerPackage());
+//        FreeMarkerGeneratorUtil.generatorMvcCode(
+//                generator.getDriverClassName(),
+//                generator.getUrl(),
+//                generator.getUsername(),
+//                generator.getPassword(),
+//                generator.getTableName(),
+//                generator.getDatabaseName(),
+//                generator.getTablePrefix(),
+//                generator.getGenenaterLevel(),
+//                generator.getBasePackage(),
+//                generator.getDaoPackage(),
+//                generator.getXmlDir(),
+//                generator.getServicePackage(),
+//                generator.getControllerPackage());
     }
 
     @Test
@@ -79,15 +79,15 @@ class AresApplicationTests {
 
     @Test
     public void freeMarkerTest1() {
-        byte[] aaa = FreeMarkerGeneratorUtil.generator(
-                generator.getDriverClassName(),
-                generator.getUrl(),
-                generator.getUsername(),
-                generator.getPassword(),
-                generator.getTableName(),
-                generator.getDatabaseName(),
-                generator.getTablePrefix());
-        System.out.println(aaa);
+//        byte[] aaa = FreeMarkerGeneratorUtil.generator(
+//                generator.getDriverClassName(),
+//                generator.getUrl(),
+//                generator.getUsername(),
+//                generator.getPassword(),
+//                generator.getTableName(),
+//                generator.getDatabaseName(),
+//                generator.getTablePrefix());
+//        System.out.println(aaa);
     }
 
     @Test

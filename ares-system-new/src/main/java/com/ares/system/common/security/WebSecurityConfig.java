@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
+                .antMatchers("/doc.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();

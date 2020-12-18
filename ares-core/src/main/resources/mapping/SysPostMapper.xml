@@ -20,7 +20,7 @@
         <include refid="Base_Column_List"/>
         )
         values (
-        #{Id,jdbcType=VARCHAR},
+        #{id,jdbcType=VARCHAR},
         #{postCode,jdbcType=VARCHAR},
         #{postName,jdbcType=VARCHAR},
         #{creator,jdbcType=VARCHAR},
