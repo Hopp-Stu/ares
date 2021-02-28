@@ -15,10 +15,14 @@
     <packaging>jar</packaging>
 
     <properties>
-        <durid.version>1.1.21</durid.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.ares.config</groupId>
+            <artifactId>ares-config</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>

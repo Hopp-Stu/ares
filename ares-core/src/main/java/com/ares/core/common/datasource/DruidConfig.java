@@ -31,15 +31,15 @@ public class DruidConfig {
     private boolean neo4jEnabled = false;
 
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.mysql")
+    @ConfigurationProperties("spring.datasource.druid.master")
     public DataSource mysqlDataSource(DruidProperties druidProperties) {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
         return druidProperties.dataSource(dataSource);
     }
 
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.neo4j")
-    @ConditionalOnProperty(prefix = "spring.datasource.druid.neo4j", name = "enabled", havingValue = "true")
+    @ConfigurationProperties("spring.datasource.druid.slave")
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave", name = "enabled", havingValue = "true")
     public DataSource noe4jDataSource(DruidProperties druidProperties) {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
         neo4jEnabled = true;
@@ -53,9 +53,9 @@ public class DruidConfig {
         String password = ((DruidDataSource) mysqlDataSource).getPassword();
         String key = ((DruidDataSource) mysqlDataSource).getConnectProperties().getProperty("config.decrypt.key");
         ((DruidDataSource) mysqlDataSource).setPassword(ConfigTools.decrypt(key, password));
-        targetDataSources.put(DataSourceType.MYSQL.name(), mysqlDataSource);
+        targetDataSources.put(DataSourceType.MASTER.name(), mysqlDataSource);
         if (neo4jEnabled) {
-            setDataSource(targetDataSources, DataSourceType.NEO4J.name(), "noe4jDataSource");
+            setDataSource(targetDataSources, DataSourceType.SALVE.name(), "noe4jDataSource");
         }
         return new DynamicDataSource(mysqlDataSource, targetDataSources);
     }

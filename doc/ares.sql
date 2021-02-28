@@ -164,7 +164,7 @@ INSERT INTO `sys_menu` VALUES ('4', '角色管理', '角色管理', 'role', '/sy
 INSERT INTO `sys_menu` VALUES ('405938773428408320', '服务器信息类', '服务器信息类', 'service', '/monitor/server/index', NULL, '383838051287306240', 'server', 3, 0, '#', 1, NULL, '2020-04-03 06:22:36', NULL, '2020-05-07 07:27:08');
 INSERT INTO `sys_menu` VALUES ('415363931222183936', '数据库监控', '数据库监控', 'druid', '/monitor/druid/index', NULL, '383838051287306240', 'druid', 5, 0, '#', 1, NULL, '2020-04-29 06:34:49', NULL, '2020-05-07 07:27:00');
 INSERT INTO `sys_menu` VALUES ('418561360864088064', '删除', NULL, NULL, '#', NULL, '382736944293089280', NULL, 1, 0, 'quartz:logDelete', 2, NULL, '2020-05-08 02:20:15', NULL, NULL);
-INSERT INTO `sys_menu` VALUES ('421142300119404544', '系统接口', NULL, 'swagger', '/tool/swagger/index', NULL, '383838051287306240', 'swagger', 1, 0, '#', 1, '1', '2020-05-15 05:15:59', '1', '2020-09-23 06:50:19');
+INSERT INTO `sys_menu` VALUES ('421142300119404544', '系统接口', NULL, 'swagger', '/tool/swagger/index', NULL, '383838051287306240', 'swagger', 1, 0, '#', 1, '1', '2020-05-15 05:15:59', '1', '2020-12-17 06:42:57');
 INSERT INTO `sys_menu` VALUES ('434952738292502528', '系统模版', NULL, 'template', '/system/template/index', NULL, '1', 'tab', 7, 0, 'sysTemplate:list', 1, '1', '2020-06-22 07:53:44', '1', '2020-09-23 06:48:56');
 INSERT INTO `sys_menu` VALUES ('434953623361949696', '编辑', NULL, NULL, '#', NULL, '434952738292502528', NULL, 1, 0, 'sysTemplate:edit', 2, '1', '2020-06-22 07:57:15', '1', '2020-06-22 07:57:25');
 INSERT INTO `sys_menu` VALUES ('434953738826944512', '删除', NULL, NULL, '#', NULL, '434952738292502528', NULL, 2, 0, 'sysTemplate:delete', 2, '1', '2020-06-22 07:57:43', NULL, NULL);
@@ -187,6 +187,7 @@ INSERT INTO `sys_menu` VALUES ('476964764061405184', '岗位管理', NULL, 'post
 INSERT INTO `sys_menu` VALUES ('476965210788335616', '新增/修改', NULL, NULL, '#', NULL, '476964764061405184', NULL, 1, 0, 'sysPost:edit', 2, '1', '2020-10-16 06:16:18', NULL, NULL);
 INSERT INTO `sys_menu` VALUES ('476965267143004160', '删除', NULL, NULL, '#', NULL, '476964764061405184', NULL, 2, 0, 'sysPost:delete', 2, '1', '2020-10-16 06:16:31', NULL, NULL);
 INSERT INTO `sys_menu` VALUES ('5', '代码生成', '代码生成', 'gen', '/tool/gen/index', 0, '383838051287306240', 'build', 4, 0, '#', 1, NULL, '2020-04-28 14:28:03', NULL, '2020-05-13 07:33:05');
+INSERT INTO `sys_menu` VALUES ('6', 'knife4j', 'knife4j', 'knife4j', '/tool/knife4j/index', 0, '383838051287306240', 'swagger', 2, 0, '#', 1, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -212,6 +213,29 @@ CREATE TABLE `sys_notice`  (
 INSERT INTO `sys_notice` VALUES ('466828250807668736', '通知', '1', '<p>通知123123123</p>', '0', '2020-09-30 15:00:00', '1', '2020-09-18 06:55:38', '1', '2020-09-25 06:17:29', NULL);
 INSERT INTO `sys_notice` VALUES ('466842367455006720', 'ddddd', '1', '<p>dqwdqwqdq</p><p>dqwqwd</p><p>dqwdqd</p><p>dqwdq</p>', '0', '2020-09-23 09:51:33', '1', '2020-09-18 07:51:44', '1', '2020-09-18 07:53:35', NULL);
 INSERT INTO `sys_notice` VALUES ('466842457729011712', 'dqwdqqwd', '2', '<p>dqwdqwdqwdqwqwdqwdqwffewfwefwefwefwefwefwefewfwedwedwdwedwewdwedwedwedwedwedwefwef</p>', '0', '2020-09-23 12:01:00', '1', '2020-09-18 07:52:06', '1', '2020-09-18 08:26:18', NULL);
+INSERT INTO `sys_notice` VALUES ('484566222382436352', '系统更新', '1', '<p>系统更新</p><p>系统更新</p><p>系统更新</p><p>系统更新</p><p>系统更新</p><p>系统更新</p><p>系统更新</p><p>系统更新</p>', '0', '2020-11-29 16:00:00', '1', '2020-11-06 05:40:00', NULL, NULL, NULL);
+INSERT INTO `sys_notice` VALUES ('484578087296700416', 'eqweq', '1', '<p>eqweqweqwe</p>', '0', '2020-11-18 16:00:00', '1', '2020-11-06 06:27:09', NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for sys_notice_read
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_notice_read`;
+CREATE TABLE `sys_notice_read`  (
+  `Id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `NoticeId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `UserId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `CreateTime` datetime(0) NULL DEFAULT NULL,
+  `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ModifyTime` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_notice_read
+-- ----------------------------
+INSERT INTO `sys_notice_read` VALUES ('484566253692915712', '484566222382436352', '1', '1', '2020-11-06 05:40:08', NULL, NULL);
+INSERT INTO `sys_notice_read` VALUES ('484578173128937472', '484578087296700416', '1', '1', '2020-11-06 06:27:30', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_permission
@@ -373,6 +397,7 @@ CREATE TABLE `sys_role_user`  (
 INSERT INTO `sys_role_user` VALUES ('418574260357959680', '1', '1');
 INSERT INTO `sys_role_user` VALUES ('476968734930636800', '380942348554735616', '381303138021412864');
 INSERT INTO `sys_role_user` VALUES ('476968822222491648', '383826362324094976', '381303138021412864');
+INSERT INTO `sys_role_user` VALUES ('499788550590566400', '499788550536040448', '381303138021412864');
 
 -- ----------------------------
 -- Table structure for sys_template
@@ -423,22 +448,7 @@ CREATE TABLE `sys_user`  (
 INSERT INTO `sys_user` VALUES ('1', 'admin', '管理员', '21232f297a57a5a743894a0e4a801fc3', '11111111', '11111111', 'RTpcR2l0SHViXGFyZXNcdXBsb2FkXGF2YXRhclwyMDIwLzEwLzEzXGJsb2IuanBlZw==', NULL, NULL, NULL, '2020-01-23 08:51:42', NULL, '2020-10-13 02:02:21');
 INSERT INTO `sys_user` VALUES ('380942348554735616', 'user', '用户1', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, '476951546261803008', '476965408843370496', NULL, '2020-01-25 06:55:44', '1', '2020-10-16 06:30:18');
 INSERT INTO `sys_user` VALUES ('383826362324094976', 'tttt', '测试', 'e10adc3949ba59abbe56e057f20f883e', NULL, 'eee', NULL, '476955797205684224', '476965363788156928', NULL, '2020-02-02 05:55:46', '1', '2020-10-16 06:30:39');
+INSERT INTO `sys_user` VALUES ('499788550536040448', 'test', 'test', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, NULL, '476955797205684224', '476965363788156928', '1', '2020-12-18 05:48:06', NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ----------------------------
--- Table structure for sys_notice_read
--- ----------------------------
-DROP TABLE IF EXISTS `sys_notice_read`;
-CREATE TABLE `sys_notice_read`  (
-  `Id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `NoticeId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `UserId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `CreateTime` datetime(0) NULL DEFAULT NULL,
-  `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ModifyTime` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`Id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
-SET FOREIGN_KEY_CHECKS = 1;

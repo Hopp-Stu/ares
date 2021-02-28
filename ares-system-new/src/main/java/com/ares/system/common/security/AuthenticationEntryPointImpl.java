@@ -1,6 +1,6 @@
 package com.ares.system.common.security;
 
-import com.ares.core.model.base.BaseResult;
+import com.ares.core.persistence.model.base.AjaxResult;
 import com.ares.system.utils.AresCommonUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -22,6 +22,6 @@ import java.io.Serializable;
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, Serializable {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        AresCommonUtils.writeResponse(httpServletResponse, BaseResult.error(500, e.getMessage()));
+        AresCommonUtils.writeResponse(httpServletResponse, AjaxResult.error(500, e.getMessage()));
     }
 }

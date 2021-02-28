@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.core.dao.ISysDeptDao">
-    <resultMap id="SysDept" type="com.ares.core.model.SysDept">
+<mapper namespace="com.ares.core.persistence.dao.ISysDeptDao">
+    <resultMap id="SysDept" type="com.ares.core.persistence.model.system.SysDept">
         <id column="Id" jdbcType="VARCHAR" property="id"/>
         <result column="Code" jdbcType="VARCHAR" property="code"/>
         <result column="DeptName" jdbcType="VARCHAR" property="deptName"/>
@@ -18,7 +18,7 @@
         `Id`,`Code`,`DeptName`,`ParentDeptId`, `Creator`,`CreateTime`,`Modifier`, `ModifyTime`
     </sql>
 
-    <insert id="insert" parameterType="com.ares.core.model.SysDept">
+    <insert id="insert" parameterType="com.ares.core.persistence.model.system.SysDept">
         insert into `sys_dept` (
         <include refid="Base_Column_List"/>
         )
@@ -34,7 +34,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.ares.core.model.SysDept">
+    <update id="update" parameterType="com.ares.core.persistence.model.system.SysDept">
         update `sys_dept`
         <set>
             <if test="code!= null">
@@ -93,7 +93,7 @@
         </if>
     </select>
 
-    <select id="selectList" parameterType="com.ares.core.model.SysDept" resultMap="SysDept">
+    <select id="selectList" parameterType="com.ares.core.persistence.model.system.SysDept" resultMap="SysDept">
         select
         <include refid="Base_Column_List"/>
         from `sys_dept`

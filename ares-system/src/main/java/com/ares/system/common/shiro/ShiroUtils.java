@@ -2,7 +2,7 @@ package com.ares.system.common.shiro;
 
 
 import com.ares.core.common.exception.UserException;
-import com.ares.core.model.SysUser;
+import com.ares.core.persistence.model.system.SysUser;
 import com.ares.core.utils.BeanUtils;
 import com.ares.core.utils.StringUtils;
 import org.apache.shiro.SecurityUtils;

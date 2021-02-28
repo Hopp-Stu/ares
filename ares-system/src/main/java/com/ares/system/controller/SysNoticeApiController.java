@@ -1,10 +1,10 @@
 package com.ares.system.controller;
 
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.SysNotice;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.page.TableDataInfo;
-import com.ares.core.service.SysNoticeService;
+import com.ares.core.persistence.model.system.SysNotice;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.page.TableDataInfo;
+import com.ares.core.persistence.service.SysNoticeService;
 import com.ares.core.utils.StringUtils;
 import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
@@ -39,7 +39,7 @@ public class SysNoticeApiController extends BaseController {
     @GetMapping("{noticeId}")
     @ApiOperation(value = "根据Id获取通知公告", response = Object.class)
     public Object getInfo(@PathVariable String noticeId) {
-        return BaseResult.successData(sysNoticeService.getById(noticeId));
+        return AjaxResult.successData(sysNoticeService.getById(noticeId));
     }
 
     @RequiresPermissions("notice:edit")
@@ -53,7 +53,7 @@ public class SysNoticeApiController extends BaseController {
             sysNotice.setModifier(ShiroUtils.getUserId());
             sysNoticeService.update(sysNotice);
         }
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     @RequiresPermissions("notice:delete")
@@ -61,18 +61,18 @@ public class SysNoticeApiController extends BaseController {
     @ApiOperation(value = "删除通知公告", response = Object.class)
     public Object remove(@PathVariable String[] noticeIds) {
         sysNoticeService.deleteByIds(Arrays.asList(noticeIds));
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     @GetMapping("noticeNum")
     @ApiOperation(value = "获取通知公告数量", response = Object.class)
     public Object noticeNum() throws Exception {
-        return BaseResult.successData(sysNoticeService.noticeNum(ShiroUtils.getUserId()));
+        return AjaxResult.successData(sysNoticeService.noticeNum(ShiroUtils.getUserId()));
     }
 
     @GetMapping("getNotices")
     @ApiOperation(value = "通知公告时间线", response = Object.class)
     public Object getNotices() throws Exception {
-        return BaseResult.successData(sysNoticeService.getNotices(ShiroUtils.getUserId()));
+        return AjaxResult.successData(sysNoticeService.getNotices(ShiroUtils.getUserId()));
     }
 }

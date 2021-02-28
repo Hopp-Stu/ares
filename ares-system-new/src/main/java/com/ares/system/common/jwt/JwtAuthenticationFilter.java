@@ -1,6 +1,6 @@
 package com.ares.system.common.jwt;
 
-import com.ares.core.model.base.BaseResult;
+import com.ares.core.persistence.model.base.AjaxResult;
 import com.ares.system.common.security.SecurityUtils;
 import com.ares.system.utils.AresCommonUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             SecurityUtils.checkAuthentication(request);
             chain.doFilter(request, response);
         } catch (Exception e) {
-            AresCommonUtils.writeResponse(response, BaseResult.unLogin());
+            AresCommonUtils.writeResponse(response, AjaxResult.unLogin());
         }
     }
 }

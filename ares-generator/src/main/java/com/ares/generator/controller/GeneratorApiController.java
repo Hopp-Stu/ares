@@ -2,11 +2,11 @@ package com.ares.generator.controller;
 
 
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.page.TableDataInfo;
+import com.ares.core.persistence.model.page.TableDataInfo;
 import com.ares.core.utils.DateUtils;
 import com.ares.core.utils.ServletUtils;
-import com.ares.generator.service.AutoGeneratorService;
-import com.ares.generator.service.GeneratorService;
+import com.ares.generator.persistence.service.AutoGeneratorService;
+import com.ares.generator.persistence.service.GeneratorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;

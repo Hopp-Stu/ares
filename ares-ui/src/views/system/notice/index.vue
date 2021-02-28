@@ -80,6 +80,7 @@
     </el-row>
 
     <el-table
+      border
       v-loading="loading"
       :data="noticeList"
       @selection-change="handleSelectionChange"

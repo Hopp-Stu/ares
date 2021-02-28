@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.neo4j.dao.INeo4jCommonDao">
-    <resultMap id="common" type="com.ares.neo4j.model.Neo4jCommon">
+<mapper namespace="com.ares.neo4j.persistence.dao.INeo4jCommonDao">
+    <resultMap id="common" type="com.ares.neo4j.persistence.model.Neo4jCommon">
         
     </resultMap>
 
@@ -9,7 +9,7 @@
         create(u:book{name:#{model.name},author:#{model.author}})
     </insert>
 
-    <insert id="create" parameterType="com.ares.neo4j.model.Neo4jCommon">
+    <insert id="create" parameterType="com.ares.neo4j.persistence.model.Neo4jCommon">
         create(#{nodeName}
         <foreach collection="labelName" item="label" open="{" separator="," close="}">
             #{label}
@@ -17,7 +17,7 @@
         )
     </insert>
 
-    <insert id="createRelationShip" parameterType="com.ares.neo4j.model.Neo4jCommon">
+    <insert id="createRelationShip" parameterType="com.ares.neo4j.persistence.model.Neo4jCommon">
         match (#{nodeLabelName1}:#{nodeName1},#{nodeLabelName2}:#{nodeName2})
         create (#{nodeLabelName1})-[#{relationshipLabelName}:#{relationshipName}]-(#{nodeLabelName2})
         return #{relationshipLabelName}

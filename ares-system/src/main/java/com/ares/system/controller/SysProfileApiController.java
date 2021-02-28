@@ -2,11 +2,11 @@ package com.ares.system.controller;
 
 
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.SysDept;
-import com.ares.core.model.SysPost;
-import com.ares.core.model.SysUser;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.service.*;
+import com.ares.core.persistence.model.system.SysDept;
+import com.ares.core.persistence.model.system.SysPost;
+import com.ares.core.persistence.model.system.SysUser;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.service.*;
 import com.ares.core.utils.EncryptUtils;
 import com.ares.core.utils.MD5Util;
 import com.ares.system.common.shiro.ShiroUtils;
@@ -49,7 +49,7 @@ public class SysProfileApiController extends BaseController {
         SysUser user = ShiroUtils.getUser();
         SysDept sysDept = deptService.getById(user.getDeptId());
         SysPost sysPost = postService.getById(user.getPostId());
-        BaseResult result = BaseResult.successData(user);
+        AjaxResult result = AjaxResult.successData(user);
         result.put("roleGroup", userService.selectUserRoleGroup(user.getId()));
         result.put("deptGroup", null != sysDept ? sysDept.getDeptName() : "");
         result.put("postGroup", null != sysPost ? sysPost.getPostName() : "");
@@ -64,7 +64,7 @@ public class SysProfileApiController extends BaseController {
     public Object updateProfile(@RequestBody SysUser user) {
         userService.update(user);
         ShiroUtils.setUser(user);
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     /**
@@ -75,18 +75,18 @@ public class SysProfileApiController extends BaseController {
     public Object updatePwd(String oldPassword, String newPassword) throws Exception {
         SysUser user = ShiroUtils.getUser();
         if (!user.getPassword().equals(MD5Util.encode(oldPassword))) {
-            return BaseResult.error("修改密码失败，旧密码错误");
+            return AjaxResult.error("修改密码失败，旧密码错误");
         }
         if (user.getPassword().equals(MD5Util.encode(newPassword))) {
-            return BaseResult.error("新密码不能与旧密码相同");
+            return AjaxResult.error("新密码不能与旧密码相同");
         }
         if (userService.updatePassword(user, newPassword) > 0) {
             user.setPassword(MD5Util.encode(newPassword));
             ShiroUtils.setUser(user);
             // 更新缓存用户密码
-            return BaseResult.success();
+            return AjaxResult.success();
         }
-        return BaseResult.error("修改密码异常，请联系管理员");
+        return AjaxResult.error("修改密码异常，请联系管理员");
     }
 
     /**
@@ -101,9 +101,9 @@ public class SysProfileApiController extends BaseController {
             String avatar = uploadService.upload(path, file);
             user.setAvatar(EncryptUtils.encode(avatar));
             userService.update(user);
-            return BaseResult.success().put("imgUrl", EncryptUtils.encode(avatar));
+            return AjaxResult.success().put("imgUrl", EncryptUtils.encode(avatar));
         }
-        return BaseResult.error("上传图片异常，请联系管理员!");
+        return AjaxResult.error("上传图片异常，请联系管理员!");
     }
 
     @GetMapping("{path}")

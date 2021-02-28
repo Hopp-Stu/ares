@@ -1,7 +1,7 @@
 package com.ares.quartz.common.quartz;
 
 
-import com.ares.quartz.model.SysQuartzJob;
+import com.ares.quartz.persistence.model.SysQuartzJob;
 import com.ares.quartz.utils.JobInvokeUtil;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;

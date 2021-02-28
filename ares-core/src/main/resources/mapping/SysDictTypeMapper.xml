@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.core.dao.ISysDictTypeDao">
-    <resultMap id="SysDictType" type="com.ares.core.model.SysDictType">
+<mapper namespace="com.ares.core.persistence.dao.ISysDictTypeDao">
+    <resultMap id="SysDictType" type="com.ares.core.persistence.model.system.SysDictType">
         <id column="Id" jdbcType="VARCHAR" property="id"/>
         <result column="DictName" jdbcType="VARCHAR" property="dictName"/>
         <result column="DictType" jdbcType="VARCHAR" property="dictType"/>
@@ -17,7 +17,7 @@
         `Id`,`DictName`,`DictType`,`Status`,`Remark`, `Creator`,`CreateTime`,`Modifier`, `ModifyTime`
     </sql>
 
-    <insert id="insert" parameterType="com.ares.core.model.SysDictType">
+    <insert id="insert" parameterType="com.ares.core.persistence.model.system.SysDictType">
         insert into `sys_dict_type` (
         <include refid="Base_Column_List"/>
         )
@@ -34,7 +34,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.ares.core.model.SysDictType">
+    <update id="update" parameterType="com.ares.core.persistence.model.system.SysDictType">
         update `sys_dict_type`
         <set>
             <if test="dictName!= null">
@@ -96,7 +96,7 @@
         </if>
     </select>
 
-    <select id="selectList" parameterType="com.ares.core.model.SysDictType" resultMap="SysDictType">
+    <select id="selectList" parameterType="com.ares.core.persistence.model.system.SysDictType" resultMap="SysDictType">
         select
         <include refid="Base_Column_List"/>
         from `sys_dict_type`

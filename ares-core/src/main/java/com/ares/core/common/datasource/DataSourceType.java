@@ -8,5 +8,7 @@ package com.ares.core.common.datasource;
  **/
 public enum DataSourceType {
     MYSQL,
-    NEO4J
+    NEO4J,
+    MASTER,
+    SALVE
 }

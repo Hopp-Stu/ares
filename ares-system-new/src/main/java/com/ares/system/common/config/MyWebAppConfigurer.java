@@ -1,7 +1,7 @@
 package com.ares.system.common.config;
 
 
-import com.ares.core.common.config.BaseConfig;
+import com.ares.config.base.BaseConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.core.dao.ISysNoticeDao">
-    <resultMap id="SysNotice" type="com.ares.core.model.SysNotice">
+<mapper namespace="com.ares.core.persistence.dao.ISysNoticeDao">
+    <resultMap id="SysNotice" type="com.ares.core.persistence.model.system.SysNotice">
         <id column="Id" jdbcType="VARCHAR" property="id"/>
         <result column="Deadline" jdbcType="TIMESTAMP" property="deadline"/>
         <result column="NoticeContent" jdbcType="VARCHAR" property="noticeContent"/>
@@ -19,7 +19,7 @@
         `Id`,`Deadline`,`NoticeContent`,`NoticeStatus`,`NoticeTitle`,`NoticeType`,`Remark`, `Creator`,`CreateTime`,`Modifier`, `ModifyTime`
     </sql>
 
-    <insert id="insert" parameterType="com.ares.core.model.SysNotice">
+    <insert id="insert" parameterType="com.ares.core.persistence.model.system.SysNotice">
         insert into `sys_notice` (
         <include refid="Base_Column_List"/>
         )
@@ -38,7 +38,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.ares.core.model.SysNotice">
+    <update id="update" parameterType="com.ares.core.persistence.model.system.SysNotice">
         update `sys_notice`
         <set>
             <if test="deadline!= null">
@@ -106,7 +106,7 @@
         </if>
     </select>
 
-    <select id="selectList" parameterType="com.ares.core.model.SysNotice" resultMap="SysNotice">
+    <select id="selectList" parameterType="com.ares.core.persistence.model.system.SysNotice" resultMap="SysNotice">
         select
         <include refid="Base_Column_List"/>
         from `sys_notice`

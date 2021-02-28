@@ -13,6 +13,7 @@
     <artifactId>ares</artifactId>
     <packaging>pom</packaging>
     <version>2.0</version>
+    <description>my first springboot project</description>
 
     <modules>
         <module>ares-core</module>
@@ -26,31 +27,31 @@
         <module>ares-system</module>
         <module>ares-system-new</module>
         <module>ares-generator</module>
+        <module>ares-config</module>
     </modules>
 
     <properties>
         <ares.version>1.0</ares.version>
         <java.version>11</java.version>
         <mysql.version>8.0.18</mysql.version>
-        <shiro.version>1.4.2</shiro.version>
+        <mybatis.version>2.1.1</mybatis.version>
+        <mybatis-generator.version>1.4.0</mybatis-generator.version>
+        <pagehelper.version>1.2.13</pagehelper.version>
         <durid.version>1.2.2</durid.version>
         <fastjson.version>1.2.74</fastjson.version>
         <gson.version>2.8.6</gson.version>
         <swagger.version>2.9.2</swagger.version>
         <knife4j.version>2.0.4</knife4j.version>
-        <mybatis.version>2.1.1</mybatis.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <commons.version>2.6</commons.version>
-        <mybatis-generator.version>1.4.0</mybatis-generator.version>
-        <pagehelper.version>1.2.13</pagehelper.version>
-        <aspectjweaver.version>1.9.5</aspectjweaver.version>
+        <aspectjweaver.version>1.9.6</aspectjweaver.version>
         <hutool.version>5.1.2</hutool.version>
         <jython.version>2.7.1</jython.version>
-        <myexcel.version>3.7.0</myexcel.version>
         <thymeleaf-extras-shiro.version>2.0.0</thymeleaf-extras-shiro.version>
         <oshi-core.version>5.0.0</oshi-core.version>
         <jna.version>5.5.0</jna.version>
         <jwt.version>3.10.3</jwt.version>
+        <myexcel.version>3.7.0</myexcel.version>
         <easyexcel.version>2.2.6</easyexcel.version>
     </properties>
 

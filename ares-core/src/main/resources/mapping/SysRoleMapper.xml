@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.core.dao.ISysRoleDao">
-    <resultMap id="SysRole" type="com.ares.core.model.SysRole">
+<mapper namespace="com.ares.core.persistence.dao.ISysRoleDao">
+    <resultMap id="SysRole" type="com.ares.core.persistence.model.system.SysRole">
         <id column="Id" jdbcType="VARCHAR" property="id"/>
         <result column="RoleName" jdbcType="VARCHAR" property="roleName"/>
         <result column="Description" jdbcType="VARCHAR" property="description"/>
@@ -13,13 +13,13 @@
     <sql id="Base_Column_List">
         `Id`, `RoleName`, `Description`,`Creator`, `CreateTime`, `Modifier`,`ModifyTime`
     </sql>
-    <insert id="insert" parameterType="com.ares.core.model.SysRole">
+    <insert id="insert" parameterType="com.ares.core.persistence.model.system.SysRole">
       insert into `sys_role` (`Id`, `RoleName`, `Description`, `Creator`, `CreateTime`, `Modifier,``ModifyTime`)
       values (#{id,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
          #{creator,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},
          #{modifier,jdbcType=VARCHAR},#{modifyTime,jdbcType=TIMESTAMP})
     </insert>
-    <update id="update" parameterType="com.ares.core.model.SysRole">
+    <update id="update" parameterType="com.ares.core.persistence.model.system.SysRole">
         update `sys_role`
         <set>
             <if test="roleName != null">
@@ -103,7 +103,7 @@
         delete from sys_role_user where UserId = #{userId,jdbcType=VARCHAR}
     </delete>
 
-    <select id="selectList" parameterType="com.ares.core.model.SysRole" resultMap="SysRole">
+    <select id="selectList" parameterType="com.ares.core.persistence.model.system.SysRole" resultMap="SysRole">
         select
         <include refid="Base_Column_List"/>
         from `sys_role`

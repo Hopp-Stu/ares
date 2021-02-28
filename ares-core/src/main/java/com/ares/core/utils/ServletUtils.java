@@ -1,7 +1,7 @@
 package com.ares.core.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.ares.core.model.base.Constants;
+import com.ares.core.persistence.model.base.Constants;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

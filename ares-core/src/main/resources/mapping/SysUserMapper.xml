@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.core.dao.ISysUserDao">
-    <resultMap id="SysUser" type="com.ares.core.model.SysUser">
+<mapper namespace="com.ares.core.persistence.dao.ISysUserDao">
+    <resultMap id="SysUser" type="com.ares.core.persistence.model.system.SysUser">
         <id column="Id" jdbcType="VARCHAR" property="id"/>
         <result column="Account" jdbcType="VARCHAR" property="account"/>
         <result column="UserName" jdbcType="VARCHAR" property="userName"/>
@@ -19,7 +19,7 @@
     <sql id="Base_Column_List">
         `Id`, `Account`, `UserName`, `Password`,`PhoneNumber`,`Email`,`DeptId`,`PostId`,`Avatar`,`Creator` ,`CreateTime`,`Modifier`, `ModifyTime`
     </sql>
-    <insert id="insert" parameterType="com.ares.core.model.SysUser">
+    <insert id="insert" parameterType="com.ares.core.persistence.model.system.SysUser">
       insert into `sys_user` (`Id`, `Account`, `UserName`,`Password`,`PhoneNumber`,`Email`,`Avatar`,`DeptId`,`PostId`,`Creator` ,`CreateTime`,`Modifier`, `ModifyTime`)
       values (#{id,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
         #{password,jdbcType=VARCHAR},#{phoneNumber,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},
@@ -27,7 +27,7 @@
         #{creator,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},
         #{modifier,jdbcType=VARCHAR},#{modifyTime,jdbcType=TIMESTAMP})
     </insert>
-    <update id="update" parameterType="com.ares.core.model.SysUser">
+    <update id="update" parameterType="com.ares.core.persistence.model.system.SysUser">
         update `sys_user`
         <set>
             <if test="account != null">
@@ -136,7 +136,7 @@
         )
     </select>
     
-    <select id="selectList" parameterType="com.ares.core.model.SysUser" resultMap="SysUser">
+    <select id="selectList" parameterType="com.ares.core.persistence.model.system.SysUser" resultMap="SysUser">
         select
         <include refid="Base_Column_List"/>
         from `sys_user`

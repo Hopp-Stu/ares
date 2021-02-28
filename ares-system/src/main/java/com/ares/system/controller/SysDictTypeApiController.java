@@ -1,10 +1,10 @@
 package com.ares.system.controller;
 
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.SysDictType;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.page.TableDataInfo;
-import com.ares.core.service.SysDictTypeService;
+import com.ares.core.persistence.model.system.SysDictType;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.page.TableDataInfo;
+import com.ares.core.persistence.service.SysDictTypeService;
 import com.ares.core.utils.StringUtils;
 import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
@@ -39,7 +39,7 @@ public class SysDictTypeApiController extends BaseController {
     @GetMapping("{sysDictTypeId}")
     @ApiOperation(value = "根据Id获取字典类别", response = Object.class)
     public Object getInfo(@PathVariable String sysDictTypeId) {
-        return BaseResult.successData(sysDictTypeService.getById(sysDictTypeId));
+        return AjaxResult.successData(sysDictTypeService.getById(sysDictTypeId));
     }
 
     @RequiresPermissions("sysDictType:edit")
@@ -53,7 +53,7 @@ public class SysDictTypeApiController extends BaseController {
             sysDictType.setModifier(ShiroUtils.getUserId());
             sysDictTypeService.update(sysDictType);
         }
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     @RequiresPermissions("sysDictType:delete")
@@ -61,7 +61,7 @@ public class SysDictTypeApiController extends BaseController {
     @ApiOperation(value = "删除字典类别", response = Object.class)
     public Object remove(@PathVariable String[] sysDictTypeIds) {
         sysDictTypeService.deleteByIds(Arrays.asList(sysDictTypeIds));
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
 }

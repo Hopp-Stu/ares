@@ -3,16 +3,25 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      db-type: mysql
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/springbootv1?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
-      username: root
-      password: MZnC0SMIlW3+Pat1CqL1U8Mv7Fw8n2D/RMMWHPzT3mzvcbhtNlAsnaDSSmVLIJs3zGjjYcGxoKEhCO6uiTFDMw==
+      master:
+        db-type: mysql
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/springbootv1?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+        username: root
+        password: MZnC0SMIlW3+Pat1CqL1U8Mv7Fw8n2D/RMMWHPzT3mzvcbhtNlAsnaDSSmVLIJs3zGjjYcGxoKEhCO6uiTFDMw==
+        connection-properties: config.decrypt=true;config.decrypt.key=${public-key};druid.stat.mergeSql=true;druid.stat.logSlowSql=true;druid.stat.slowSqlMillis=3000
+      slave:
+        enabled: false
+        db-type: neo4j
+        driver-class-name: org.neo4j.jdbc.bolt.BoltDriver
+        url: jdbc:neo4j:bolt://localhost:7687
+        username: neo4j
+        password: admin
       initial-size: 5
       min-idle: 5
       max-active: 20
-      max-wait: 60000
-      time-between-eviction-runs-millis: 2000
+      max-wait: 600000
+      time-between-eviction-runs-millis: 200000
       min-evictable-idle-time-millis: 600000
       max-evictable-idle-time-millis: 900000
       remove-abandoned: true
@@ -21,10 +30,9 @@ spring:
       test-while-idle: true
       test-on-borrow: false
       test-on-return: false
-      connection-properties: config.decrypt=true;config.decrypt.key=${public-key};druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 50
-      filters: stat,wall,slf4j,config
+      filters: stat,wall,slf4j
       web-stat-filter:
         enabled: true
         exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
@@ -32,8 +40,8 @@ spring:
         enabled: true
         reset-enable: false
         url-pattern: /druid/*
-#        login-username: admin
-#        login-password: admin
+      #        login-username: admin
+      #        login-password: admin
       filter:
         slf4j:
           enable: true
@@ -41,3 +49,17 @@ spring:
           statement-close-after-log-enabled: false
           result-set-open-after-log-enabled: false
           result-set-close-after-log-enabled: false
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: root
+    database: 0
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 500
+        min-idle: 0
+    lettuce:
+      shutdown-timeout: 0

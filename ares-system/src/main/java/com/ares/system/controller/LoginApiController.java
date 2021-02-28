@@ -2,14 +2,14 @@ package com.ares.system.controller;
 
 
 import com.ares.core.common.config.BaseConfig;
-import com.ares.core.model.SysMenu;
-import com.ares.core.model.SysRole;
-import com.ares.core.model.SysUser;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.base.Constants;
-import com.ares.core.service.SysMenuService;
-import com.ares.core.service.SysRoleService;
-import com.ares.core.service.SysUserService;
+import com.ares.core.persistence.model.system.SysMenu;
+import com.ares.core.persistence.model.system.SysRole;
+import com.ares.core.persistence.model.system.SysUser;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.base.Constants;
+import com.ares.core.persistence.service.SysMenuService;
+import com.ares.core.persistence.service.SysRoleService;
+import com.ares.core.persistence.service.SysUserService;
 import com.ares.core.utils.MD5Util;
 import com.ares.core.utils.ServletUtils;
 import com.ares.redis.utils.RedisUtil;
@@ -74,7 +74,7 @@ public class LoginApiController {
         String uuid = String.valueOf(map.get("uuid"));
 
         if (!AresCommonUtils.checkVerifyCode(code, uuid)) {
-            return BaseResult.error(500, "验证码错误");
+            return AjaxResult.error(500, "验证码错误");
         }
         Subject currentUser = SecurityUtils.getSubject();
         if (!currentUser.isAuthenticated()) {
@@ -86,29 +86,29 @@ public class LoginApiController {
                 if (MD5Util.encode(password).equals(user.getPassword())) {
                     RedisUtil.set(loginToken, ShiroUtils.getUser(), config.getTimeout());
                     RedisUtil.set(Constants.LOGIN_INFO + userName, loginToken, config.getTimeout());
-                    return BaseResult.success().put("token", loginToken);
+                    return AjaxResult.success().put("token", loginToken);
                 } else {
-                    return BaseResult.error(500, "用户名或密码不正确");
+                    return AjaxResult.error(500, "用户名或密码不正确");
                 }
             } catch (UnknownAccountException uae) {
                 logger.info("对用户[" + userName + "]进行登录验证..验证未通过,未知账户");
-                return BaseResult.error(500, "未知账户");
+                return AjaxResult.error(500, "未知账户");
             } catch (IncorrectCredentialsException ice) {
                 logger.info("对用户[" + userName + "]进行登录验证..验证未通过,错误的凭证");
-                return BaseResult.error(500, "用户名或密码不正确");
+                return AjaxResult.error(500, "用户名或密码不正确");
             } catch (LockedAccountException lae) {
                 logger.info("对用户[" + userName + "]进行登录验证..验证未通过,账户已锁定");
-                return BaseResult.error(500, "账户已锁定");
+                return AjaxResult.error(500, "账户已锁定");
             } catch (ExcessiveAttemptsException eae) {
                 logger.info("对用户[" + userName + "]进行登录验证..验证未通过,错误次数过多");
-                return BaseResult.error(500, "用户名或密码错误次数过多");
+                return AjaxResult.error(500, "用户名或密码错误次数过多");
             } catch (AuthenticationException ae) {
                 logger.info("对用户[" + userName + "]进行登录验证..验证未通过,堆栈轨迹如下");
                 ae.printStackTrace();
-                return BaseResult.error(500, "用户名或密码不正确");
+                return AjaxResult.error(500, "用户名或密码不正确");
             }
         }
-        return BaseResult.unLogin();
+        return AjaxResult.unLogin();
     }
 
     @RequestMapping("loginOut")
@@ -120,21 +120,21 @@ public class LoginApiController {
         String token = request.getHeader(Constants.TOKEN);
         token = token.replace(Constants.TOKEN_PREFIX, "");
         RedisUtil.del(token, Constants.LOGIN_INFO + JwtUtil.getUsername(token));
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     @RequestMapping("unAuth")
     @ResponseBody
     @ApiOperation(value = "未登录",response = Object.class)
     public Object unAuth(HttpServletRequest request, HttpServletResponse response) {
-        return BaseResult.unLogin();
+        return AjaxResult.unLogin();
     }
 
     @RequestMapping("unauthorized")
     @ResponseBody
     @ApiOperation(value = "无权限",response = Object.class)
     public Object unauthorized(HttpServletRequest request, HttpServletResponse response) {
-        return BaseResult.error(HttpStatus.UNAUTHORIZED.value(), "用户无权限！");
+        return AjaxResult.error(HttpStatus.UNAUTHORIZED.value(), "用户无权限！");
     }
 
     @RequestMapping("getInfo")
@@ -157,7 +157,7 @@ public class LoginApiController {
             }
             roles.add(role.getRoleName());
         }
-        return BaseResult.success().put("user", user).put("roles", roles).put("permissions", permissions);
+        return AjaxResult.success().put("user", user).put("roles", roles).put("permissions", permissions);
     }
 
     @RequestMapping("getRouters")
@@ -166,7 +166,7 @@ public class LoginApiController {
     public Object getRouters() throws Exception {
         SysUser user = ShiroUtils.getUser();
         List<SysMenu> menus = menuService.getAll(user.getId());
-        return BaseResult.successData(HttpStatus.OK.value(), menuService.buildMenus(menus, "0"));
+        return AjaxResult.successData(HttpStatus.OK.value(), menuService.buildMenus(menus, "0"));
     }
 
     @RequestMapping("/kaptcha")
@@ -180,7 +180,7 @@ public class LoginApiController {
         BufferedImage bi = producer.createImage(capText);
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             ImageIO.write(bi, "jpg", byteArrayOutputStream);
-            return BaseResult.success().put("img", Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray())).put("uuid", uuid);
+            return AjaxResult.success().put("img", Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray())).put("uuid", uuid);
         }
     }
 }

@@ -3,9 +3,9 @@ package com.ares.quartz.common.quartz;
 
 import com.ares.core.utils.SpringUtils;
 import com.ares.core.utils.StringUtils;
-import com.ares.quartz.model.SysQuartzJob;
-import com.ares.quartz.model.SysQuartzJobLog;
-import com.ares.quartz.service.SysQuartzJobLogService;
+import com.ares.quartz.persistence.model.SysQuartzJob;
+import com.ares.quartz.persistence.model.SysQuartzJobLog;
+import com.ares.quartz.persistence.service.SysQuartzJobLogService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

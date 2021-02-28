@@ -1,7 +1,7 @@
 package com.ares.system.common.jwt;
 
 
-import com.ares.core.model.base.Constants;
+import com.ares.core.persistence.model.base.Constants;
 import com.ares.redis.utils.RedisUtil;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;

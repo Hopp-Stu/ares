@@ -2,11 +2,11 @@ package com.ares.system.controller;
 
 
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.page.TableDataInfo;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.page.TableDataInfo;
 import com.ares.core.utils.StringUtils;
-import com.ares.quartz.model.SysQuartzJob;
-import com.ares.quartz.service.SysQuartzJobService;
+import com.ares.quartz.persistence.model.SysQuartzJob;
+import com.ares.quartz.persistence.service.SysQuartzJobService;
 import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +43,7 @@ public class SysJobApiController extends BaseController {
     @GetMapping("{jobId}")
     @ApiOperation(value = "根据任务Id获取任务", response = Object.class)
     public Object getInfo(@PathVariable String jobId) {
-        return BaseResult.successData(jobService.getById(jobId));
+        return AjaxResult.successData(jobService.getById(jobId));
     }
 
     @RequiresPermissions("quartz:edit")
@@ -52,7 +52,7 @@ public class SysJobApiController extends BaseController {
     public Object edit(@Validated @RequestBody SysQuartzJob job) throws Exception {
         if (StringUtils.isEmpty(job.getId())) {
             if (jobService.checkUnique(job.getJobName()) != 0) {
-                return BaseResult.error("新增任务'" + job.getJobName() + "'失败，任务名称已存在");
+                return AjaxResult.error("新增任务'" + job.getJobName() + "'失败，任务名称已存在");
             }
             job.setCreator(ShiroUtils.getUserId());
             jobService.insert(job);
@@ -60,7 +60,7 @@ public class SysJobApiController extends BaseController {
             job.setModifier(ShiroUtils.getUserId());
             jobService.update(job);
         }
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     @RequiresPermissions("quartz:delete")
@@ -68,7 +68,7 @@ public class SysJobApiController extends BaseController {
     @ApiOperation(value = "删除任务", response = Object.class)
     public Object remove(@PathVariable String[] jobIds) {
         jobService.deleteByIds(Arrays.asList(jobIds));
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     @PutMapping("changeStatus")
@@ -78,7 +78,7 @@ public class SysJobApiController extends BaseController {
         newJob.setStatus(job.getStatus());
         newJob.setModifier(ShiroUtils.getUserId());
         jobService.changeStatus(newJob);
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     /**
@@ -89,6 +89,6 @@ public class SysJobApiController extends BaseController {
     public Object run(@RequestBody SysQuartzJob job) throws SchedulerException {
         SysQuartzJob newJob = jobService.getById(job.getId());
         jobService.run(newJob);
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 }

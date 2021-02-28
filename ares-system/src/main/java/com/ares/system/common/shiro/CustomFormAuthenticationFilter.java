@@ -1,7 +1,7 @@
 package com.ares.system.common.shiro;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ares.core.model.base.BaseResult;
+import com.ares.core.persistence.model.base.AjaxResult;
 import com.ares.core.utils.StringUtils;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -48,7 +48,7 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
         } else {
             // 返回固定的JSON串
             WebUtils.toHttp(response).setContentType("application/json; charset=utf-8");
-            WebUtils.toHttp(response).getWriter().print(JSONObject.toJSONString(BaseResult.unLogin()));
+            WebUtils.toHttp(response).getWriter().print(JSONObject.toJSONString(AjaxResult.unLogin()));
             return false;
         }
     }

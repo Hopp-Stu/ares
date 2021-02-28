@@ -1,7 +1,7 @@
 package com.ares.system.common.shiro;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ares.core.model.base.BaseResult;
+import com.ares.core.persistence.model.base.AjaxResult;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -46,7 +46,7 @@ public class CustomPermissionsAuthorizationFilter extends PermissionsAuthorizati
             saveRequestAndRedirectToLogin(request, response);
         } else {
             WebUtils.toHttp(response).setContentType("application/json; charset=utf-8");
-            WebUtils.toHttp(response).getWriter().print(JSONObject.toJSONString(BaseResult.unAuth()));
+            WebUtils.toHttp(response).getWriter().print(JSONObject.toJSONString(AjaxResult.unAuth()));
         }
         return false;
     }

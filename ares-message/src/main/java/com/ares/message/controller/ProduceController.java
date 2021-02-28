@@ -1,6 +1,6 @@
 package com.ares.message.controller;
 
-import com.ares.message.model.ProduceInfo;
+import com.ares.message.persistence.model.ProduceInfo;
 import com.ares.message.utils.RabbitUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

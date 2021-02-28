@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.core.dao.ISysDictDataDao">
-    <resultMap id="SysDictData" type="com.ares.core.model.SysDictData">
+<mapper namespace="com.ares.core.persistence.dao.ISysDictDataDao">
+    <resultMap id="SysDictData" type="com.ares.core.persistence.model.system.SysDictData">
         <id column="Id" jdbcType="VARCHAR" property="id"/>
         <result column="DictSort" jdbcType="VARCHAR" property="dictSort"/>
         <result column="DictLabel" jdbcType="VARCHAR" property="dictLabel"/>
@@ -19,7 +19,7 @@
         `Id`,`DictSort`,`DictLabel`,`DictValue`,`DictType`,`Status`,`Remark`, `Creator`,`CreateTime`,`Modifier`, `ModifyTime`
     </sql>
 
-    <insert id="insert" parameterType="com.ares.core.model.SysDictData">
+    <insert id="insert" parameterType="com.ares.core.persistence.model.system.SysDictData">
         insert into `sys_dict_data` (
         <include refid="Base_Column_List"/>
         )
@@ -38,7 +38,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.ares.core.model.SysDictData">
+    <update id="update" parameterType="com.ares.core.persistence.model.system.SysDictData">
         update `sys_dict_data`
         <set>
             <if test="dictSort!= null">
@@ -106,7 +106,7 @@
         </if>
     </select>
 
-    <select id="selectList" parameterType="com.ares.core.model.SysDictData" resultMap="SysDictData">
+    <select id="selectList" parameterType="com.ares.core.persistence.model.system.SysDictData" resultMap="SysDictData">
         select
         <include refid="Base_Column_List"/>
         from `sys_dict_data`

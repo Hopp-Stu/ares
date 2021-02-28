@@ -1,6 +1,6 @@
 package com.ares;
 
-import com.ares.core.common.datasource.MyBatisConfig;
+import com.ares.config.mybatis.MyBatisConfig;
 import org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Import;
+
 
 /**
  * @description:

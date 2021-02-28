@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.core.dao.ISysPostDao">
-    <resultMap id="SysPost" type="com.ares.core.model.SysPost">
+<mapper namespace="com.ares.core.persistence.dao.ISysPostDao">
+    <resultMap id="SysPost" type="com.ares.core.persistence.model.system.SysPost">
         <id column="Id" jdbcType="VARCHAR" property="id"/>
         <result column="PostCode" jdbcType="VARCHAR" property="postCode"/>
         <result column="PostName" jdbcType="VARCHAR" property="postName"/>
@@ -15,7 +15,7 @@
         `Id`,`PostCode`,`PostName`, `Creator`,`CreateTime`,`Modifier`, `ModifyTime`
     </sql>
 
-    <insert id="insert" parameterType="com.ares.core.model.SysPost">
+    <insert id="insert" parameterType="com.ares.core.persistence.model.system.SysPost">
         insert into `sys_post` (
         <include refid="Base_Column_List"/>
         )
@@ -30,7 +30,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.ares.core.model.SysPost">
+    <update id="update" parameterType="com.ares.core.persistence.model.system.SysPost">
         update `sys_post`
         <set>
             <if test="postCode!= null">
@@ -86,7 +86,7 @@
         </if>
     </select>
 
-    <select id="selectList" parameterType="com.ares.core.model.SysPost" resultMap="SysPost">
+    <select id="selectList" parameterType="com.ares.core.persistence.model.system.SysPost" resultMap="SysPost">
         select
         <include refid="Base_Column_List"/>
         from `sys_post`

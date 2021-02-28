@@ -1,16 +1,15 @@
 package com.ares.system.controller;
 
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.base.BaseResult;
+import com.ares.core.persistence.model.base.AjaxResult;
 import ${entityPackage}.${entityName};
-import com.ares.core.model.page.TableDataInfo;
+import com.ares.core.persistence.model.page.TableDataInfo;
 import ${servicePackage}.${entityName}Service;
 import com.ares.core.utils.StringUtils;
-import com.ares.system.common.shiro.ShiroUtils;
+import com.ares.system.common.security.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public class ${entityName}ApiController extends BaseController {
     private ${entityName}Service ${entityName1}Service;
 
 
-    @RequiresPermissions("${entityName1}:list")
+    @PreAuthorize("hasAnyAuthority('${entityName1}:list')")
     @RequestMapping("list")
     @ApiOperation(value = "列表", response = TableDataInfo.class)
     public TableDataInfo list(${entityName} ${entityName1}) {
@@ -40,28 +39,28 @@ public class ${entityName}ApiController extends BaseController {
     @GetMapping("{${entityName1}Id}")
     @ApiOperation(value = "根据Id获取信息", response = Object.class)
     public Object getInfo(@PathVariable String ${entityName1}Id) {
-        return BaseResult.successData(${entityName1}Service.getById(${entityName1}Id));
+        return AjaxResult.successData(${entityName1}Service.getById(${entityName1}Id));
     }
 
-    @RequiresPermissions("${entityName1}:edit")
+    @PreAuthorize("hasAnyAuthority('${entityName1}:edit')")
     @PostMapping("edit")
     @ApiOperation(value = "编辑信息", response = Object.class)
     public Object edit(@Validated @RequestBody ${entityName} ${entityName1}) throws Exception{
         if (StringUtils.isEmpty(${entityName1}.getId())) {
-            ${entityName1}.setCreator(ShiroUtils.getUserId());
+            ${entityName1}.setCreator(SecurityUtils.getUser().getId());
             ${entityName1}Service.insert(${entityName1});
         } else {
-            ${entityName1}.setModifier(ShiroUtils.getUserId());
+            ${entityName1}.setModifier(SecurityUtils.getUser().getId());
             ${entityName1}Service.update(${entityName1});
         }
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
-    @RequiresPermissions("${entityName1}:delete")
+    @PreAuthorize("hasAnyAuthority('${entityName1}:delete"'))
     @DeleteMapping("{${entityName1}Ids}")
     @ApiOperation(value = "删除信息", response = Object.class)
     public Object remove(@PathVariable String[] ${entityName1}Ids) {
         ${entityName1}Service.deleteByIds(Arrays.asList(${entityName1}Ids));
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 }

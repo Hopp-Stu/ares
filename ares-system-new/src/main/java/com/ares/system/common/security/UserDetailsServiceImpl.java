@@ -1,9 +1,9 @@
 package com.ares.system.common.security;
 
-import com.ares.core.dao.ISysRoleDao;
-import com.ares.core.model.SysRole;
-import com.ares.core.model.SysUser;
-import com.ares.core.service.SysUserService;
+import com.ares.core.persistence.dao.ISysRoleDao;
+import com.ares.core.persistence.model.system.SysRole;
+import com.ares.core.persistence.model.system.SysUser;
+import com.ares.core.persistence.service.SysUserService;
 import com.ares.system.common.jwt.JwtUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @description:
  * @author: yy
  * @date: 2020/10/19
- * @see: com.ares.system.service UserDetailsService.java
+ * @see: com.ares.system.persistence.service UserDetailsService.java
  **/
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

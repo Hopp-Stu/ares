@@ -2,8 +2,8 @@ package com.ares.system.common.exception;
 
 
 import com.ares.core.common.exception.UserException;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.base.ResultCode;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.base.ResultCode;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -25,17 +25,17 @@ public class ApiGlobalExceptionHandler {
 
     @ExceptionHandler(value = AuthorizationException.class)
     public Object handleAuthorizationException(HttpServletRequest request, HttpServletResponse response) {
-        return BaseResult.unAuth();
+        return AjaxResult.unAuth();
     }
 
     @ExceptionHandler(value = BindException.class)
     public Object handleNotValidException(HttpServletRequest request, HttpServletResponse response, BindException e) {
         ObjectError error = e.getBindingResult().getAllErrors().get(0);
-        return BaseResult.result(ResultCode.VALIDATE_FAILED.getCode(), ResultCode.VALIDATE_FAILED.getMsg(), error.getDefaultMessage());
+        return AjaxResult.result(ResultCode.VALIDATE_FAILED.getCode(), ResultCode.VALIDATE_FAILED.getMsg(), error.getDefaultMessage());
     }
 
     @ExceptionHandler(value = UserException.class)
     public Object handleUserException(HttpServletRequest request, HttpServletResponse response){
-        return BaseResult.unLogin();
+        return AjaxResult.unLogin();
     }
 }

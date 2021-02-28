@@ -2,12 +2,12 @@ package com.ares.system.controller;
 
 
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.SysUser;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.page.TableDataInfo;
-import com.ares.core.service.SysPostService;
-import com.ares.core.service.SysRoleService;
-import com.ares.core.service.SysUserService;
+import com.ares.core.persistence.model.system.SysUser;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.page.TableDataInfo;
+import com.ares.core.persistence.service.SysPostService;
+import com.ares.core.persistence.service.SysRoleService;
+import com.ares.core.persistence.service.SysUserService;
 import com.ares.core.utils.StringUtils;
 import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
@@ -49,7 +49,7 @@ public class SysUserApiController extends BaseController {
     @GetMapping(value = {"", "{userId}"})
     @ApiOperation(value = "根据用户Id获取用户", response = Object.class)
     public Object getInfo(@PathVariable(value = "userId", required = false) String userId) {
-        BaseResult result = new BaseResult();
+        AjaxResult result = new AjaxResult();
         result.put("code", HttpStatus.OK.value());
         result.put("data", userService.getById(userId));
         result.put("roles", roleService.getAll());
@@ -67,7 +67,7 @@ public class SysUserApiController extends BaseController {
         String userId = "";
         if (StringUtils.isEmpty(user.getId())) {
             if (userService.checkAccount(user.getAccount()) != 0) {
-                return BaseResult.error("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
+                return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
             }
             user.setCreator(ShiroUtils.getUserId());
             userId = userService.insertUser(user);
@@ -79,7 +79,7 @@ public class SysUserApiController extends BaseController {
         if (StringUtils.isNotEmpty(user.getRoleIds())) {
             roleService.saveRoleUser(user.getRoleIds(), userId);
         }
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     @RequiresPermissions("user:delete")
@@ -87,7 +87,7 @@ public class SysUserApiController extends BaseController {
     @ApiOperation(value = "删除用户", response = Object.class)
     public Object remove(@PathVariable String[] userIds) {
         userService.deleteByIds(Arrays.asList(userIds));
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     /**
@@ -97,6 +97,6 @@ public class SysUserApiController extends BaseController {
     @ApiOperation(value = "重置密码", response = Object.class)
     public Object resetPwd(@RequestBody SysUser user) {
         userService.resetPassword(user.getId());
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 }

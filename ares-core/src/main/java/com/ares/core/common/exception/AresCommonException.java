@@ -1,6 +1,6 @@
 package com.ares.core.common.exception;
 
-import com.ares.core.model.base.ResultCode;
+import com.ares.core.persistence.model.base.ResultCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

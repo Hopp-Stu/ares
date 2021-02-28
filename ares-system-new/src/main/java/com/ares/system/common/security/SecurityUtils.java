@@ -1,10 +1,10 @@
 package com.ares.system.common.security;
 
 import com.ares.core.common.exception.UserException;
-import com.ares.core.model.SysUser;
-import com.ares.core.model.base.Constants;
-import com.ares.core.model.exception.ErrorCode;
-import com.ares.core.service.SysUserService;
+import com.ares.core.persistence.model.system.SysUser;
+import com.ares.core.persistence.model.base.Constants;
+import com.ares.core.persistence.model.exception.ErrorCode;
+import com.ares.core.persistence.service.SysUserService;
 import com.ares.core.utils.SpringUtils;
 import com.ares.redis.utils.RedisUtil;
 import com.ares.system.common.jwt.JwtAuthenticationToken;

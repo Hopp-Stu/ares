@@ -1,12 +1,14 @@
 package com.ares.core.controller;
 
-import com.ares.core.model.page.PageDomain;
-import com.ares.core.model.page.TableDataInfo;
-import com.ares.core.model.page.TableSupport;
+import com.ares.core.persistence.model.page.PageDomain;
+import com.ares.core.persistence.model.page.TableDataInfo;
+import com.ares.core.persistence.model.page.TableSupport;
 import com.ares.core.utils.SqlUtil;
 import com.ares.core.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
@@ -18,6 +20,8 @@ import java.util.Map;
  * @author: yy 2020/01/23
  **/
 public class BaseController {
+
+    private static Logger logger = LoggerFactory.getLogger(BaseController.class);
 
     /**
      * 设置请求分页数据

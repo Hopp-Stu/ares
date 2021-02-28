@@ -2,10 +2,10 @@ package com.ares.system.controller;
 
 
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.SysTemplate;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.page.TableDataInfo;
-import com.ares.core.service.SysTemplateService;
+import com.ares.core.persistence.model.system.SysTemplate;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.page.TableDataInfo;
+import com.ares.core.persistence.service.SysTemplateService;
 import com.ares.core.utils.StringUtils;
 import com.ares.system.common.shiro.ShiroUtils;
 import io.swagger.annotations.Api;
@@ -39,7 +39,7 @@ public class SysTemplateApiController extends BaseController {
     @GetMapping("{sysTemplateId}")
     @ApiOperation(value = "根据模版Id获取模版",response = Object.class)
     public Object getInfo(@PathVariable String sysTemplateId) {
-        return BaseResult.successData(sysTemplateService.getById(sysTemplateId));
+        return AjaxResult.successData(sysTemplateService.getById(sysTemplateId));
     }
 
     @RequiresPermissions("sysTemplate:edit")
@@ -53,7 +53,7 @@ public class SysTemplateApiController extends BaseController {
             sysTemplate.setModifier(ShiroUtils.getUserId());
             sysTemplateService.update(sysTemplate);
         }
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     @RequiresPermissions("sysTemplate:delete")
@@ -61,6 +61,6 @@ public class SysTemplateApiController extends BaseController {
     @ApiOperation(value = "删除模版",response = Object.class)
     public Object remove(@PathVariable String[] sysTemplateIds) {
         sysTemplateService.deleteByIds(Arrays.asList(sysTemplateIds));
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 }

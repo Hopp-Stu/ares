@@ -1,6 +1,6 @@
 package com.ares.system.common.jwt;
 
-import com.ares.core.common.config.BaseConfig;
+import com.ares.config.base.BaseConfig;
 import com.ares.system.common.security.GrantedAuthorityImpl;
 import com.ares.system.common.security.SecurityUtils;
 import io.jsonwebtoken.Claims;

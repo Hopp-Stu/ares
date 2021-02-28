@@ -1,7 +1,7 @@
 package com.ares.redis.common;
 
 
-import com.ares.core.common.config.BaseConfig;
+import com.ares.config.base.BaseConfig;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.slf4j.Logger;

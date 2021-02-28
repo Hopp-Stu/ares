@@ -1,8 +1,8 @@
 package com.ares.system.common.jwt;
 
 
-import com.ares.core.model.SysUser;
-import com.ares.core.service.SysUserService;
+import com.ares.core.persistence.model.system.SysUser;
+import com.ares.core.persistence.service.SysUserService;
 import com.ares.core.utils.SpringUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 

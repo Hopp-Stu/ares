@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.core.dao.ISysTemplateDao">
-    <resultMap id="SysTemplate" type="com.ares.core.model.SysTemplate">
+<mapper namespace="com.ares.core.persistence.dao.ISysTemplateDao">
+    <resultMap id="SysTemplate" type="com.ares.core.persistence.model.system.SysTemplate">
         <id column="Id" jdbcType="VARCHAR" property="id"/>
         <result column="Name" jdbcType="VARCHAR" property="name"/>
         <result column="Subject" jdbcType="VARCHAR" property="subject"/>
@@ -18,7 +18,7 @@
         `Id`,`Name`,`Subject`,`Text`,`Html`,`Params`,`Creator`,`Modifier`, `CreateTime`, `ModifyTime`
     </sql>
 
-    <insert id="insert" parameterType="com.ares.core.model.SysTemplate">
+    <insert id="insert" parameterType="com.ares.core.persistence.model.system.SysTemplate">
         insert into `sys_template` (<include refid="Base_Column_List"/>)
         values (
         #{id,jdbcType=VARCHAR},
@@ -34,7 +34,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.ares.core.model.SysTemplate">
+    <update id="update" parameterType="com.ares.core.persistence.model.system.SysTemplate">
         update `sys_template`
         <set>
             <if test="name!= null">
@@ -98,7 +98,7 @@
         </if>
     </select>
 
-    <select id="selectList" parameterType="com.ares.core.model.SysTemplate" resultMap="SysTemplate">
+    <select id="selectList" parameterType="com.ares.core.persistence.model.system.SysTemplate" resultMap="SysTemplate">
         select
         <include refid="Base_Column_List"/>
         from `sys_template`

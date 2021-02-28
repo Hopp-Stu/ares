@@ -1,10 +1,10 @@
 package com.ares.activiti.controller;
 
-import com.ares.activiti.model.CommonModel;
+import com.ares.activiti.persistence.model.CommonModel;
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.base.ResultCode;
-import com.ares.core.model.page.TableDataInfo;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.base.ResultCode;
+import com.ares.core.persistence.model.page.TableDataInfo;
 import com.ares.core.utils.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -102,7 +102,7 @@ public class ModelController extends BaseController {
             newModel.setMetaInfo(modelNode.toString());
             repositoryService.saveModel(newModel);
         }
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     private void addModelSource(String id) {
@@ -126,7 +126,7 @@ public class ModelController extends BaseController {
     @GetMapping("/{id}")
     public Object getById(@PathVariable("id") String id) {
         Model model = repositoryService.createModelQuery().modelId(id).singleResult();
-        return BaseResult.successData(model);
+        return AjaxResult.successData(model);
     }
 
     /**
@@ -138,7 +138,7 @@ public class ModelController extends BaseController {
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") String id) {
         repositoryService.deleteModel(id);
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     /**
@@ -226,13 +226,13 @@ public class ModelController extends BaseController {
         Model modelData = repositoryService.getModel(modelId);
 
         if (modelData == null) {
-            return BaseResult.error(ResultCode.NOMODEL.getCode(), ResultCode.NOMODEL.getMsg());
+            return AjaxResult.error(ResultCode.NOMODEL.getCode(), ResultCode.NOMODEL.getMsg());
         }
 
         byte[] bytes = repositoryService.getModelEditorSource(modelData.getId());
 
         if (bytes == null) {
-            return BaseResult.error(ResultCode.NOFLOW.getCode(), ResultCode.NOFLOW.getMsg());
+            return AjaxResult.error(ResultCode.NOFLOW.getCode(), ResultCode.NOFLOW.getMsg());
         }
 
         JsonNode modelNode = null;
@@ -240,7 +240,7 @@ public class ModelController extends BaseController {
             modelNode = new ObjectMapper().readTree(bytes);
             BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
             if (model.getProcesses().size() == 0) {
-                return BaseResult.error(ResultCode.ERRORFLOWDEFINITION.getCode(), ResultCode.ERRORFLOWDEFINITION.getMsg());
+                return AjaxResult.error(ResultCode.ERRORFLOWDEFINITION.getCode(), ResultCode.ERRORFLOWDEFINITION.getMsg());
             }
             byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
             //发布流程
@@ -256,7 +256,7 @@ public class ModelController extends BaseController {
         } catch (IOException e) {
             log.error("Error deployment:", e);
         }
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ares.core.dao.ISysPropertiesDao">
-    <resultMap id="SysProperties" type="com.ares.core.model.SysProperties">
+<mapper namespace="com.ares.core.persistence.dao.ISysPropertiesDao">
+    <resultMap id="SysProperties" type="com.ares.core.persistence.model.system.SysProperties">
         <id column="Id" jdbcType="VARCHAR" property="id"/>
         <result column="Alias" jdbcType="VARCHAR" property="alias"/>
         <result column="Creator" jdbcType="VARCHAR" property="creator"/>
@@ -18,7 +18,7 @@
         `Id`,`Alias`,`Creator`,`Description`,`Group`,`Modifier`,`Name`,`Value`, `CreateTime`, `ModifyTime`
     </sql>
 
-    <insert id="insert" parameterType="com.ares.core.model.SysProperties">
+    <insert id="insert" parameterType="com.ares.core.persistence.model.system.SysProperties">
         insert into `sys_properties` (<include refid="Base_Column_List"/>)
         values (
         #{id,jdbcType=VARCHAR},
@@ -34,7 +34,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.ares.core.model.SysProperties">
+    <update id="update" parameterType="com.ares.core.persistence.model.system.SysProperties">
         update `sys_properties`
         <set>
             <if test="alias!= null">
@@ -98,7 +98,7 @@
         </if>
     </select>
 
-    <select id="selectList" parameterType="com.ares.core.model.SysProperties"
+    <select id="selectList" parameterType="com.ares.core.persistence.model.system.SysProperties"
             resultMap="SysProperties">
         select
         <include refid="Base_Column_List"/>

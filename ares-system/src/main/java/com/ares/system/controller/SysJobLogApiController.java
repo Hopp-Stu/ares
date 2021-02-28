@@ -2,10 +2,10 @@ package com.ares.system.controller;
 
 
 import com.ares.core.controller.BaseController;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.page.TableDataInfo;
-import com.ares.quartz.model.SysQuartzJobLog;
-import com.ares.quartz.service.SysQuartzJobLogService;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.page.TableDataInfo;
+import com.ares.quartz.persistence.model.SysQuartzJobLog;
+import com.ares.quartz.persistence.service.SysQuartzJobLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -42,7 +42,7 @@ public class SysJobLogApiController extends BaseController {
     @GetMapping(value = "{jobLogId}")
     @ApiOperation(value = "根据调度编号获取详细信息",response = Object.class)
     public Object getInfo(@PathVariable String jobLogId) {
-        return BaseResult.successData(jobLogService.getById(jobLogId));
+        return AjaxResult.successData(jobLogService.getById(jobLogId));
     }
 
 
@@ -54,7 +54,7 @@ public class SysJobLogApiController extends BaseController {
     @ApiOperation(value = "删除定时任务调度日志",response = Object.class)
     public Object remove(@PathVariable String[] jobLogIds) {
         jobLogService.deleteByIds(Arrays.asList(jobLogIds));
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 
     @RequiresPermissions("quartz:logDelete")
@@ -62,6 +62,6 @@ public class SysJobLogApiController extends BaseController {
     @ApiOperation(value = "清空定时任务调度日志",response = Object.class)
     public Object clean() {
         jobLogService.cleanJobLog();
-        return BaseResult.success();
+        return AjaxResult.success();
     }
 }

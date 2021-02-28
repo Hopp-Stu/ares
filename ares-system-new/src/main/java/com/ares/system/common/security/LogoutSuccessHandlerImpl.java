@@ -1,7 +1,7 @@
 package com.ares.system.common.security;
 
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.base.Constants;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.base.Constants;
 import com.ares.redis.utils.RedisUtil;
 import com.ares.system.common.jwt.JwtTokenUtils;
 import com.ares.system.utils.AresCommonUtils;
@@ -31,6 +31,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
                 RedisUtil.del(Constants.LOGIN_INFO + userName);
             }
         }
-        AresCommonUtils.writeResponse(httpServletResponse, BaseResult.success());
+        AresCommonUtils.writeResponse(httpServletResponse, AjaxResult.success());
     }
 }

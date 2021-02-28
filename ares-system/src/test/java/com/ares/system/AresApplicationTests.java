@@ -4,8 +4,7 @@ package com.ares.system;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.filter.config.ConfigTools;
 import com.ares.AresApplication;
-import com.ares.core.common.config.CodeGeneratorConfig;
-import com.ares.message.service.RocketMQService;
+import com.ares.message.persistence.service.RocketMQService;
 import com.ares.redis.utils.RedisUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +19,6 @@ import java.io.IOException;
 @SpringBootTest(classes = AresApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AresApplicationTests {
 
-    @Resource
-    CodeGeneratorConfig generator;
 
 //    @Resource
 //    SendEmailService sendEmailService;

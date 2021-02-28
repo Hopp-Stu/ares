@@ -1,8 +1,8 @@
 package com.ares.system.common.log;
 
 
-import com.ares.core.model.SysLog;
-import com.ares.core.service.SysLogService;
+import com.ares.core.persistence.model.system.SysLog;
+import com.ares.core.persistence.service.SysLogService;
 
 /**
  * @description:

@@ -3,8 +3,10 @@ package com.ares.test;
 
 import com.alibaba.fastjson.JSON;
 import com.ares.AresSystemApplication;
-import com.ares.message.dao.AresDocumentRepository;
-import com.ares.message.model.AresDocument;
+import com.ares.core.persistence.model.listener.ElasticsearchEvent;
+import com.ares.core.utils.SpringUtils;
+import com.ares.message.persistence.dao.AresDocumentRepository;
+import com.ares.message.persistence.model.AresDocument;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +34,9 @@ class AresApplicationTests {
     public void testES() {
 
         AresDocument demo = new AresDocument("1", "ares-name", "ares-key", "this is a test content.", "this is a test body!");
-        repository.save(demo);
+        //repository.save(demo);
+        ElasticsearchEvent event = new ElasticsearchEvent(demo);
+        SpringUtils.publishEvent(event);
 
         System.out.println("==================================");
         Pageable pageable = PageRequest.of(0, 10);

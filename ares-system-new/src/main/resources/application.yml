@@ -60,6 +60,8 @@ management:
       enabled: false
     rabbit:
       enabled: false
+    elasticsearch:
+      enabled: false
   endpoint:
     health:
       show-details: always

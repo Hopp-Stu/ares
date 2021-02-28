@@ -1,15 +1,15 @@
 package com.ares.system.controller;
 
 
-import com.ares.core.common.config.BaseConfig;
-import com.ares.core.model.SysMenu;
-import com.ares.core.model.SysRole;
-import com.ares.core.model.SysUser;
-import com.ares.core.model.base.BaseResult;
-import com.ares.core.model.base.Constants;
-import com.ares.core.service.SysMenuService;
-import com.ares.core.service.SysRoleService;
-import com.ares.core.service.SysUserService;
+import com.ares.config.base.BaseConfig;
+import com.ares.core.persistence.model.system.SysMenu;
+import com.ares.core.persistence.model.system.SysRole;
+import com.ares.core.persistence.model.system.SysUser;
+import com.ares.core.persistence.model.base.AjaxResult;
+import com.ares.core.persistence.model.base.Constants;
+import com.ares.core.persistence.service.SysMenuService;
+import com.ares.core.persistence.service.SysRoleService;
+import com.ares.core.persistence.service.SysUserService;
 import com.ares.core.utils.ServletUtils;
 import com.ares.redis.utils.RedisUtil;
 import com.ares.system.common.jwt.JwtAuthenticationToken;
@@ -69,26 +69,26 @@ public class LoginApiController {
         String uuid = String.valueOf(map.get("uuid"));
 
         if (!AresCommonUtils.checkVerifyCode(code, uuid)) {
-            return BaseResult.error(500, "验证码错误");
+            return AjaxResult.error(500, "验证码错误");
         }
 
         // 系统登录认证
         JwtAuthenticationToken token = SecurityUtils.login(request, userName, password, authenticationManager);
         RedisUtil.set(Constants.LOGIN_INFO + userName, token, config.getTimeout());
-        return BaseResult.success().put("token", token.getToken());
+        return AjaxResult.success().put("token", token.getToken());
     }
 
 
     @RequestMapping("unAuth")
     @ApiOperation(value = "未登录", response = Object.class)
     public Object unAuth(HttpServletRequest request, HttpServletResponse response) {
-        return BaseResult.unLogin();
+        return AjaxResult.unLogin();
     }
 
     @RequestMapping("unauthorized")
     @ApiOperation(value = "无权限", response = Object.class)
     public Object unauthorized(HttpServletRequest request, HttpServletResponse response) {
-        return BaseResult.error(HttpStatus.UNAUTHORIZED.value(), "用户无权限！");
+        return AjaxResult.error(HttpStatus.UNAUTHORIZED.value(), "用户无权限！");
     }
 
     @RequestMapping("getInfo")
@@ -110,7 +110,7 @@ public class LoginApiController {
             }
             roles.add(role.getRoleName());
         }
-        return BaseResult.success().put("user", user).put("roles", roles).put("permissions", permissions);
+        return AjaxResult.success().put("user", user).put("roles", roles).put("permissions", permissions);
     }
 
     @RequestMapping("getRouters")
@@ -118,7 +118,7 @@ public class LoginApiController {
     public Object getRouters() throws Exception {
         SysUser user = SecurityUtils.getUser();
         List<SysMenu> menus = menuService.getAll(user.getId());
-        return BaseResult.successData(HttpStatus.OK.value(), menuService.buildMenus(menus, "0"));
+        return AjaxResult.successData(HttpStatus.OK.value(), menuService.buildMenus(menus, "0"));
     }
 
     @RequestMapping("/kaptcha")
@@ -131,7 +131,7 @@ public class LoginApiController {
         BufferedImage bi = producer.createImage(capText);
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             ImageIO.write(bi, "jpg", byteArrayOutputStream);
-            return BaseResult.success().put("img", Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray())).put("uuid", uuid);
+            return AjaxResult.success().put("img", Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray())).put("uuid", uuid);
         }
     }
 }

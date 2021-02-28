@@ -2,10 +2,10 @@ package com.ares.system.common.shiro;
 
 import com.alibaba.fastjson.JSON;
 import com.ares.core.common.config.BaseConfig;
-import com.ares.core.dao.ISysRoleDao;
-import com.ares.core.dao.ISysUserDao;
-import com.ares.core.model.SysRole;
-import com.ares.core.model.SysUser;
+import com.ares.core.persistence.dao.ISysRoleDao;
+import com.ares.core.persistence.dao.ISysUserDao;
+import com.ares.core.persistence.model.system.SysRole;
+import com.ares.core.persistence.model.system.SysUser;
 import com.ares.redis.utils.RedisUtil;
 import com.ares.system.common.jwt.JwtToken;
 import com.ares.system.common.jwt.JwtUtil;

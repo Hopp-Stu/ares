@@ -1,0 +1,43 @@
+#基本配置信息
+ares:
+  base:
+    name: ARES
+    version: V1.0.0
+    copyright: Copyright @ 2020-2030 ${ares.base.name}-${ares.base.version}
+    #全局session时间
+    timeout: 3600
+  #代码生成配置
+  codegenerator:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springbootv1?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: root
+    password: root
+    databaseName: springbootv1
+    tableName: test_v
+    tablePrefix:
+    genenaterLevel: 1
+    basePackage: com.ares.system.persistence.model
+    daoPackage: com.ares.system.persistence.dao
+    xmlDir: .src.main.resources.mapping
+    servicePackage: com.ares.system.persistence.service
+    controllerPackage: com.ares.system.controller
+  #swagger配置
+  swagger:
+    enable: true
+    base:
+      package: com.ares
+    contact:
+      email: ares@ares.com
+      name: ares
+      url: www.ares.com
+    description: ${ares.base.name} API 接口文档
+    title: ${ares.base.name} API Documents
+    url: adas
+    version: ${ares.base.version}
+    parameter-config:
+      - name: Authorization
+        description: Token Request Header
+        type: header
+        data-type: String
+        required: false
+        default-value:
