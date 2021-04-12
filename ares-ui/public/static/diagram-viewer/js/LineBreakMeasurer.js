@@ -1,6 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 /**
  * Word wrapping
- * 
+ *
  * @author (Javascript) Dmitry Farafonov
  */
 
@@ -16,39 +32,39 @@
 				this.beginIndex = 0;
 				this.endIndex = this.text.length;
 				this.currentIndex = this.beginIndex;
-				
+
 				//console.group("[AttributedStringIterator]");
 				var i = 0;
 				var string = this.text;
 				var fullPos = 0;
-				
+
 				//console.log("string: \"" + string + "\", length: " + string.length);
 				this.startWordOffsets = [];
 				this.startWordOffsets.push(fullPos);
-				
+
 				// TODO: remove i 1000
 				while (i<1000) {
 					var pos = string.search(/[ \t\n\f-\.\,]/);
 					if (pos == -1)
 						break;
-					
+
 					// whitespace start
 					fullPos += pos;
 					string = string.substr(pos);
 					////console.log("fullPos: " + fullPos + ", pos: " + pos +  ", string: ", string);
-					
+
 					// remove whitespaces
 					var pos = string.search(/[^ \t\n\f-\.\,]/);
 					if (pos == -1)
 						break;
-						
+
 					// whitespace end
 					fullPos += pos;
 					string = string.substr(pos);
-					
+
 					////console.log("fullPos: " + fullPos);
 					this.startWordOffsets.push(fullPos);
-					
+
 					i++;
 				}
 				//console.log("startWordOffsets: ", this.startWordOffsets);
@@ -58,9 +74,9 @@
 				getEndIndex: function(pos){
 					if (typeof(pos) == "undefined")
 						return this.endIndex;
-						
+
 					var string = this.text.substr(pos, this.endIndex - pos);
-					
+
 					var posEndOfLine = string.search(/[\n]/);
 					if (posEndOfLine == -1)
 						return this.endIndex;
@@ -73,13 +89,13 @@
 				isWhitespace: function(pos){
 					var str = this.text[pos];
 					var whitespaceChars = " \t\n\f";
-					
+
 					return (whitespaceChars.indexOf(str) != -1);
 				},
 				isNewLine: function(pos){
 					var str = this.text[pos];
 					var whitespaceChars = "\n";
-					
+
 					return (whitespaceChars.indexOf(str) != -1);
 				},
 				preceding: function(pos){
@@ -113,7 +129,7 @@
 				ltrim: function(str){
 					var patt2=/^\s+/g;
 					return str.replace(patt2, "");
-				}, 
+				},
 				rtrim: function(str){
 					var patt2=/\s+$/g;
 					return str.replace(patt2, "");
@@ -130,15 +146,15 @@
 				this.paper = paper;
 				this.text = new AttributedStringIterator(text);
 				this.fontAttrs = fontAttrs;
-				
+
 				if (this.text.getEndIndex() - this.text.getBeginIndex() < 1) {
 					throw {message: "Text must contain at least one character.", code: "IllegalArgumentException"};
 				}
-				
+
 				//this.measurer = new TextMeasurer(paper, this.text, this.fontAttrs);
 				this.limit = this.text.getEndIndex();
 				this.pos = this.start = this.text.getBeginIndex();
-				
+
 				this.rafaelTextObject = this.paper.text(x, y, this.text.text).attr(fontAttrs).attr("text-anchor", "start");
 				this.svgTextObject = this.rafaelTextObject[0];
 			};
@@ -150,11 +166,11 @@
 						if (offsetLimit <= this.pos) {
 							throw {message: "offsetLimit must be after current position", code: "IllegalArgumentException"};
 						}
-						
+
 						var charAtMaxAdvance = this.getLineBreakIndex(this.pos, wrappingWidth);
 						//charAtMaxAdvance --;
 						//console.log("charAtMaxAdvance:", charAtMaxAdvance, ", [" + this.text.getCharAtPos(charAtMaxAdvance) + "]");
-						
+
 						if (charAtMaxAdvance == this.limit) {
 							nextOffset = this.limit;
 							//console.log("charAtMaxAdvance == this.limit");
@@ -176,7 +192,7 @@
 							}
 							*/
 							nextOffset = this.text.preceding(charAtMaxAdvance);
-							
+
 							if (nextOffset <= this.pos) {
 								nextOffset = Math.max(this.pos+1, charAtMaxAdvance);
 							}
@@ -201,15 +217,15 @@
 						}
 						var result = this.text.getLayout(this.pos, layoutLimit);
 						//console.log("layout: \"" + result + "\"");
-						
+
 						// remove end of line
-						
+
 						//var posEndOfLine = this.text.getEndIndex(this.pos);
 						//if (posEndOfLine < result.length)
 						//	result = result.substr(0, posEndOfLine);
-						
+
 						this.pos = layoutLimit;
-						
+
 						//console.groupEnd();
 						return result;
 					} else {
@@ -220,9 +236,9 @@
 				getLineBreakIndex: function(pos, wrappingWidth) {
 					//console.group("[getLineBreakIndex]");
 					//console.log("pos:"+pos + ", text: \""+ this.text.text.replace(/\n/g, "_").substr(pos, 1) + "\"");
-					
+
 					var bb = this.rafaelTextObject.getBBox();
-					
+
 					var charNum = -1;
 					try {
 						var svgPoint = this.svgTextObject.getStartPositionOfChar(pos);
@@ -230,9 +246,9 @@
 						svgPoint.x = svgPoint.x + wrappingWidth;
 						//svgPoint.y = bb.y;
 						//console.log("svgPoint:", svgPoint);
-					
+
 						//var dot = this.paper.ellipse(svgPoint.x, svgPoint.y, 1, 1).attr({"stroke-width": 0, fill: Color.red});
-					
+
 						charNum = this.svgTextObject.getCharNumAtPosition(svgPoint);
 					} catch (e){
 						console.warn("getStartPositionOfChar error, pos:" + pos);
@@ -253,17 +269,17 @@
 						if (newLineIndex < charNum ) {
 							console.log("newLineIndex <= charNum, newLineIndex:"+newLineIndex+", charNum:"+charNum, "\"" + this.text.text.substr(newLineIndex+1).replace(/\n/g, "?") + "\"");
 							//console.groupEnd();
-							
+
 							return newLineIndex;
 						}
-							
+
 						//var charAtMaxAdvance  = this.text.text.substring(charNum, charNum + 1);
 						var charAtMaxAdvance  = this.text.getCharAtPos(charNum);
 						//console.log("!!charAtMaxAdvance: " + charAtMaxAdvance);
 						//console.groupEnd();
 						return charNum;
 					}
-				}, 
+				},
 				getPosition: function() {
 					return this.pos;
 				}

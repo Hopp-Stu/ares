@@ -1,13 +1,32 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.ares.system.controller;
 
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.event.AnalysisEventListener;
 import com.ares.core.controller.BaseController;
-import com.ares.core.persistence.model.system.SysUser;
 import com.ares.core.persistence.model.base.AjaxResult;
 import com.ares.core.persistence.model.page.TableDataInfo;
+import com.ares.core.persistence.model.system.SysUser;
 import com.ares.core.persistence.service.SysPostService;
 import com.ares.core.persistence.service.SysRoleService;
 import com.ares.core.persistence.service.SysUserService;
+import com.ares.core.utils.ExcelUtils;
 import com.ares.core.utils.StringUtils;
 import com.ares.system.common.security.SecurityUtils;
 import io.swagger.annotations.Api;
@@ -16,14 +35,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * @description:
- * @author: yy 2020/05/05
+ * @description: 用户
+ * @author: Young 2020/05/05
  **/
 @RestController
 @RequestMapping("/system/user/*")
@@ -31,11 +55,11 @@ import java.util.List;
 public class SysUserApiController extends BaseController {
 
     @Resource
-    SysUserService userService;
+    private SysUserService userService;
     @Resource
-    SysRoleService roleService;
+    private SysRoleService roleService;
     @Resource
-    SysPostService postService;
+    private SysPostService postService;
 
     @PreAuthorize("hasAnyAuthority('user:list')")
     @RequestMapping("list")
@@ -98,5 +122,43 @@ public class SysUserApiController extends BaseController {
     public Object resetPwd(@RequestBody SysUser user) {
         userService.resetPassword(user.getId());
         return AjaxResult.success();
+    }
+
+    @RequestMapping("export")
+    @ApiOperation(value = "导出用户")
+    public void export(SysUser user, HttpServletResponse response) {
+        List<SysUser> userList = userService.selectUserList(user);
+        String fileName = "用户信息" + System.currentTimeMillis();
+        String sheetName = "用户";
+        try {
+            ExcelUtils.writeExcel(response, userList, fileName, sheetName, SysUser.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("importTemplate")
+    @ApiOperation(value = "导入模版")
+    public void importTemplate(HttpServletResponse response) {
+        List<SysUser> userList = new ArrayList<>();
+        String fileName = "用户信息模版" + System.currentTimeMillis();
+        String sheetName = "用户";
+        try {
+            ExcelUtils.writeExcel(response, userList, fileName, sheetName, SysUser.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("importData")
+    @PreAuthorize("hasAnyAuthority('user:import')")
+    @ApiOperation(value = "导入用户")
+    public Object importData(MultipartFile file, HttpServletRequest request) throws Exception {
+        InputStream inputStream = file.getInputStream();
+        boolean needUpdate = request.getParameter("updateSupport") == "1" ? true : false;
+        String deptId = request.getParameter("deptId");
+        AnalysisEventListener listener = userService.new UserDataListener(needUpdate, deptId);
+        EasyExcel.read(inputStream, SysUser.class, listener).sheet().doRead();
+        return AjaxResult.success("导入成功");
     }
 }

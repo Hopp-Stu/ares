@@ -1,8 +1,29 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 <template>
   <div class="app-container">
     <el-row>
       <el-col>
-        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+        <el-form
+          :model="queryParams"
+          ref="queryForm"
+          :inline="true"
+          label-width="68px"
+        >
           <el-form-item label="模型名称" prop="name">
             <el-input
               v-model="queryParams.name"
@@ -14,14 +35,28 @@
             />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-search"
+              size="mini"
+              @click="handleQuery"
+              >搜索</el-button
+            >
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
+              >重置</el-button
+            >
           </el-form-item>
         </el-form>
 
         <el-row class="mb8">
           <el-col :span="1.5">
-            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-plus"
+              size="mini"
+              @click="handleAdd"
+              >新增</el-button
+            >
           </el-col>
           <el-col :span="1.5">
             <el-button
@@ -30,7 +65,8 @@
               size="mini"
               :disabled="single"
               @click="handleUpdate"
-            >修改</el-button>
+              >修改</el-button
+            >
           </el-col>
           <el-col :span="1.5">
             <el-button
@@ -39,7 +75,8 @@
               size="mini"
               :disabled="multiple"
               @click="handleDelete"
-            >删除</el-button>
+              >删除</el-button
+            >
           </el-col>
         </el-row>
 
@@ -50,9 +87,24 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="40" align="center" />
-          <el-table-column label="模型名称" align="center" prop="name" :show-overflow-tooltip="true" />
-          <el-table-column label="KEY" align="center" prop="key" :show-overflow-tooltip="true" />
-          <el-table-column label="版本" align="center" prop="version" :show-overflow-tooltip="true" />
+          <el-table-column
+            label="模型名称"
+            align="center"
+            prop="name"
+            :show-overflow-tooltip="true"
+          />
+          <el-table-column
+            label="KEY"
+            align="center"
+            prop="key"
+            :show-overflow-tooltip="true"
+          />
+          <el-table-column
+            label="版本"
+            align="center"
+            prop="version"
+            :show-overflow-tooltip="true"
+          />
           <el-table-column
             label="部署ID"
             align="center"
@@ -76,31 +128,35 @@
                 type="text"
                 icon="el-icon-s-operation"
                 @click="handleDraw(scope.row)"
-              >流程定义</el-button>
+                >流程定义</el-button
+              >
               <el-button
                 size="mini"
                 type="text"
                 icon="el-icon-upload"
                 @click="handleDeploy(scope.row)"
-              >部署</el-button>
+                >部署</el-button
+              >
               <el-button
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
                 @click="handleUpdate(scope.row)"
-              >修改</el-button>
+                >修改</el-button
+              >
               <el-button
                 size="mini"
                 type="text"
                 icon="el-icon-delete"
                 @click="handleDelete(scope.row)"
-              >删除</el-button>
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
 
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           :total="total"
           :page.sync="queryParams.pageNum"
           :limit.sync="queryParams.pageSize"
@@ -120,12 +176,20 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="KEY" prop="key">
-              <el-input v-model="form.key" placeholder="请输入KEY" maxlength="11" />
+              <el-input
+                v-model="form.key"
+                placeholder="请输入KEY"
+                maxlength="11"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="描述" prop="desc">
-              <el-input v-model="form.desc" placeholder="请输入描述" maxlength="50" />
+              <el-input
+                v-model="form.desc"
+                placeholder="请输入描述"
+                maxlength="50"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -141,8 +205,18 @@
       </div>
     </el-dialog>
 
-    <el-dialog id="flowEditor" title="流程定义" :visible.sync="show" fullscreen top="2">
-      <iframe id="editor" v-bind:src="actUrl" style="width:100%;height:-webkit-fill-available"></iframe>
+    <el-dialog
+      id="flowEditor"
+      title="流程定义"
+      :visible.sync="show"
+      fullscreen
+      top="2"
+    >
+      <iframe
+        id="editor"
+        v-bind:src="actUrl"
+        style="width: 100%; height: 850px"
+      ></iframe>
     </el-dialog>
   </div>
 </template>

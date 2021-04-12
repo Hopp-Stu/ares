@@ -1,4 +1,20 @@
 
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2021 - 9999, ARES
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
 <div class="modal" ng-controller="KisBpmInParametersPopupCtrl">
     <div class="modal-dialog modal-wide">
         <div class="modal-content">
@@ -7,7 +23,7 @@
 			    <h2>{{'PROPERTY.PROPERTY.EDIT.TITLE' | translate:property}}</h2>
 			</div>
 			<div class="modal-body">
-			
+
 			    <div class="row row-no-gutter">
 			        <div class="col-xs-6">
 			            <div ng-if="translationsRetrieved" class="kis-listener-grid" ng-grid="gridOptions"></div>
@@ -22,10 +38,10 @@
 			                </div>
 			            </div>
 			        </div>
-			
+
 			        <div class="col-xs-6">
 			            <div ng-show="selectedParameters.length > 0">
-							
+
 							<div class="form-group">
 						   		<label for="sourceField">{{'PROPERTY.PARAMETER.SOURCE' | translate}}</label>
 						   		<input type="text" id="sourceField" class="form-control" ng-model="selectedParameters[0].source" placeholder="{{'PROPERTY.PARAMETER.SOURCE.PLACEHOLDER' | translate}}" />
@@ -38,7 +54,7 @@
 						   		<label for="expressionField">{{'PROPERTY.PARAMETER.TARGET' | translate}}</label>
 						   		<input type="text" id="expressionField" class="form-control" ng-model="selectedParameters[0].target" placeholder="{{'PROPERTY.PARAMETER.TARGET.PLACEHOLDER' | translate}}" />
 							</div>
-			                
+
 			            </div>
 			            <div ng-show="selectedParameters.length == 0" class="muted no-property-selected" translate>PROPERTY.PARAMETER.EMPTY</div>
 			        </div>

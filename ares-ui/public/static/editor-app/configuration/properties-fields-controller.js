@@ -1,21 +1,18 @@
-/*
- * Activiti Modeler component part of the Activiti project
- * Copyright 2005-2014 Alfresco Software, Ltd. All rights reserved.
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
-
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 /*
  * Task listeners
@@ -42,7 +39,7 @@ var KisBpmFieldsPopupCtrl = [ '$scope', '$q', '$translate', function($scope, $q,
         // Note that we clone the json object rather then setting it directly,
         // this to cope with the fact that the user can click the cancel button and no changes should have happened
         $scope.fields = angular.copy($scope.property.value.fields);
-        
+
         for (var i = 0; i < $scope.fields.length; i++)
 		{
 			var field = $scope.fields[i];
@@ -59,7 +56,7 @@ var KisBpmFieldsPopupCtrl = [ '$scope', '$q', '$translate', function($scope, $q,
         		field.implementation = field.string;
         	}
 		}
-        
+
     } else {
         $scope.fields = [];
     }
@@ -89,7 +86,7 @@ var KisBpmFieldsPopupCtrl = [ '$scope', '$q', '$translate', function($scope, $q,
                 {field: 'implementation', displayName: $scope.labels.implementationLabel}]
         };
     });
-    
+
     $scope.fieldDetailsChanged = function() {
     	if ($scope.selectedFields[0].stringValue != '')
     	{

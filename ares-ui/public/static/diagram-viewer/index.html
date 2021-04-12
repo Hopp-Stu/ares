@@ -1,15 +1,31 @@
-﻿<html>
+﻿<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2021 - 9999, ARES
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  
+
   <link rel="stylesheet" href="style.css" type="text/css" media="screen">
   <script src="js/jstools.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/raphael.js" type="text/javascript" charset="utf-8"></script>
-  
+
   <script src="js/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/jquery/jquery.progressbar.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/jquery/jquery.asyncqueue.js" type="text/javascript" charset="utf-8"></script>
-  
+
   <script src="js/Color.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/Polyline.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/ActivityImpl.js" type="text/javascript" charset="utf-8"></script>
@@ -17,9 +33,9 @@
   <script src="js/LineBreakMeasurer.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/ProcessDiagramGenerator.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/ProcessDiagramCanvas.js" type="text/javascript" charset="utf-8"></script>
-  
+
   <style type="text/css" media="screen">
-    
+
   </style>
 </head>
 <body>
@@ -41,13 +57,13 @@ $(document).ready(function(){
   for (var i=0;i<vars.length;i++) {
     var pair = vars[i].split("=");
     query_string[pair[0]] = pair[1];
-  } 
-  
+  }
+
   var processDefinitionId = query_string["processDefinitionId"];
   var processInstanceId = query_string["processInstanceId"];
-  
+
   console.log("Initialize progress bar");
-  
+
   pb1 = new $.ProgressBar({
     boundingBox: '#pb1',
     label: 'Progressbar!',
@@ -66,7 +82,7 @@ $(document).ready(function(){
     value: 0
   });
   console.log("Progress bar inited");
-  
+
   ProcessDiagramGenerator.options = {
     diagramBreadCrumbsId: "diagramBreadCrumbs",
     diagramHolderId: "diagramHolder",
@@ -105,20 +121,20 @@ $(document).ready(function(){
       }
     }
   };
-  
+
   var baseUrl = window.document.location.protocol + "//" + window.document.location.host + "/";
   var shortenedUrl = window.document.location.href.replace(baseUrl, "");
   baseUrl = baseUrl + shortenedUrl.substring(0, shortenedUrl.indexOf("/"));
-  
+
   ActivitiRest.options = {
     processInstanceHighLightsUrl: baseUrl + "/service/process-instance/{processInstanceId}/highlights?callback=?",
     processDefinitionUrl: baseUrl + "/service/process-definition/{processDefinitionId}/diagram-layout?callback=?",
     processDefinitionByKeyUrl: baseUrl + "/service/process-definition/{processDefinitionKey}/diagram-layout?callback=?"
   };
-  
+
   if (processDefinitionId) {
     ProcessDiagramGenerator.drawDiagram(processDefinitionId);
-    
+
   } else {
     alert("processDefinitionId parameter is required");
   }

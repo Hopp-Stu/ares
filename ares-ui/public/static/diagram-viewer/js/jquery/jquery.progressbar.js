@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 /*
  * @ Dmitry Farafonov
  */
@@ -11,9 +27,9 @@ $.ProgressBar = function(options) {
 	if (options.on && options.on.valueChange){
 		this.onValueChange = options.on.valueChange;
 	}
-	
+
 	this._create();
-	
+
 	if (options.label)
 		this.set("label", options.label);
 	if (options.value)
@@ -41,7 +57,7 @@ $.ProgressBar.prototype = {
 
 		this.valueDiv = $( "<div class='ui-progressbar-label'></div>" )
 			.appendTo( this.element );
-			
+
 		this.valueDiv = $( "<div class='ui-progressbar-value ui-widget-header ui-corner-left'></div>" )
 			.appendTo( this.element );
 
@@ -74,10 +90,10 @@ $.ProgressBar.prototype = {
 			//var oldVal = this.options.value;
 			this.options.value = value;
 			this._refreshValue();
-			
+
 			if (this.onValueChange)
 				this.onValueChange.apply(this, [{oldVal: this.oldValue, newVal: value}]);
-			
+
 			if ( this._value() === this.options.max ) {
 				//this._trigger( "complete" );
 				if (this.onComplete)
@@ -119,10 +135,10 @@ $.ProgressBar.prototype = {
 			.toggleClass( "ui-corner-right", value === this.options.max )
 			.width( percentage.toFixed(0) + "%" );
 		this.element.attr( "aria-valuenow", value );
-		
+
 		//$(this.element).find(".ui-progressbar-label").html(value + "%");
 	},
-	
+
 	set: function(key, value){
 		this._setOption(key, value);
 	}

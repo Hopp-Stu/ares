@@ -1,6 +1,23 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.ares.system.persistence.service;
 
 import com.ares.core.persistence.model.base.Constants;
+import com.ares.core.utils.DateUtils;
 import com.ares.redis.utils.RedisUtil;
 import com.ares.system.persistence.dao.IIndexDao;
 import com.ares.system.persistence.model.PanelGroup;
@@ -16,7 +33,7 @@ import java.util.*;
 
 /**
  * @description:
- * @author: yy
+ * @author: Young
  * @date: 2020/09/14
  * @see: com.ares.system.persistence.service IndexService.java
  **/
@@ -90,45 +107,95 @@ public class IndexService {
         return map;
     }
 
+    private int getOnlinePeople() {
+        String pattern = Constants.LOGIN_INFO + "*";
+        Set<String> keys = RedisUtil.getKeysByPattern(pattern);
+        return keys.size();
+    }
+
     public LineChart getLineChart() {
         LineChart lineChart = new LineChart();
         XAxis xAxis = new XAxis();
         Legend legend = new Legend();
         List<Series> series = new ArrayList<>();
 
-        xAxis.setData(new String[]{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"});
+        xAxis.setData(getXLine());
         xAxis.setBoundaryGap(false);
-        xAxis.setAxisTick(new HashMap<String, Object>() {{
-            put("show", true);
-        }});
+        xAxis.isShow(false);
         lineChart.setXAxis(xAxis);
-        legend.setData(new String[]{"expected", "actual"});
+        legend.setData(new String[]{"随机数1", "随机数2"});
         lineChart.setLegend(legend);
 
         Series ser = new Series();
-        ser.setName("expected");
-        ser.setItemStyle(new HashMap<String, Object>() {{
-            put("normal", new HashMap<String, Object>() {{
-                put("color", "#FF005A");
-                put("lineStyle", new HashMap<String, Object>() {{
-                    put("color", "#FF005A");
-                    put("width", "2");
-                }});
-            }});
-        }});
+        ser.setName("随机数1");
+        ser.buildItemStyle("#FF005A", 2, "#FF005A", null);
+//        ser.setItemStyle(new HashMap<String, Object>() {{
+//            put("normal", new HashMap<String, Object>() {{
+//                put("color", "#FF005A");
+//                put("lineStyle", new HashMap<String, Object>() {{
+//                    put("color", "#FF005A");
+//                    put("width", "2");
+//                }});
+//            }});
+//        }});
         ser.setSmooth(true);
         ser.setType("line");
-        ser.setData(new Number[]{});
+        ser.setData(buildData());
         ser.setAnimationDuration(2800);
         ser.setAnimationEasing("cubicInOut");
+        series.add(ser);
+
+        ser = new Series();
+        ser.setName("随机数2");
+        ser.buildItemStyle("#3888fa", 2, "#3888fa", "#f3f8ff");
+//        ser.setItemStyle(new HashMap<String, Object>() {{
+//            put("normal", new HashMap<String, Object>() {{
+//                put("color", "#3888fa");
+//                put("lineStyle", new HashMap<String, Object>() {{
+//                    put("color", "#3888fa");
+//                    put("width", "2");
+//                }});
+//                put("areaStyle", new HashMap<String, Object>() {{
+//                    put("color", "#f3f8ff");
+//                }});
+//            }});
+//        }});
+        ser.setSmooth(true);
+        ser.setType("line");
+        ser.setData(buildData());
+        ser.setAnimationDuration(2800);
+        ser.setAnimationEasing("quadraticOut");
         series.add(ser);
         lineChart.setSeries(series);
         return lineChart;
     }
 
-    private int getOnlinePeople() {
-        String pattern = Constants.LOGIN_INFO + "*";
-        Set<String> keys = RedisUtil.getKeysByPattern(pattern);
-        return keys.size();
+    private String[] getXLine() {
+        Calendar calendar = Calendar.getInstance();
+        List<String> times = new ArrayList<>(7);
+        times.add(DateUtils.format(calendar.getTime(), DateUtils.DATE_TIME_MIN_PATTERN));
+        for (int i = 0; i < 6; i++) {
+            String time = getTime(calendar);
+            times.add(time);
+        }
+        times.sort(Comparator.naturalOrder());
+        String[] xLine = new String[7];
+        times.toArray(xLine);
+        return xLine;
+    }
+
+    private String getTime(Calendar current) {
+        current.add(Calendar.MINUTE, -10);
+        Date before = current.getTime();
+        String beforeTime = DateUtils.format(before, DateUtils.DATE_TIME_MIN_PATTERN);
+        return beforeTime;
+    }
+
+    private Integer[] buildData() {
+        Integer[] data = new Integer[7];
+        for (int i = 0; i < 7; i++) {
+            data[i] = (int) Math.ceil(Math.random() * 100000);
+        }
+        return data;
     }
 }

@@ -1,21 +1,18 @@
-/*
- * Activiti Modeler component part of the Activiti project
- * Copyright 2005-2014 Alfresco Software, Ltd. All rights reserved.
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
-
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 /*
  * Form Properties
@@ -42,7 +39,7 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
         // Note that we clone the json object rather then setting it directly,
         // this to cope with the fact that the user can click the cancel button and no changes should have happended
         $scope.formProperties = angular.copy($scope.property.value.formProperties);
-        
+
         for (var i = 0; i < $scope.formProperties.length; i++) {
         	var formProperty = $scope.formProperties[i];
         	if (formProperty.enumValues && formProperty.enumValues.length > 0) {
@@ -55,7 +52,7 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
         		}
         	}
         }
-        
+
     } else {
         $scope.formProperties = [];
     }
@@ -63,21 +60,21 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
     // Array to contain selected properties (yes - we only can select one, but ng-grid isn't smart enough)
     $scope.selectedProperties = [];
     $scope.selectedEnumValues = [];
-    
+
     $scope.translationsRetrieved = false;
-    
+
     $scope.labels = {};
-    
+
     var idPromise = $translate('PROPERTY.FORMPROPERTIES.ID');
     var namePromise = $translate('PROPERTY.FORMPROPERTIES.NAME');
     var typePromise = $translate('PROPERTY.FORMPROPERTIES.TYPE');
-    
-    $q.all([idPromise, namePromise, typePromise]).then(function(results) { 
+
+    $q.all([idPromise, namePromise, typePromise]).then(function(results) {
     	$scope.labels.idLabel = results[0];
         $scope.labels.nameLabel = results[1];
         $scope.labels.typeLabel = results[2];
         $scope.translationsRetrieved = true;
-        
+
     	// Config for grid
         $scope.gridOptions = {
             data: 'formProperties',
@@ -90,7 +87,7 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
                 { field: 'name', displayName: $scope.labels.nameLabel},
                 { field: 'type', displayName: $scope.labels.typeLabel}]
         };
-        
+
         $scope.enumGridOptions = {
     		data: 'selectedProperties[0].enumValues',
             enableRowReordering: true,
@@ -109,7 +106,7 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
         // Check date. If date, show date pattern
         if ($scope.selectedProperties[0].type === 'date') {
             $scope.selectedProperties[0].datePattern = 'MM-dd-yyyy hh:mm';
-            
+
         } else {
             delete $scope.selectedProperties[0].datePattern;
         }
@@ -117,7 +114,7 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
         // Check enum. If enum, show list of options
         if ($scope.selectedProperties[0].type === 'enum') {
             $scope.selectedProperties[0].enumValues = [ {id: 'value1', name: 'Value 1'}, {id: 'value2', name: 'Value 2'}];
-            
+
         } else {
             delete $scope.selectedProperties[0].enumValues;
         }
@@ -131,7 +128,7 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
             type : 'string',
             readable: true,
             writable: true});
-        
+
         $timeout(function(){
         	$scope.gridOptions.selectItem($scope.formProperties.length - 1, true);
         });
@@ -184,12 +181,12 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
             }
         }
     };
-    
+
     $scope.addNewEnumValue = function() {
     	if ($scope.selectedProperties.length > 0) {
 	        $scope.selectedProperties[0].enumValues.push({ id : '', name : ''});
     	}
-    	
+
     	$timeout(function(){
         	$scope.enumGridOptions.selectItem($scope.selectedProperties[0].enumValues.length - 1, true);
         });
@@ -207,7 +204,7 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
             	$timeout(function(){
             		$scope.enumGridOptions.selectItem(index + 1, true);
             	});
-            	
+
             } else if ($scope.selectedProperties[0].enumValues.length > 0) {
             	$timeout(function(){
             		$scope.enumGridOptions.selectItem(index - 1, true);

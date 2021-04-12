@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.ares.system.controller;
 
 
@@ -36,8 +52,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 /**
- * @description:
- * @author: yy 2020/05/04
+ * @description: 登录
+ * @author: Young 2020/05/04
  **/
 @RestController
 @Api(value = "系统登录API", tags = {"系统登录"})
@@ -45,6 +61,8 @@ public class LoginApiController {
     private Logger logger = LoggerFactory.getLogger(LoginApiController.class);
 
     private String prefix = "";
+    // token 过期时间一个月
+    private static final long EXPIRE = 30 * 24 * 60 * 60;
 
     @Resource
     private SysUserService userService;
@@ -67,6 +85,7 @@ public class LoginApiController {
         String password = String.valueOf(map.get("password"));
         String code = String.valueOf(map.get("code"));
         String uuid = String.valueOf(map.get("uuid"));
+        Boolean rememberMe = Boolean.parseBoolean(String.valueOf(map.get("rememberMe")));
 
         if (!AresCommonUtils.checkVerifyCode(code, uuid)) {
             return AjaxResult.error(500, "验证码错误");
@@ -74,7 +93,11 @@ public class LoginApiController {
 
         // 系统登录认证
         JwtAuthenticationToken token = SecurityUtils.login(request, userName, password, authenticationManager);
-        RedisUtil.set(Constants.LOGIN_INFO + userName, token, config.getTimeout());
+        if (rememberMe) {
+            RedisUtil.set(Constants.LOGIN_INFO + userName, token, EXPIRE);
+        } else {
+            RedisUtil.set(Constants.LOGIN_INFO + userName, token, config.getTimeout());
+        }
         return AjaxResult.success().put("token", token.getToken());
     }
 

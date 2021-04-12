@@ -1,28 +1,44 @@
 
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 describe('Function', function() {
     "use strict";
     describe('bind', function() {
         var actual, expected,
             testSubject;
-        
+
         testSubject = {
             push: function(o) {
                 this.a.push(o);
             }
         };
-        
+
         function func() {
             Array.prototype.forEach.call(arguments, function(a) {
                 this.push(a);
             }, this);
             return this;
         };
-        
+
         beforeEach(function() {
             actual = [];
             testSubject.a = [];
         });
-        
+
         it('binds properly without a context', function() {
             var context;
             testSubject.func = function() {
@@ -53,7 +69,7 @@ describe('Function', function() {
             expect(actual).toEqual([1,2,3,4,5,6]);
             expect(testSubject.a).toEqual([]);
         });
-        
+
         it('returns properly without binding a context', function() {
             testSubject.func = function() {
                 return this;
@@ -138,7 +154,7 @@ describe('Function', function() {
                 this.name = x || "A";
             }
             var classB = classA.bind(null, "B");
-            
+
             var result = new classB;
             expect(result instanceof classA).toBe(true);
             expect(result instanceof classB).toBe(true);

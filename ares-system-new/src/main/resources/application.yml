@@ -76,7 +76,7 @@ management:
 info:
   project-name: ${spring.application.name}
   project-groupId: '@project.parent.groupId@'
-  project-author: yy
+  project-author: Young
   project-description: ${spring.application.name} project
   project-sourceEncoding: '@project.build.sourceEncoding@'
   project-version: '@project.version@'

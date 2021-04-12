@@ -1,293 +1,309 @@
- /**
+ /*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
+/**
  * Class to generate an image based the diagram interchange information in a
  * BPMN 2.0 process.
  *
  * @author (Javascript) Dmitry Farafonov
  */
- 
-var ProcessDiagramGenerator = {	
+
+var ProcessDiagramGenerator = {
 	options: {},
-	
+
 	processDiagramCanvas: [],
-	
+
 	activityDrawInstructions:{},
-	
+
 	processDiagrams: {},
-	
+
 	diagramBreadCrumbs: null,
-	
+
 	init: function(){
 		// start event
 		this.activityDrawInstructions["startEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawNoneStartEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		// start timer event
 		this.activityDrawInstructions["startTimerEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawTimerStartEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, activityImpl.getProperty("name"));
 		};
-		
+
 		// start event
 		this.activityDrawInstructions["messageStartEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawMessageStartEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, activityImpl.getProperty("name"));
 		};
-		
+
 		// start signal event
 		this.activityDrawInstructions["startSignalEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawSignalStartEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, activityImpl.getProperty("name"));
 		};
-		
+
 		// start multiple event
 		this.activityDrawInstructions["startMultipleEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawMultipleStartEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, activityImpl.getProperty("name"));
 		};
-		
+
 		// signal catch
 		this.activityDrawInstructions["intermediateSignalCatch"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawCatchingSignalEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
 			if (label)
 			  processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// message catch
 		this.activityDrawInstructions["intermediateMessageCatch"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawCatchingMessageEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// multiple catch
 		this.activityDrawInstructions["intermediateMultipleCatch"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawCatchingMultipleEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
-		
-		
+
+
+
 		// signal throw
 		this.activityDrawInstructions["intermediateSignalThrow"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawThrowingSignalEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), activityImpl.getProperty("name"));
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// message throw
 		this.activityDrawInstructions["intermediateMessageThrow"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawThrowingMessageEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), activityImpl.getProperty("name"));
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// multiple throw
 		this.activityDrawInstructions["intermediateMultipleThrow"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawThrowingMultipleEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), activityImpl.getProperty("name"));
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// none throw
 		this.activityDrawInstructions["intermediateThrowEvent"] = function() {
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawThrowingNoneEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), activityImpl.getProperty("name"));
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// end event
 		this.activityDrawInstructions["endEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawNoneEndEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		// error end event
 		this.activityDrawInstructions["errorEndEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawErrorEndEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// message end event
 		this.activityDrawInstructions["messageEndEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawMessageEndEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// signal end event
 		this.activityDrawInstructions["signalEndEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawSignalEndEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// multiple end event
 		this.activityDrawInstructions["multipleEndEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawMultipleEndEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// terminate end event
 		this.activityDrawInstructions["terminateEndEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawTerminateEndEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// error start event
 		this.activityDrawInstructions["errorStartEvent"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawErrorStartEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), activityImpl.getProperty("name"));
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// task
 		this.activityDrawInstructions["task"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
-			// TODO: 
+
+			// TODO:
 			//console.error("task is not implemented yet");
 			/*
 			var activityImpl = this;
 			processDiagramCanvas.drawTask(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), thickBorder);
 			*/
 		};
-		
-		
+
+
 		// user task
 		this.activityDrawInstructions["userTask"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawUserTask(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		// script task
 		this.activityDrawInstructions["scriptTask"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawScriptTask(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		// service task
 		this.activityDrawInstructions["serviceTask"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawServiceTask(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
 
@@ -296,16 +312,16 @@ var ProcessDiagramGenerator = {
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawReceiveTask(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		// send task
 		this.activityDrawInstructions["sendTask"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawSendTask(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
 
@@ -314,7 +330,7 @@ var ProcessDiagramGenerator = {
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-		
+
 			processDiagramCanvas.drawManualTask(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
 
@@ -323,7 +339,7 @@ var ProcessDiagramGenerator = {
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawBusinessRuleTask(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
 
@@ -332,74 +348,74 @@ var ProcessDiagramGenerator = {
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawExclusiveGateway(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		// inclusive gateway
 		this.activityDrawInstructions["inclusiveGateway"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawInclusiveGateway(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		// parallel gateway
 		this.activityDrawInstructions["parallelGateway"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawParallelGateway(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		// eventBasedGateway
 		this.activityDrawInstructions["eventBasedGateway"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			processDiagramCanvas.drawEventBasedGateway(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		// Boundary timer
 		this.activityDrawInstructions["boundaryTimer"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawCatchingTimerEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// Boundary catch error
 		this.activityDrawInstructions["boundaryError"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawCatchingErrorEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
 		};
-		
+
 		// Boundary signal event
 		this.activityDrawInstructions["boundarySignal"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = activityImpl.getProperty("isInterrupting");
 			processDiagramCanvas.drawCatchingSignalEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, null);
-			
+
 			var label = ProcessDiagramGenerator.getActivitiLabel(activityImpl);
       if (label)
         processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
@@ -418,25 +434,25 @@ var ProcessDiagramGenerator = {
         if (label)
             processDiagramCanvas.drawLabel(label.text, label.x, label.y, label.width, label.height);
     };
-		
+
 		// timer catch event
 		this.activityDrawInstructions["intermediateTimer"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isInterrupting = null;
 			processDiagramCanvas.drawCatchingTimerEvent(activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight(), isInterrupting, activityImpl.getProperty("name"));
 		};
-		
+
 		// subprocess
 		this.activityDrawInstructions["subProcess"] = function(){
 			var activityImpl = this.activity;
 			var processDiagramCanvas = this.processDiagramCanvas;
-			// TODO: 
-			
+			// TODO:
+
 			processDiagramCanvas.setConextObject(activityImpl);
-			
+
 			var isExpanded = activityImpl.getProperty("isExpanded");
 			var isTriggeredByEvent = activityImpl.getProperty("triggeredByEvent");
 			if(isTriggeredByEvent == undefined) {
@@ -444,7 +460,7 @@ var ProcessDiagramGenerator = {
 			}
 			// TODO: check why isTriggeredByEvent = true when undefined
 			isTriggeredByEvent = false;
-			
+
 			if (isExpanded != undefined && isExpanded == false) {
 			  processDiagramCanvas.drawCollapsedSubProcess(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(),
 					  activityImpl.getWidth(), activityImpl.getHeight(), isTriggeredByEvent);
@@ -452,10 +468,10 @@ var ProcessDiagramGenerator = {
 			  processDiagramCanvas.drawExpandedSubProcess(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(),
 					  activityImpl.getWidth(), activityImpl.getHeight(), isTriggeredByEvent);
 			}
-			
+
 			//console.error("subProcess is not implemented yet");
 		};
-		
+
 		// call activity
 		this.activityDrawInstructions["callActivity"] = function(){
 			var activityImpl = this.activity;
@@ -463,7 +479,7 @@ var ProcessDiagramGenerator = {
 			processDiagramCanvas.setConextObject(activityImpl);
 			processDiagramCanvas.drawCollapsedCallActivity(activityImpl.getProperty("name"), activityImpl.getX(), activityImpl.getY(), activityImpl.getWidth(), activityImpl.getHeight());
 		};
-		
+
 		$(document).ready(function(){
 		  // Protect right click on SVG elements (and on canvas too)
 		  document.body.oncontextmenu = function(event) {
@@ -476,7 +492,7 @@ var ProcessDiagramGenerator = {
 		  };
 		});
 	},
-	
+
 	 getActivitiLabel:function(activityImpl){
 	   /*
 	     TODO: Label object should be in activityImpl and looks like:
@@ -503,12 +519,12 @@ var ProcessDiagramGenerator = {
 	     height: 0
 	   };
 	},
-		
+
 	generateDiagram: function(processDefinitionDiagramLayout){
 		// Init canvas
 		var processDefinitionId = processDefinitionDiagramLayout.processDefinition.id;
 		//console.log("Init canvas ", processDefinitionId);
-		
+
 		if (this.getProcessDiagram(processDefinitionId) != undefined) {
 			// TODO: may be reset canvas if exists.. Or just show
 			//console.log("ProcessDiagram '" + processDefinitionId + "' is already generated. Just show it.");
@@ -516,64 +532,64 @@ var ProcessDiagramGenerator = {
 		}
 		var processDiagram = this.initProcessDiagramCanvas(processDefinitionDiagramLayout);
 		var processDiagramCanvas = processDiagram.diagramCanvas;
-		
+
 		// Draw pool shape, if process is participant in collaboration
-		
+
 		if(processDefinitionDiagramLayout.participantProcess != undefined) {
 		  //console.log("Draw pool shape");
 		  var pProc = processDefinitionDiagramLayout.participantProcess;
 		  processDiagramCanvas.drawPoolOrLane(pProc.x, pProc.y, pProc.width, pProc.height, pProc.name);
 		}
-		
+
 		var laneSets = processDefinitionDiagramLayout.laneSets;
 		var activities = processDefinitionDiagramLayout.activities;
 		var sequenceFlows = processDefinitionDiagramLayout.sequenceFlows;
-		
-		
+
+
 		pb1.set('value', 0);
 		var cnt = 0;
-		if (laneSets) 
+		if (laneSets)
 			for(var i in laneSets) {
 				cnt += laneSets[i].lanes.length;
 			}
-		if (activities) 
+		if (activities)
 			cnt += activities.length;
-		if (sequenceFlows) 
+		if (sequenceFlows)
 			cnt += sequenceFlows.length;
 		var step = (cnt>0)? 100/cnt : 0;
 		var progress = 0;
 		//console.log("progress bar step: ", step);
-		
+
 		var task1 = new $.AsyncQueue();
-		
+
 			// Draw lanes
-			
+
 			task1.add(function (task1) {
 				if (!laneSets) laneSets = [];
 				//console.log("> draw lane sets, count:", laneSets.length)
 			});
-			
+
 			for(var i in laneSets) {
 				var laneSet = laneSets[i];
 				//laneSet.id, laneSet.name
-				
+
 				task1.add(laneSet.lanes,function (task1, lane) {
 					progress += step;
 					pb1.set('value', parseInt(progress));
-					
+
 					//console.log("--> laneId: " + lane.name + ", name: " + lane.name);
-					
+
 					processDiagramCanvas.drawPoolOrLane(lane.x, lane.y, lane.width, lane.height, lane.name);
 				});
 			}
-			
+
 			// Draw activities
-			
+
 			task1.add(function (task1) {
 				if (!activities) activities = [];
 				//console.log("> draw activities, count:", activities.length)
 			});
-			
+
 			var activitiesLength = activities.length;
 			task1.add(activities,function (task1, activityJson) {
 				var activity = new ActivityImpl(activityJson);
@@ -583,14 +599,14 @@ var ProcessDiagramGenerator = {
 				//console.log(activitiesLength, "--> activityId: " + activity.getId() + ", name: " + activity.getProperty("name"));
 				ProcessDiagramGenerator.drawActivity(processDiagramCanvas, activity);
 			});
-			
+
 			// Draw sequence-flows
-			
+
 			task1.add(function (task1) {
 				if (!sequenceFlows) sequenceFlows = [];
 				//console.log("> draw sequence flows, count:", sequenceFlows.length)
 			});
-			
+
 			var flowsLength = sequenceFlows.length;
 			task1.add(sequenceFlows,function (task1, flow) {
 				var waypoints = [];
@@ -600,7 +616,7 @@ var ProcessDiagramGenerator = {
 				var isDefault = flow.isDefault;
 				var isConditional = flow.isConditional;
 				var isHighLighted = flow.isHighLighted;
-				
+
 				// TODO: add source and destination for sequence flows in REST
 				// parse for test
 					var f = flow.flow;
@@ -616,37 +632,37 @@ var ProcessDiagramGenerator = {
 				flowsLength--;
 				progress += step;
 				pb1.set('value', parseInt(progress));
-				
+
 				//console.log(flowsLength, "--> flow: " + flow.flow);
-				
+
 				processDiagramCanvas.setConextObject(flow);
 				processDiagramCanvas.drawSequenceflow(waypoints, isConditional, isDefault, isHighLighted);
 			});
-			
+
 			task1.onComplete(function(){
 				if (progress<100)
 					pb1.set('value', 100);
 				//console.log("COMPLETE!!!");
-					
+
 				//console.timeEnd('generateDiagram');
 			});
-			
+
 			task1.run();
 	},
-	
+
 	getProcessDiagram: function (processDefinitionId) {
 		return this.processDiagrams[processDefinitionId];
 	},
-	
+
 	initProcessDiagramCanvas: function (processDefinitionDiagramLayout) {
 		var minX = 0;
 		var maxX = 0;
 		var minY = 0;
 		var maxY = 0;
-		
+
 		if(processDefinitionDiagramLayout.participantProcess != undefined) {
 		  var pProc = processDefinitionDiagramLayout.participantProcess;
-		  
+
 		  minX = pProc.x;
 		  maxX = pProc.x + pProc.width;
 		  minY = pProc.y;
@@ -657,7 +673,7 @@ var ProcessDiagramGenerator = {
 		for(var i in activities) {
 			var activityJson = activities[i];
 			var activity = new ActivityImpl(activityJson);
-			
+
 			// width
 			if (activity.getX() + activity.getWidth() > maxX) {
 				maxX = activity.getX() + activity.getWidth();
@@ -673,14 +689,14 @@ var ProcessDiagramGenerator = {
 				minY = activity.getY();
 			}
 		}
-		
+
 		var sequenceFlows = processDefinitionDiagramLayout.sequenceFlows;
 		for(var i in sequenceFlows) {
 			var flow = sequenceFlows[i];
 			var waypoints = [];
 			for(var j in flow.xPointArray) {
 				waypoints[j] = {x: flow.xPointArray[j], y: flow.yPointArray[j]};
-				
+
 				// width
 				if (waypoints[j].x > maxX) {
 					maxX = waypoints[j].x;
@@ -697,12 +713,12 @@ var ProcessDiagramGenerator = {
 				}
 			}
 		}
-		
+
 		var laneSets = processDefinitionDiagramLayout.laneSets;
 		for(var i in laneSets) {
 			var laneSet = laneSets[i];
 			//laneSet.id, laneSet.name
-			
+
 			for(var j in laneSet.lanes) {
 				var lane = laneSet.lanes[j];
 				// width
@@ -721,10 +737,10 @@ var ProcessDiagramGenerator = {
 				}
 			}
 		}
-	
+
 		var diagramCanvas = new ProcessDiagramCanvas();
 		if (diagramCanvas) {
-			
+
 			// create div in diagramHolder
 			var diagramHolder = document.getElementById(this.options.diagramHolderId);
 			if (!diagramHolder)
@@ -733,7 +749,7 @@ var ProcessDiagramGenerator = {
 			div.id = processDefinitionDiagramLayout.processDefinition.id;
 			div.className = "diagram";
 			diagramHolder.appendChild(div);
-			
+
 			diagramCanvas.init(maxX + 20, maxY + 20, processDefinitionDiagramLayout.processDefinition.id);
 			this.processDiagrams[processDefinitionDiagramLayout.processDefinition.id] = {
 				processDefinitionDiagramLayout: processDefinitionDiagramLayout,
@@ -743,23 +759,23 @@ var ProcessDiagramGenerator = {
 		return this.getProcessDiagram(processDefinitionDiagramLayout.processDefinition.id);
 		//return new DefaultProcessDiagramCanvas(maxX + 10, maxY + 10, minX, minY);
 	},
-	
+
 	drawActivity: function(processDiagramCanvas, activity, highLightedActivities) {
 		var type = activity.getProperty("type");
 		var drawInstruction = this.activityDrawInstructions[type];
-		if (drawInstruction != null) {	
+		if (drawInstruction != null) {
 			drawInstruction.apply({processDiagramCanvas:processDiagramCanvas, activity:activity});
 		} else {
 			//console.error("no drawInstruction for " + type + ": ", activity);
 		}
-		
+
 		// Actually draw the markers
 		if (activity.getProperty("multiInstance") != undefined || activity.getProperty("collapsed") != undefined) {
 			//console.log(activity.getProperty("name"), activity.properties);
 			var multiInstanceSequential = (activity.getProperty("multiInstance") == "sequential");
 			var multiInstanceParallel = (activity.getProperty("multiInstance") == "parrallel");
 			var collapsed = activity.getProperty("collapsed");
-				processDiagramCanvas.drawActivityMarkers(activity.getX(), activity.getY(), activity.getWidth(), activity.getHeight(), 
+				processDiagramCanvas.drawActivityMarkers(activity.getX(), activity.getY(), activity.getWidth(), activity.getHeight(),
 					multiInstanceSequential, multiInstanceParallel, collapsed);
 		}
 		/*
@@ -768,29 +784,29 @@ var ProcessDiagramGenerator = {
 		*/
 
 		// TODO: Draw highlighted activities if they are present
-		
+
 	},
-	
+
 	setHighLights: function(highLights){
 		if (highLights.processDefinitionId == undefined) {
 			//console.error("Process instance " + highLights.processInstanceId + " doesn't exist");
 			return;
 		}
-		
+
 		var processDiagram = this.getProcessDiagram(highLights.processDefinitionId);
 		if (processDiagram == undefined) {
 			//console.error("Process diagram " + highLights.processDefinitionId + " not found");
 			return;
 		}
-		
+
 		var processDiagramCanvas = processDiagram.diagramCanvas;
-		
+
 		// TODO: remove highLightes from all activities before set new highLight
 		for (var i in highLights.activities) {
 			var activityId = highLights.activities[i];
 			processDiagramCanvas.highLightActivity(activityId);
 		}
-		
+
 		// TODO: remove highLightes from all flows before set new highLight
 		for (var i in highLights.flows) {
 			var flowId = highLights.flows[i];
@@ -800,7 +816,7 @@ var ProcessDiagramGenerator = {
 			processDiagramCanvas.highLightFlow(flowId);
 		}
 	},
-	
+
 	drawHighLights: function(processInstanceId) {
 		// Load highLights for the processInstanceId
 		/*
@@ -817,9 +833,9 @@ var ProcessDiagramGenerator = {
 				console.log("highLights not found");
 				return;
 			}
-			
+
 			console.log("highLights[" + highLights.processDefinitionId + "][" + processInstanceId + "]: ", highLights);
-			
+
 			ProcessDiagramGenerator.setHighLights(highLights);
 		}).fail(function(jqXHR, textStatus){
 			console.log('Get HighLights['+processDefinitionId+'] failure: ', textStatus, jqXHR);
@@ -831,15 +847,15 @@ var ProcessDiagramGenerator = {
 		var highLights = this.highLights;
 		ProcessDiagramGenerator.setHighLights(highLights);
 	},
-	
+
 	// Load processDefinition
-	
+
 	drawDiagram: function(processDefinitionId) {
 		// Hide all diagrams
 		var diagrams = $("#" + this.options.diagramHolderId + " div.diagram");
 		diagrams.addClass("hidden");
-	
-	
+
+
 		// If processDefinitionId doesn't contain ":" then it's a "processDefinitionKey", not an id.
 		// Get process definition by key
 		if (processDefinitionId.indexOf(":") < 0) {
@@ -850,50 +866,50 @@ var ProcessDiagramGenerator = {
 	},
 	_drawDiagram: function() {
 		var processDefinitionId = this.processDefinitionId;
-		
+
 		ProcessDiagramGenerator.addBreadCrumbsItem(processDefinitionId);
-		
-		
+
+
 		// Check if processDefinition is already loaded and rendered
-		
-		
+
+
 		var processDiagram = ProcessDiagramGenerator.getProcessDiagram(processDefinitionId);
 
 		if (processDiagram != undefined && processDiagram != null) {
 			//console.log("Process diagram " + processDefinitionId + " is already loaded");
 			//return;
-			
+
 			var diagram = document.getElementById(processDefinitionId);
 			$(diagram).removeClass("hidden");
-			
+
 			// Regenerate image
 			var processDefinitionDiagramLayout = processDiagram.processDefinitionDiagramLayout;
 			ProcessDiagramGenerator.generateDiagram(processDefinitionDiagramLayout);
-			
+
 			return;
 		}
 
 		//console.time('loadDiagram');
-		
+
 		// Load processDefinition
-		
+
 		ActivitiRest.getProcessDefinition(processDefinitionId, ProcessDiagramGenerator._generateDiagram);
 	},
 	_generateDiagram: function() {
 		var processDefinitionDiagramLayout = this.processDefinitionDiagramLayout;
-		
+
 		//console.log("process-definition-diagram-layout["+processDefinitionDiagramLayout.processDefinition.id+"]: ", processDefinitionDiagramLayout);
-		
+
 		//console.timeEnd('loadDiagram');
 		//console.time('generateDiagram');
-		
+
 		pb1.set('value', 0);
 		ProcessDiagramGenerator.generateDiagram(processDefinitionDiagramLayout);
 	},
-	
+
 	getProcessDefinitionByKey: function(processDefinitionKey) {
 		var url = Lang.sub(this.options.processDefinitionByKeyUrl, {processDefinitionKey: processDefinitionKey});
-		
+
 		var processDefinition;
 		$.ajax({
 			url: url,
@@ -901,7 +917,7 @@ var ProcessDiagramGenerator = {
 			dataType: 'json',
 			cache: false,
 			async: false
-		}).done(function(data) { 
+		}).done(function(data) {
 			//console.log("ajax returned data");
 			//console.log("ajax returned data:", data);
 			processDefinition = data;
@@ -911,7 +927,7 @@ var ProcessDiagramGenerator = {
 		}).fail(function(jqXHR, textStatus){
 			//console.error('Get diagram layout['+processDefinitionKey+'] failure: ', textStatus, jqXHR);
 		});
-		
+
 		if (processDefinition) {
 			//console.log("Get process definition by key '" + processDefinitionKey + "': ", processDefinition.id);
 			return processDefinition;
@@ -919,26 +935,26 @@ var ProcessDiagramGenerator = {
 			return null;
 		}
 	},
-	
+
 	addBreadCrumbsItem: function(processDefinitionId){
 		var TPL_UL_CONTAINER = '<ul></ul>',
 			TPL_LI_CONTAINER = '<li id="{id}", processDefinitionId="{processDefinitionId}"><span>{name}</span></li>';
-		
+
 		if (!this.diagramBreadCrumbs)
 			this.diagramBreadCrumbs = $("#" + this.options.diagramBreadCrumbsId);
 		if (!this.diagramBreadCrumbs) return;
-		
-		
+
+
 		var ul = this.diagramBreadCrumbs.find("ul");
 		//console.log("ul: ", ul);
 		if (ul.size() == 0) {
 			ul = $(TPL_UL_CONTAINER);
 			this.diagramBreadCrumbs.append(ul);
-			
+
 		}
 		var liListOld = ul.find("li");
 		//console.warn("liListOld", liListOld);
-		
+
 		// TODO: if there is any items after current then remove that before adding new item (m.b. it is a duplicate)
 		var currentBreadCrumbsItemId = this.currentBreadCrumbsItemId;
 			found = false;
@@ -955,25 +971,25 @@ var ProcessDiagramGenerator = {
 				}
 			}
 		);
-		
+
 		var liListNew = ul.find("li");
-		
+
 		//console.log("liListNew size: ", liListNew.size());
 		var values = {
 			id: 'breadCrumbsItem_' + liListNew.size(),
 			processDefinitionId: processDefinitionId,
 			name: processDefinitionId
 		};
-		
-		
+
+
 		var tpl = Lang.sub(TPL_LI_CONTAINER, values);
 		//console.log("tpl: ", tpl);
 		ul.append(tpl);
-		
+
 		var li = ul.find("#" + values.id);
 		//console.warn("li:", li);
 		$('#' + values.id).on('click', this._breadCrumbsItemClick);
-		
+
 		ul.find("li").removeClass("selected");
 		li.attr("num", liListNew.size());
 		li.addClass("selected");
@@ -984,31 +1000,31 @@ var ProcessDiagramGenerator = {
 			id = li.attr("id"),
 			processDefinitionId = li.attr("processDefinitionId");
 		//console.warn("_breadCrumbsItemClick: ", id, ", processDefinitionId: ", processDefinitionId);
-		
+
 		var ul = ProcessDiagramGenerator.diagramBreadCrumbs.one("ul");
 		ul.find("li").removeClass("selected");
 		li.addClass("selected");
 		ProcessDiagramGenerator.currentBreadCrumbsItemId = li.attr("id");
-		
+
 		// Hide all diagrams
 		var diagrams = $("#"+ProcessDiagramGenerator.options.diagramHolderId+" div.diagram");
 		diagrams.addClass("hidden");
-		
+
 		var processDiagram = ProcessDiagramGenerator.getProcessDiagram(processDefinitionId);
-		
+
 		var diagram = document.getElementById(processDefinitionId);
 		if (!diagram) return;
 		$(diagram).removeClass("hidden");
-		
+
 		// Regenerate image
 		var processDefinitionDiagramLayout = processDiagram.processDefinitionDiagramLayout;
 		ProcessDiagramGenerator.generateDiagram(processDefinitionDiagramLayout);
 	},
-	
+
 	showFlowInfo: function(flow){
 		var diagramInfo = $("#" + this.options.diagramInfoId);
 		if (!diagramInfo) return;
-		
+
 		var values = {
 			flow: flow.flow,
 			isDefault: (flow.isDefault)? "true":"",
@@ -1017,7 +1033,7 @@ var ProcessDiagramGenerator = {
 			sourceActivityId: flow.sourceActivityId,
 			destinationActivityId: flow.destinationActivityId
 		};
-		var TPL_FLOW_INFO = '<div>{flow}</div>' 
+		var TPL_FLOW_INFO = '<div>{flow}</div>'
 				+ '<div><b>sourceActivityId</b>: {sourceActivityId}</div>'
 				+ '<div><b>destinationActivityId</b>: {destinationActivityId}</div>'
 				+ '<div><b>isDefault</b>: {isDefault}</div>'
@@ -1027,44 +1043,44 @@ var ProcessDiagramGenerator = {
 		//console.log("info: ", tpl);
 		diagramInfo.html(tpl);
 	},
-	
+
 	showActivityInfo: function(activity){
 		var diagramInfo = $("#" + this.options.diagramInfoId);
 		if (!diagramInfo) return;
-		
+
 		var values = {
 			activityId: activity.getId(),
 			name: activity.getProperty("name"),
 			type: activity.getProperty("type")
 		};
-		var TPL_ACTIVITY_INFO = '' 
+		var TPL_ACTIVITY_INFO = ''
 				+ '<div><b>activityId</b>: {activityId}</div>'
 				+ '<div><b>name</b>: {name}</div>'
 				+ '<div><b>type</b>: {type}</div>';
 		var TPL_CALLACTIVITY_INFO = ''
 				+ '<div><b>collapsed</b>: {collapsed}</div>'
 				+ '<div><b>processDefinitonKey</b>: {processDefinitonKey}</div>';
-		
+
 		var template = TPL_ACTIVITY_INFO;
 		if (activity.getProperty("type") == "callActivity") {
 			values.collapsed = activity.getProperty("collapsed");
 			values.processDefinitonKey = activity.getProperty("processDefinitonKey");
 			template += TPL_CALLACTIVITY_INFO;
 		} else if (activity.getProperty("type") == "callActivity") {
-		
+
 		}
-				
+
 		var tpl = Lang.sub(template, values);
 		//console.log("info: ", tpl);
 		diagramInfo.html(tpl);
 	},
-	
+
 	hideInfo: function(){
 	  var diagramInfo = $("#" + this.options.diagramInfoId);
 	  if (!diagramInfo) return;
 	  diagramInfo.html("");
 	},
-	
+
 	vvoid: function(){}
 };
 

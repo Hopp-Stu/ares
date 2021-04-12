@@ -1,6 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 /**
  Colors:
- 
+
   - Header: #333333
   - Subheader: #e8edf1
   - Subheader border: #a4acb9
@@ -73,13 +89,13 @@ h1 {
 	line-height: 40px;
 	border: none;
 	color: #ffffff;
-	font-family: 'Lato', sans-serif; 
+	font-family: 'Lato', sans-serif;
 }
 
 .truncate, .truncate > span {
   white-space: nowrap;
-  width: 100%;                   
-  overflow: hidden; 
+  width: 100%;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -99,7 +115,7 @@ h1 {
 
 .btn .icon-and-label {
 	padding-right: 5px;
-} 
+}
 
 .dropdown-menu .title {
 	margin: 5px 10px 0px 10px;
@@ -173,7 +189,7 @@ ul.filter-list li.current a:hover, ul.filter-list li.current a:focus {
 	color: #606b7d;
 }
 .item-wrapper .message span {
-	font-size: 14px;	
+	font-size: 14px;
 }
 
 .item-wrapper .item {
@@ -183,12 +199,12 @@ ul.filter-list li.current a:hover, ul.filter-list li.current a:focus {
 	float: left;
 }
 
-.item-wrapper .item .btn-default.disabled, 
+.item-wrapper .item .btn-default.disabled,
 .item-wrapper .item .btn-default[disabled],
 .item-wrapper .item .btn-default[disabled]:active,
 .item-wrapper .item .btn-default[disabled]:hover {
 	border-color: #ffffff;
-	cursor: default;	
+	cursor: default;
 }
 
 .item-wrapper .item .item-box {
@@ -211,7 +227,7 @@ ul.filter-list li.current a:hover, ul.filter-list li.current a:focus {
 	padding: 5px;
 	color: #373e48;
 	font-size: 13px;
-	
+
 	transition: margin-top .5s ease;
 	-moz-transition: margin-top .5s ease;
 	-webkit-transition: margin-top .5s ease;
@@ -274,7 +290,7 @@ ul.filter-list li.current a:hover, ul.filter-list li.current a:focus {
 	color: #1a1a1a;
 	text-align: center;
 	margin-bottom: 20px;
-} 
+}
 
 .create-inline .glyphicon {
 	margin-right: 10px;
@@ -342,11 +358,11 @@ table.history {
 }
 
 .subheader table.history {
-	min-width: 250px;	
+	min-width: 250px;
 }
 
 table.history td {
-	vertical-align: middle;	
+	vertical-align: middle;
 }
 
 table.history tr td:last-child {
@@ -365,7 +381,7 @@ table.history tr.current:hover {
 
 table.history a:hover {
 	text-decoration: none;
-	
+
 }
 
 table.history .version {
@@ -398,11 +414,11 @@ table.history tr.current td {
 	border-top: 1px solid #eeeeee;
 	margin-top: 5px;
 	max-height: 350px;
-	overflow: auto;	
+	overflow: auto;
 }
 
 .comment {
-	margin: 10px 0px 20px 0px;	
+	margin: 10px 0px 20px 0px;
 	font-size: 12px;
 }
 
@@ -421,11 +437,11 @@ table.history tr.current td {
 }
 
 .modal.modal-wide .modal-dialog {
-	width: 1000px;	
+	width: 1000px;
 }
 
 .modal-dialog.modal-wide {
-    width: 1000px;  
+    width: 1000px;
 }
 
 .modal-body p {
@@ -600,7 +616,7 @@ ul.list>li:hover .actions {
 }
 
 /** Animations **/
-.fadein.ng-enter, 
+.fadein.ng-enter,
 .fadein.ng-move {
   -webkit-transition: 0.5s linear opacity;
   transition: 0.5s linear all;
@@ -635,5 +651,5 @@ ul.list>li:hover .actions {
 
 .message .loading {
 	line-height: 40px;
-	margin-left: 0px;	
+	margin-left: 0px;
 }

@@ -1,6 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 /**
  * Web color table
- * 
+ *
  * @author Dmitry Farafonov
  */
 
@@ -9,136 +25,136 @@ var Color = {
    * The color white.  In the default sRGB space.
    */
   white     : Raphael.getRGB("rgb(255,255,255)"),
-  
+
   /**
    * The color white.  In the default sRGB space.
    */
   WHITE : this.white,
-  
+
   /**
    * The color light gray.  In the default sRGB space.
    */
   lightGray : Raphael.getRGB("rgb(192, 192, 192)"),
-  
+
   /**
    * The color light gray.  In the default sRGB space.
    */
   LIGHT_GRAY : this.lightGray,
-  
+
   /**
    * The color gray.  In the default sRGB space.
    */
   gray : Raphael.getRGB("rgb(128, 128, 128)"),
-  
+
   /**
    * The color gray.  In the default sRGB space.
    */
   GRAY : this.gray,
-  
+
   /**
    * The color dark gray.  In the default sRGB space.
    */
   darkGray : Raphael.getRGB("rgb(64, 64, 64)"),
-  
+
   /**
    * The color dark gray.  In the default sRGB space.
    */
   DARK_GRAY : this.darkGray,
-  
+
   /**
    * The color black.  In the default sRGB space.
    */
   black : Raphael.getRGB("rgb(0, 0, 0)"),
-  
+
   /**
    * The color black.  In the default sRGB space.
    */
   BLACK : this.black,
-  
+
   /**
    * The color red.  In the default sRGB space.
    */
   red : Raphael.getRGB("rgb(255, 0, 0)"),
-  
+
   /**
    * The color red.  In the default sRGB space.
    */
   RED : this.red,
-  
+
   /**
    * The color pink.  In the default sRGB space.
    */
   pink : Raphael.getRGB("rgb(255, 175, 175)"),
-  
+
   /**
    * The color pink.  In the default sRGB space.
    */
   PINK : this.pink,
-  
+
   /**
    * The color orange.  In the default sRGB space.
    */
   orange : Raphael.getRGB("rgb(255, 200, 0)"),
-  
+
   /**
    * The color orange.  In the default sRGB space.
    */
   ORANGE : this.orange,
-  
+
   /**
    * The color yellow.  In the default sRGB space.
    */
   yellow : Raphael.getRGB("rgb(255, 255, 0)"),
-  
+
   /**
    * The color yellow.  In the default sRGB space.
    */
   YELLOW : this.yellow,
-  
+
   /**
    * The color green.  In the default sRGB space.
    */
   green : Raphael.getRGB("rgb(0, 255, 0)"),
-  
+
   /**
    * The color green.  In the default sRGB space.
    */
   GREEN : this.green,
-  
+
   /**
    * The color magenta.  In the default sRGB space.
    */
   magenta : Raphael.getRGB("rgb(255, 0, 255)"),
-  
+
   /**
    * The color magenta.  In the default sRGB space.
    */
   MAGENTA : this.magenta,
-  
+
   /**
    * The color cyan.  In the default sRGB space.
    */
   cyan : Raphael.getRGB("rgb(0, 255, 255)"),
-  
+
   /**
    * The color cyan.  In the default sRGB space.
    */
   CYAN : this.cyan,
-  
+
   /**
    * The color blue.  In the default sRGB space.
    */
   blue : Raphael.getRGB("rgb(0, 0, 255)"),
-  
+
   /**
    * The color blue.  In the default sRGB space.
    */
   BLUE : this.blue,
-  
+
   /************************************************************************/
 
   // http://www.stm.dp.ua/web-design/color-html.php
-  
+
 	Snow			:   Raphael.getRGB("#FFFAFA	"),  // 	255 250 250
 	GhostWhite		:   Raphael.getRGB("#F8F8FF	"),  // 	248 248 255
 	WhiteSmoke		:   Raphael.getRGB("#F5F5F5	"),  // 	245 245 245
@@ -595,8 +611,8 @@ var Color = {
 	DarkRed			:   Raphael.getRGB("#8B0000	"),  // 	139 0 0
 	LightGreen		:   Raphael.getRGB("#90EE90	"),  // 	144 238 144
 
-  
-  
+
+
   get: function(R, G, B){
 	return Raphael.getRGB("rgb(" + R + ", " + G + ", " + B + ")");
   }

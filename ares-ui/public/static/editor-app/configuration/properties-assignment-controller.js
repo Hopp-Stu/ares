@@ -1,21 +1,18 @@
-/*
- * Activiti Modeler component part of the Activiti project
- * Copyright 2005-2014 Alfresco Software, Ltd. All rights reserved.
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
-
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 /*
  * Assignment
@@ -33,11 +30,11 @@ var KisBpmAssignmentCtrl = [ '$scope', '$modal', function($scope, $modal) {
 }];
 
 var KisBpmAssignmentPopupCtrl = [ '$scope', function($scope) {
-    	
+
     // Put json representing assignment on scope
     if ($scope.property.value !== undefined && $scope.property.value !== null
         && $scope.property.value.assignment !== undefined
-        && $scope.property.value.assignment !== null) 
+        && $scope.property.value.assignment !== null)
     {
         $scope.assignment = $scope.property.value.assignment;
     } else {
@@ -48,7 +45,7 @@ var KisBpmAssignmentPopupCtrl = [ '$scope', function($scope) {
     {
     	$scope.assignment.candidateUsers = [{value: ''}];
     }
-    
+
     // Click handler for + button after enum value
     var userValueIndex = 1;
     $scope.addCandidateUserValue = function(index) {
@@ -59,12 +56,12 @@ var KisBpmAssignmentPopupCtrl = [ '$scope', function($scope) {
     $scope.removeCandidateUserValue = function(index) {
         $scope.assignment.candidateUsers.splice(index, 1);
     };
-    
+
     if ($scope.assignment.candidateGroups == undefined || $scope.assignment.candidateGroups.length == 0)
     {
     	$scope.assignment.candidateGroups = [{value: ''}];
     }
-    
+
     var groupValueIndex = 1;
     $scope.addCandidateGroupValue = function(index) {
         $scope.assignment.candidateGroups.splice(index + 1, 0, {value: 'value ' + groupValueIndex++});
@@ -80,7 +77,7 @@ var KisBpmAssignmentPopupCtrl = [ '$scope', function($scope) {
         $scope.property.value = {};
         handleAssignmentInput($scope);
         $scope.property.value.assignment = $scope.assignment;
-        
+
         $scope.updatePropertyInModel($scope.property);
         $scope.close();
     };
@@ -91,7 +88,7 @@ var KisBpmAssignmentPopupCtrl = [ '$scope', function($scope) {
     	$scope.property.mode = 'read';
     	$scope.$hide();
     };
-    
+
     var handleAssignmentInput = function($scope) {
     	if ($scope.assignment.candidateUsers)
     	{
@@ -108,18 +105,18 @@ var KisBpmAssignmentPopupCtrl = [ '$scope', function($scope) {
 	        		toRemoveIndexes[toRemoveIndexes.length] = i;
 	        	}
 	        }
-	        
+
 	        for (var i = 0; i < toRemoveIndexes.length; i++)
 	        {
 	        	$scope.assignment.candidateUsers.splice(toRemoveIndexes[i], 1);
 	        }
-	        
+
 	        if (emptyUsers)
 	        {
 	        	$scope.assignment.candidateUsers = undefined;
 	        }
     	}
-        
+
     	if ($scope.assignment.candidateGroups)
     	{
 	        var emptyGroups = true;
@@ -135,12 +132,12 @@ var KisBpmAssignmentPopupCtrl = [ '$scope', function($scope) {
 	        		toRemoveIndexes[toRemoveIndexes.length] = i;
 	        	}
 	        }
-	        
+
 	        for (var i = 0; i < toRemoveIndexes.length; i++)
 	        {
 	        	$scope.assignment.candidateGroups.splice(toRemoveIndexes[i], 1);
 	        }
-	        
+
 	        if (emptyGroups)
 	        {
 	        	$scope.assignment.candidateGroups = undefined;

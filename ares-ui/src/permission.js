@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 import router from './router'
 import store from './store'
 import { Message } from 'element-ui'
@@ -7,19 +23,20 @@ import { getToken } from '@/utils/auth'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
+const whiteList = ['/login', '/auth-redirect', '/bind', '/register', '/blog', '/tag', '/archives', '/details']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (getToken()) {
     /* has token*/
     if (to.path === '/login') {
-      next({ path: '/' })
+      next({ path: '/home/index' })
       NProgress.done()
     } else {
       if (store.getters.roles.length === 0) {
         // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetInfo').then(res => {
+          debugger
           store.dispatch('GetNoticeNumber');
           // 拉取user_info
           const roles = res.roles
@@ -33,10 +50,10 @@ router.beforeEach((to, from, next) => {
         }).catch(err => {
           console.log(err)
           // 在request中已经判断用户是否登录，拉取用户信息失败一般是没有登录，所以在此可以不用一下操作
-          // store.dispatch('FedLogOut').then(() => {
-          //   Message.error(err)
-          //   next({ path: '/' })
-          // })
+          store.dispatch('FedLogOut').then(() => {
+            Message.error(err)
+            next({ path: '/login' })
+          })
         })
       } else {
         next()

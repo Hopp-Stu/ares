@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.ares.redis.common;
 
 
@@ -16,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @description:
- * @author: yy 2020/4/21
+ * @author: Young 2020/4/21
  **/
 @Component
 public class RedisSessionDao extends EnterpriseCacheSessionDAO {
@@ -26,6 +42,7 @@ public class RedisSessionDao extends EnterpriseCacheSessionDAO {
     private BaseConfig config;
 
     private static String prefix = "ARES_SESSION_ID:";
+    private static final long expireTime = 600L;
 
     @Resource(name = "redisTemplateObj")
     private RedisTemplate<String, Object> redisTemplate;
@@ -56,11 +73,11 @@ public class RedisSessionDao extends EnterpriseCacheSessionDAO {
     protected void doUpdate(Session session) {
         super.doUpdate(session);
         logger.debug("获取session:{}", session.getId());
-//        String key = prefix + session.getId().toString();
-//        if (!redisTemplate.hasKey(key)) {
-//            redisTemplate.opsForValue().set(key, session);
-//        }
-//        redisTemplate.expire(key, config.getTimeout(), TimeUnit.SECONDS);
+        String key = prefix + session.getId().toString();
+        if (!redisTemplate.hasKey(key)) {
+            redisTemplate.opsForValue().set(key, session);
+        }
+        redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
     }
 
     // 删除session

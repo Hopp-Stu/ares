@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 <template>
   <div class="app-container">
     <el-row :gutter="20">
@@ -109,7 +125,7 @@
               icon="el-icon-upload2"
               size="mini"
               @click="handleImport"
-              v-hasPermi="['user:export']"
+              v-hasPermi="['user:import']"
               >导入</el-button
             >
           </el-col>
@@ -119,7 +135,6 @@
               icon="el-icon-download"
               size="mini"
               @click="handleExport"
-              v-hasPermi="['user:export']"
               >导出</el-button
             >
           </el-col>
@@ -309,7 +324,13 @@
         :limit="1"
         accept=".xlsx, .xls"
         :headers="upload.headers"
-        :action="upload.url + '?updateSupport=' + upload.updateSupport"
+        :action="
+          upload.url +
+          '?updateSupport=' +
+          upload.updateSupport +
+          '&deptId=' +
+          queryParams.deptId
+        "
         :disabled="upload.isUploading"
         :on-progress="handleFileUploadProgress"
         :on-success="handleFileSuccess"
@@ -478,7 +499,7 @@ export default {
         // 设置上传的请求头部
         headers: { Authorization: "Bearer " + getToken() },
         // 上传的地址
-        url: process.env.VUE_APP_BASE_API + "/system/user/importData",
+        url: process.env.VUE_APP_BASE_API + "/ares/system/user/importData",
       },
       // 查询参数
       queryParams: {
@@ -716,7 +737,7 @@ export default {
           return exportUser(queryParams);
         })
         .then((response) => {
-          this.download(response.msg);
+          this.download(response, "用户信息");
         })
         .catch(function () {});
     },
@@ -728,7 +749,8 @@ export default {
     /** 下载模板操作 */
     importTemplate() {
       importTemplate().then((response) => {
-        this.download(response.msg);
+        debugger;
+        this.download(response, "用户导入模版");
       });
     },
     // 文件上传中处理

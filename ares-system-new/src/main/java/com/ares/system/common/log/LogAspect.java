@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.ares.system.common.log;
 
 import com.alibaba.fastjson.JSON;
@@ -14,6 +30,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -21,16 +38,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Date;
 import java.util.Map;
 
 /**
  * @description: 用户日志记录 当前仅记录出错日志
- * @author: yy 2020/01/27
+ * @author: Young 2020/01/27
  **/
 @Aspect
 @Component
@@ -39,9 +56,11 @@ public class LogAspect {
     private static Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
     private static final ThreadLocal<Date> dateThreadLocal = new ThreadLocal<>();
-
-    @Resource
-    SysLogService sysLogService;
+    private SysLogService sysLogService;
+    @Autowired
+    public LogAspect(SysLogService sysLogService){
+        this.sysLogService = sysLogService;
+    }
 
     @Pointcut("@annotation(com.ares.system.common.log.Log)")
     public void logPointCut() {
@@ -55,13 +74,13 @@ public class LogAspect {
     public void logPointCutService() {
     }
 
-    @AfterReturning("logPointCutController()")
+    @AfterReturning("logPointCutController() || logPointCut()")
     public void doBefore(JoinPoint joinPoint) {
         handleLog(joinPoint, null);
     }
 
     //出错时记录日志
-    @AfterThrowing(value = "logPointCutController()", throwing = "e")
+    @AfterThrowing(value = "logPointCutController() || logPointCut()", throwing = "e")
     public void doAfter(JoinPoint joinPoint, Exception e) {
         handleLog(joinPoint, e);
     }
@@ -78,21 +97,26 @@ public class LogAspect {
             Method method = signature.getMethod();
             Log annotation = method.getAnnotation(Log.class);
             if (null != annotation) {
-                String value = annotation.value();
-            }
-            String url = ServletUtils.getRequest().getRequestURI();
-            String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
-
-            SysUser currentUser = SecurityUtils.getUser();
-            if (null != currentUser) {
-                sysLog.setHostIp(ip);
-                sysLog.setUrl(url);
-                sysLog.setUserName(currentUser.getUserName());
-                sysLog.setRequestMethod(ServletUtils.getRequest().getMethod());
+                sysLog.setUrl(method.getDeclaringClass().getName() + "." + method.getName());
+                sysLog.setOperParams(setMethodParameters(joinPoint, method));
                 if (null != e) {
                     sysLog.setNotes(StringUtils.substring(e.getMessage(), 0, 2000));
-                } else {
-                    setRequestValue(joinPoint, sysLog);
+                }
+            } else {
+                String url = ServletUtils.getRequest().getRequestURI();
+                String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+
+                SysUser currentUser = SecurityUtils.getUser();
+                if (null != currentUser) {
+                    sysLog.setHostIp(ip);
+                    sysLog.setUrl(url);
+                    sysLog.setUserName(currentUser.getUserName());
+                    sysLog.setRequestMethod(ServletUtils.getRequest().getMethod());
+                    if (null != e) {
+                        sysLog.setNotes(StringUtils.substring(e.getMessage(), 0, 2000));
+                    } else {
+                        setRequestValue(joinPoint, sysLog);
+                    }
                 }
             }
             long beginTime = dateThreadLocal.get().getTime();
@@ -135,7 +159,23 @@ public class LogAspect {
         return params.trim();
     }
 
-    public boolean isFilterObject(final Object o) {
+    private boolean isFilterObject(final Object o) {
         return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse;
+    }
+
+    private String setMethodParameters(JoinPoint joinPoint, Method method) {
+        StringBuffer sb = new StringBuffer();
+        Parameter[] parameters = method.getParameters();
+        Object[] values = joinPoint.getArgs();
+        if (null != parameters && parameters.length > 0) {
+            for (int i = 0; i < parameters.length; i++) {
+                sb.append("{").append(parameters[i].getName()).append("=");
+                if (null != values && values.length > 0) {
+                    sb.append(values[i]).append("}");
+                }
+                sb.append(",");
+            }
+        }
+        return sb.toString();
     }
 }

@@ -32,7 +32,7 @@ ares:
       url: www.ares.com
     description: ${ares.base.name} API 接口文档
     title: ${ares.base.name} API Documents
-    url: adas
+    url: ares
     version: ${ares.base.version}
     parameter-config:
       - name: Authorization

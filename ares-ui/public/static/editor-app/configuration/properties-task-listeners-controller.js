@@ -1,21 +1,18 @@
-/*
- * Activiti Modeler component part of the Activiti project
- * Copyright 2005-2014 Alfresco Software, Ltd. All rights reserved.
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
-
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 /*
  * Task listeners
@@ -39,7 +36,7 @@ var KisBpmTaskListenersPopupCtrl = [ '$scope', '$q', '$translate', function($sco
     if ($scope.property.value !== undefined && $scope.property.value !== null
         && $scope.property.value.taskListeners !== undefined
         && $scope.property.value.taskListeners !== null) {
-        
+
         if ($scope.property.value.taskListeners.constructor == String)
         {
             $scope.taskListeners = JSON.parse($scope.property.value.taskListeners);
@@ -50,7 +47,7 @@ var KisBpmTaskListenersPopupCtrl = [ '$scope', '$q', '$translate', function($sco
             // this to cope with the fact that the user can click the cancel button and no changes should have happened
             $scope.taskListeners = angular.copy($scope.property.value.taskListeners);
         }
-        
+
         for (var i = 0; i < $scope.taskListeners.length; i++)
         {
             var taskListener = $scope.taskListeners[i];
@@ -75,14 +72,14 @@ var KisBpmTaskListenersPopupCtrl = [ '$scope', '$q', '$translate', function($sco
     $scope.selectedListeners = [];
     $scope.selectedFields = [];
     $scope.translationsRetrieved = false;
-    
+
     $scope.labels = {};
-    
+
     var eventPromise = $translate('PROPERTY.TASKLISTENERS.EVENT');
     var implementationPromise = $translate('PROPERTY.TASKLISTENERS.FIELDS.IMPLEMENTATION');
     var namePromise = $translate('PROPERTY.TASKLISTENERS.FIELDS.NAME');
-    
-    $q.all([eventPromise, implementationPromise, namePromise]).then(function(results) { 
+
+    $q.all([eventPromise, implementationPromise, namePromise]).then(function(results) {
         $scope.labels.eventLabel = results[0];
         $scope.labels.implementationLabel = results[1];
         $scope.labels.nameLabel = results[2];
@@ -125,7 +122,7 @@ var KisBpmTaskListenersPopupCtrl = [ '$scope', '$q', '$translate', function($sco
             columnDefs: [{ field: 'event', displayName: $scope.labels.eventLabel },
                 { field: 'implementation', displayName: $scope.labels.implementationLabel}]
         };
-        
+
         // Config for field grid
         $scope.gridFieldOptions = {
             data: 'selectedListeners[0].fields',
@@ -138,7 +135,7 @@ var KisBpmTaskListenersPopupCtrl = [ '$scope', '$q', '$translate', function($sco
                 { field: 'implementation', displayName: $scope.labels.implementationLabel}]
         };
     });
-    
+
     $scope.listenerDetailsChanged = function() {
         if ($scope.selectedListeners[0].className !== '')
         {
@@ -214,7 +211,7 @@ var KisBpmTaskListenersPopupCtrl = [ '$scope', '$q', '$translate', function($sco
             }
         }
     };
-    
+
     $scope.fieldDetailsChanged = function() {
         if ($scope.selectedFields[0].stringValue != '')
         {

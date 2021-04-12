@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2021 - 9999, ARES
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ares.core.persistence.dao.ISysUserDao">
     <resultMap id="SysUser" type="com.ares.core.persistence.model.system.SysUser">
@@ -115,6 +131,45 @@
     <update id="resetPassword">
         update `sys_user` set `Password` = #{password}
         where `Id` = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateUserByAccount" parameterType="com.ares.core.persistence.model.system.SysUser">
+        update `sys_user`
+        <set>
+            <if test="userName != null">
+                `UserName` = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `Password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber != null">
+                `PhoneNumber` = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                `Email` = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null">
+                `Avatar` = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                `DeptId` = #{deptId,jdbcType=VARCHAR},
+            </if>
+            <if test="postId != null">
+                `PostId` = #{postId,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                `Creator` = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                `CreateTime` = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                `Modifier` = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                `ModifyTime` = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where `Account` = #{account,jdbcType=VARCHAR}
     </update>
 
     <select id="getUserByRole" parameterType="java.lang.String" resultMap="SysUser">

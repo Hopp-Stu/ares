@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 /**
  * 通用js方法封装处理
  */
@@ -77,8 +93,18 @@ export function selectDictLabel(datas, value) {
 }
 
 // 通用下载方法
-export function download(fileName) {
-	window.location.href = baseURL + "/common/download?fileName=" + encodeURI(fileName) + "&delete=" + true;
+export function download(response, fileName) {
+	//window.location.href = baseURL + "/common/download?fileName=" + encodeURI(fileName) + "&delete=" + true;
+	let blob = new Blob([response])
+	if ('download' in document.createElement('a')) {
+		let link = document.createElement('a')
+		link.href = URL.createObjectURL(blob)
+		link.download = fileName + ".xlsx"
+		document.body.appendChild(link)
+		link.click()
+		document.body.removeChild(link)
+		URL.revokeObjectURL(link.href)
+	}
 }
 
 // 字符串格式化(%s )
@@ -97,10 +123,10 @@ export function sprintf(str) {
 
 // 转换字符串，undefined,null等转化为""
 export function praseStrEmpty(str) {
-    if (!str || str == "undefined" || str == "null") {
-        return "";
-    }
-    return str;
+	if (!str || str == "undefined" || str == "null") {
+		return "";
+	}
+	return str;
 }
 
 /**
@@ -119,15 +145,14 @@ export function handleTree(data, id, parentId, children, rootId) {
 	//对源数据深度克隆
 	const cloneData = JSON.parse(JSON.stringify(data))
 	//循环所有项
-	const treeData =  cloneData.filter(father => {
-	  let branchArr = cloneData.filter(child => {
-		//返回每一项的子级数组
-		return father[id] === child[parentId]
-	  });
-	  branchArr.length > 0 ? father.children = branchArr : '';
-	  //返回第一层
-	  return father[parentId] === rootId;
+	const treeData = cloneData.filter(father => {
+		let branchArr = cloneData.filter(child => {
+			//返回每一项的子级数组
+			return father[id] === child[parentId]
+		});
+		branchArr.length > 0 ? father.children = branchArr : '';
+		//返回第一层
+		return father[parentId] === rootId;
 	});
 	return treeData != '' ? treeData : data;
-  }
-  
+}

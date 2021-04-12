@@ -421,6 +421,22 @@ CREATE TABLE `sys_template`  (
 -- ----------------------------
 INSERT INTO `sys_template` VALUES ('1', 'test', '测试', '测试', '\r\n<div>\r\n    <h1>${name}</h1>\r\n</div>', 'name', '1', '2020-06-19 14:31:29', '1', '2020-06-22 08:09:10');
 
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 -- ----------------------------
 -- Table structure for sys_user
 -- ----------------------------

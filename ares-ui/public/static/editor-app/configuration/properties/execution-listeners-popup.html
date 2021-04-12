@@ -1,4 +1,20 @@
 
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2021 - 9999, ARES
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
 <div class="modal" ng-controller="KisBpmExecutionListenersPopupCtrl">
     <div class="modal-dialog modal-wide">
         <div class="modal-content">
@@ -7,7 +23,7 @@
                 <h2>{{'PROPERTY.PROPERTY.EDIT.TITLE' | translate:property}}</h2>
             </div>
             <div class="modal-body">
-            
+
                 <div class="row row-no-gutter">
                     <div class="col-xs-6">
                         <div ng-if="translationsRetrieved" class="kis-listener-grid" ng-grid="gridOptions"></div>
@@ -22,10 +38,10 @@
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="col-xs-6">
                         <div ng-show="selectedListeners.length > 0">
-            
+
                             <div class="form-group">
             			   		<label for="eventField">{{'PROPERTY.EXECUTIONLISTENERS.EVENT' | translate}}</label>
             			   		<select id="eventField" class="form-control" ng-model="selectedListeners[0].event">
@@ -50,7 +66,7 @@
                         <div ng-show="selectedListeners.length == 0" class="muted no-property-selected" translate>PROPERTY.EXECUTIONLISTENERS.UNSELECTED</div>
                     </div>
                 </div>
-                
+
                 <div class="row row-no-gutter">
                     <div class="col-xs-6">
                         <div ng-if="translationsRetrieved" class="kis-field-grid" ng-grid="gridFieldOptions"></div>
@@ -65,10 +81,10 @@
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="col-xs-6">
                         <div ng-show="selectedFields.length > 0">
-            
+
             				<div class="form-group">
             			   		<label for="nameField">{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.NAME' | translate}}</label>
             			   		<input type="text" id="nameField" class="form-control" ng-model="selectedFields[0].name" placeholder="{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.NAME.PLACEHOLDER' | translate}}" />
@@ -85,12 +101,12 @@
             			   		<label for="stringField">{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.STRING' | translate}}</label>
             			   		<textarea id="stringField" class="form-control" ng-model="selectedFields[0].string" ng-change="fieldDetailsChanged()" placeholder="{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.STRING.PLACEHOLDER' | translate}}"></textarea>
             				</div>
-                            
+
                         </div>
                         <div ng-show="selectedFields.length == 0" class="muted no-property-selected"translate>PROPERTY.EXECUTIONLISTENERS.FIELDS.EMPTY</div>
                     </div>
                 </div>
-            
+
             </div>
             <div class="modal-footer">
                 <button ng-click="cancel()" class="btn btn-primary" translate>ACTION.CANCEL</button>

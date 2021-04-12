@@ -1,3 +1,19 @@
+/*******************************************************************************
+* Copyright (c) 2021 - 9999, ARES
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*        http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+******************************************************************************/
+
 package ${servicePackage};
 
 import org.springframework.stereotype.Service;
@@ -8,6 +24,7 @@ import ${entityPackage}.${entityName};
 import ${daoPackage}.I${entityName}Dao;
 import com.ares.core.utils.SnowflakeIdWorker;
 import com.ares.core.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -17,7 +34,7 @@ import java.util.Map;
 @Service
 public class ${entityName}Service implements BaseService<${entityName}>{
 
-    @Resource
+    @Autowired
     private I${entityName}Dao ${entityName1}Dao;
 
     public PageInfo<${entityName}> list(int pageNo, int pageSize, ${"Map<String, Object>"} map) {

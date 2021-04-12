@@ -1,12 +1,18 @@
-/*
-* This file is part of the jquery plugin "asyncQueue".
-*
-* (c) Sebastien Roch <roch.sebastien@gmail.com>
-* @author (parallel) Dmitry Farafonov
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+/*******************************************************************************
+ * Copyright (c) 2021 - 9999, ARES
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 (function($){
     $.AsyncQueue = function() {
         var that = this,
@@ -27,7 +33,7 @@
 				inQueue++;
 				setTimeout(function(){
 					f.fn.apply(that, [that]);
-				
+
 					if (!f.isParallel)
 						if (paused === false) {
 							_run();
@@ -35,15 +41,15 @@
 					inQueue --;
 					if (inQueue == 0 && queue.length == 0)
 						_complete();
-				}, f.timeOut);                
-				
+				}, f.timeOut);
+
 				if (f.isParallel)
 					if (paused === false) {
 						_run();
 					}
             }
         };
-		
+
 		_complete = function(){
 			if (completeFunc)
 					completeFunc.apply(that, [that]);
@@ -52,14 +58,14 @@
 		this.onComplete = function(func) {
             completeFunc = func;
         };
-		
+
 		this.onFailure = function(func) {
             failureFunc = func;
         };
 
         this.add = function(func) {
 			// TODO: add callback for queue[i] complete
-			
+
 			var obj = arguments[0];
 			if (obj && Object.prototype.toString.call(obj) === "[object Array]") {
 				var fn = arguments[1];
@@ -78,10 +84,10 @@
 			}
             return this;
         };
-		
+
 		this.addParallel = function(func, timeOut) {
 			// TODO: add callback for queue[i] complete
-			
+
             queue.push({isParallel: true, fn: func, timeOut: timeOut});
             return this;
         };
@@ -115,7 +121,7 @@
                 failureFunc.apply(that, args);
             }
         };
-		
+
 		this.size = function(){
 			return queue.length;
 		};
